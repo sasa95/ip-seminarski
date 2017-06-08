@@ -2,7 +2,7 @@ package rs;
 
 public class Hotel {
 	private int hotelID,kategorija,broj_lezaja;
-	private String naziv,adresa;
+	private String naziv,adresa,opis;
 	public int getHotelID() {
 		return hotelID;
 	}
@@ -33,12 +33,20 @@ public class Hotel {
 	public void setAdresa(String adresa) {
 		this.adresa = adresa;
 	}
-	public Hotel(int kategorija, int broj_lezaja, String naziv, String adresa) {
+	
+	public String getOpis() {
+		return opis;
+	}
+	public void setOpis(String opis) {
+		this.opis = opis;
+	}
+	public Hotel(int kategorija, int broj_lezaja, String naziv, String adresa, String opis) {
 		super();
 		this.kategorija = kategorija;
 		this.broj_lezaja = broj_lezaja;
 		this.naziv = naziv;
 		this.adresa = adresa;
+		this.opis = opis;
 	}
 	public Hotel() {
 		super();

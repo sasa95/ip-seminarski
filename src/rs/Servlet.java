@@ -46,7 +46,16 @@ public class Servlet extends HttpServlet {
 		}
 		
 		else if(akcija.equals("jedanHotel")){
-			response.sendRedirect("hotelDetalji.jsp");
+			String id = request.getParameter("id");
+			int idh = Integer.parseInt(id);
+			DAO dao = new DAO();
+			Hotel h = dao.selectHotelByID(idh);
+			
+			ArrayList<SobaTip_sobe>lsts = dao.brojSoba(idh);
+			request.setAttribute("h", h);
+			request.setAttribute("lsts", lsts);
+
+			request.getRequestDispatcher("hotelDetalji.jsp").forward(request, response);
 		}
 		
 		
