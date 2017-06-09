@@ -15,8 +15,8 @@ public class DAO {
       private static String SELECTHOTELBYID = "SELECT * FROM hoteli WHERE hotelID = ?";
       private static String SELECTBROJSOBA = "SELECT ts.naziv as nazivTipaSobe,COUNT(s.sobaID) as brojsoba FROM sobe s LEFT JOIN tipovi_soba ts ON s.tip_sobeID=ts.tip_sobeID WHERE s.hotelID = ? GROUP BY ts.naziv";
       private static String SELECTHOTELIUSLUGE = "SELECT u.vrsta_usluge AS usluga,u.cena as cena FROM usluge u JOIN hoteli_usluge hu ON u.uslugaID=hu.uslugaID WHERE hu.hotelID=?";
-      
-	public DAO(){
+      private static String SELECTHOTELITRETMANI = "SELECT t.naziv as naziv from tretmani t JOIN hoteli_tretmani ht ON t.tretmanID=ht.tretmanID WHERE ht.hotelID=?";
+   	public DAO(){
 	try {
 		InitialContext cxt = new InitialContext();
 		if ( cxt == null ) { 
@@ -179,6 +179,42 @@ public class DAO {
 				usluga.setCena(rs.getFloat("cena"));
 			
 				lo.add(usluga);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lo; 
+	}
+	public ArrayList<Tretman> selectHoteliTretmani(int hotelID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+
+		ArrayList<Tretman> lo = new ArrayList<Tretman>();
+		Tretman tretman = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(SELECTHOTELITRETMANI);
+
+			
+			pstm.setInt(1, hotelID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				tretman = new Tretman();
+				tretman.setNaziv(rs.getString("naziv"));
+			
+				lo.add(tretman);
 			}
 
 		} catch (SQLException e) {

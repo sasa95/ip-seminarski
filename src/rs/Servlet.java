@@ -59,6 +59,9 @@ public class Servlet extends HttpServlet {
 			ArrayList<Usluga>lsusluga = dao.selectHoteliUsluge(idh);
 			request.setAttribute("lsusluga", lsusluga);
 			
+			ArrayList<Tretman>lstretman = dao.selectHoteliTretmani(idh);
+			request.setAttribute("lstretman", lstretman);
+			
 
 			request.getRequestDispatcher("hotelDetalji.jsp").forward(request, response);
 		}

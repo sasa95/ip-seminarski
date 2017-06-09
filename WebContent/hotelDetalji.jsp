@@ -1,3 +1,4 @@
+<%@page import="rs.Tretman"%>
 <%@page import="rs.Usluga"%>
 <%@page import="rs.SobaTip_sobe"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -17,6 +18,8 @@
 	Hotel h = (Hotel)request.getAttribute("h");
 	ArrayList<SobaTip_sobe> lsts = (ArrayList<SobaTip_sobe>)request.getAttribute("lsts");
 	ArrayList<Usluga> lsusluga = (ArrayList<Usluga>)request.getAttribute("lsusluga");
+	ArrayList<Tretman> lstretman = (ArrayList<Tretman>)request.getAttribute("lstretman");
+
 %>
 
 	<h1>${h.naziv}</h1>
@@ -55,5 +58,11 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<h4>Tretmani</h4>
+		<ol>
+			<c:forEach var="pom" items="${lstretman}">
+				<li>${pom.naziv }</li>		
+			</c:forEach>
+		</ol>
 </body>
 </html>
