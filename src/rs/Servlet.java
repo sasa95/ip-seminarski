@@ -75,6 +75,9 @@ public class Servlet extends HttpServlet {
 			int idh = Integer.parseInt(id);
 			int idc = Integer.parseInt(centarID);
 			DAO dao = new DAO();
+			Trzni_centar nazivCentra = dao.getCentarNazivByCentarID(idc);
+			request.setAttribute("nazivCentra", nazivCentra);
+			
 			ArrayList<Trzni_centar_prodavnica> lsprodavnica = dao.selectProdavniceByCentarId(idh, idc);
 			request.setAttribute("lsprodavnica", lsprodavnica);
 			request.getRequestDispatcher("trzniCentarDetalji.jsp").forward(request, response);

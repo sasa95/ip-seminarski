@@ -18,7 +18,8 @@ public class DAO {
       private static String SELECTHOTELIUSLUGE = "SELECT u.vrsta_usluge AS usluga,u.cena as cena FROM usluge u JOIN hoteli_usluge hu ON u.uslugaID=hu.uslugaID WHERE hu.hotelID=?";
       private static String SELECTHOTELITRETMANI = "SELECT t.naziv as naziv from tretmani t JOIN hoteli_tretmani ht ON t.tretmanID=ht.tretmanID WHERE ht.hotelID=?";
       private static String SELECTTRZNICENTRI = "SELECT tc.naziv,tc.lokacija,tc.trzni_centarID FROM trzni_centri tc WHERE tc.hotelID=?";
-      private static String SELECTPRODAVNICEBYCENTARID = "SELECT p.naziv FROM trzni_centri tc JOIN prodavnice p ON tc.trzni_centarID=p.trzni_centarID WHERE tc.hotelID=? AND tc.trzni_centarID=?";
+      private static String SELECTPRODAVNICEBYCENTARID = "SELECT p.naziv AS nazivP,p.lokacija FROM trzni_centri tc JOIN prodavnice p ON tc.trzni_centarID=p.trzni_centarID WHERE tc.hotelID=? AND tc.trzni_centarID=?";
+      private static String GETCENTARNAZIVBYCENTARID = "SELECT tc.naziv FROM trzni_centri tc WHERE tc.trzni_centarID=?";
       
       public DAO(){
 	try {
@@ -291,7 +292,8 @@ public class DAO {
 
 			while(rs.next()){
 				tcp = new Trzni_centar_prodavnica();
-				tcp.setNazivProdavnice(rs.getString("naziv"));
+				tcp.setNazivProdavnice(rs.getString("nazivP"));
+				tcp.setLokacija(rs.getString("lokacija"));
 				
 				lo.add(tcp);
 			}
@@ -308,4 +310,36 @@ public class DAO {
 		return lo; 
 	}
 	
+	public Trzni_centar getCentarNazivByCentarID(int centarID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+
+		Trzni_centar tc = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETCENTARNAZIVBYCENTARID);
+
+			pstm.setInt(1, centarID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				tc = new Trzni_centar();
+				tc.setNaziv(rs.getString("naziv"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return tc; 
+	}
 }
