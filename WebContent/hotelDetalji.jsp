@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Lista hotela</title>
+<title>Detalji hotela</title>
 </head>
 <body>
 <%
@@ -17,7 +17,14 @@
 	ArrayList<SobaTip_sobe> lsts = (ArrayList<SobaTip_sobe>)request.getAttribute("lsts");
 %>
 
-<h1>${h.naziv}</h1>
+	<h1>${h.naziv}</h1>
+	<p>${h.opis}</p>
+	<ul>
+		<li>Adresa:${h.adresa}</li>
+		<li>Kategorija:${h.kategorija}</li>
+		<li>Broj ležaja:${h.broj_lezaja}</li>
+	</ul>
+
 <table>
 	<tr>
 		<th>Tip sobe</th>
