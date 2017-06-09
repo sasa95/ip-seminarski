@@ -65,6 +65,9 @@ public class Servlet extends HttpServlet {
 			ArrayList<Trzni_centar>lscentar=dao.selectTrzniCentar(idh);
 			request.setAttribute("lscentar", lscentar);
 			
+			ArrayList<Vrsta_aktivnosti> lsaktivnost=dao.selectVrsteAktivnosti(idh);
+			request.setAttribute("lsaktivnost", lsaktivnost);
+			
 			request.getRequestDispatcher("hotelDetalji.jsp").forward(request, response);
 									
 		}

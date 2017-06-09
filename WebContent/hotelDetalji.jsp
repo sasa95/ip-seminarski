@@ -1,3 +1,4 @@
+<%@page import="rs.Vrsta_aktivnosti"%>
 <%@page import="rs.Trzni_centar"%>
 <%@page import="rs.Tretman"%>
 <%@page import="rs.Usluga"%>
@@ -21,6 +22,7 @@
 	ArrayList<Usluga> lsusluga = (ArrayList<Usluga>)request.getAttribute("lsusluga");
 	ArrayList<Tretman> lstretman = (ArrayList<Tretman>)request.getAttribute("lstretman");
 	ArrayList<Trzni_centar> lscentar = (ArrayList<Trzni_centar>)request.getAttribute("lscentar");
+	ArrayList<Vrsta_aktivnosti> lsaktivnost = (ArrayList<Vrsta_aktivnosti>)request.getAttribute("lsaktivnost");
 
 %>
 
@@ -73,18 +75,14 @@
 				<li>${pom.naziv} - ${pom.lokacija} - <a href="Servlet?centarID=${pom.trzni_centarID}&akcija=detaljiCentra&hotelID=${h.hotelID}">Detalji</a></li>
 			</c:forEach>
 		</ol>
+	<h4>Aktivnosti:</h4>
+		<ol>
+			<c:forEach var="pom" items="${lsaktivnost }">
+				<li>${pom.naziv_vrste_aktivnosti }</li>
 			
-			
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
+			</c:forEach>
+		</ol>
+
 		
 </body>
 </html>
