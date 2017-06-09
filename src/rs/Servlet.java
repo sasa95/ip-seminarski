@@ -49,11 +49,16 @@ public class Servlet extends HttpServlet {
 			String id = request.getParameter("id");
 			int idh = Integer.parseInt(id);
 			DAO dao = new DAO();
+			
 			Hotel h = dao.selectHotelByID(idh);
+			request.setAttribute("h", h);
 			
 			ArrayList<SobaTip_sobe>lsts = dao.brojSoba(idh);
-			request.setAttribute("h", h);
 			request.setAttribute("lsts", lsts);
+			
+			ArrayList<Usluga>lsusluga = dao.selectHoteliUsluge(idh);
+			request.setAttribute("lsusluga", lsusluga);
+			
 
 			request.getRequestDispatcher("hotelDetalji.jsp").forward(request, response);
 		}
