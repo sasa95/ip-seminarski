@@ -18,7 +18,8 @@
 %>
 
 <h1>${nazivCentra.naziv }</h1>
-
+<p>${nazivCentra.opis }</p>
+Prodavnice:
 <ol>
 	<c:forEach var="pom" items="${lsprodavnica}">
 			<li>${pom.nazivProdavnice } - ${pom.lokacija}</li>

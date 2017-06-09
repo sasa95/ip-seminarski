@@ -1,7 +1,7 @@
 package rs;
 
 public class Trzni_centar_prodavnica {
-	private String nazivProdavnice,nazivTrznogCentra;
+	private String nazivProdavnice,nazivTrznogCentra,opisTrznogCentra;
 	private int idTrznogCentra;
 	private String lokacija;
 	public String getNazivProdavnice() {

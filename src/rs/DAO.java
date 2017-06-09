@@ -19,7 +19,7 @@ public class DAO {
       private static String SELECTHOTELITRETMANI = "SELECT t.naziv as naziv from tretmani t JOIN hoteli_tretmani ht ON t.tretmanID=ht.tretmanID WHERE ht.hotelID=?";
       private static String SELECTTRZNICENTRI = "SELECT tc.naziv,tc.lokacija,tc.trzni_centarID FROM trzni_centri tc WHERE tc.hotelID=?";
       private static String SELECTPRODAVNICEBYCENTARID = "SELECT p.naziv AS nazivP,p.lokacija FROM trzni_centri tc JOIN prodavnice p ON tc.trzni_centarID=p.trzni_centarID WHERE tc.hotelID=? AND tc.trzni_centarID=?";
-      private static String GETCENTARNAZIVBYCENTARID = "SELECT tc.naziv FROM trzni_centri tc WHERE tc.trzni_centarID=?";
+      private static String GETCENTARNAZIVBYCENTARID = "SELECT tc.naziv,tc.opis FROM trzni_centri tc WHERE tc.trzni_centarID=?";
       
       public DAO(){
 	try {
@@ -329,6 +329,7 @@ public class DAO {
 			while(rs.next()){
 				tc = new Trzni_centar();
 				tc.setNaziv(rs.getString("naziv"));
+				tc.setOpis(rs.getString("opis"));
 			}
 
 		} catch (SQLException e) {

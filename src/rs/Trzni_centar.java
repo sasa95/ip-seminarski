@@ -2,7 +2,14 @@ package rs;
 
 public class Trzni_centar {
 	private int trzni_centarID,hotelID;
-	private String naziv,lokacija;
+	private String naziv,lokacija,opis;
+	
+	public String getOpis() {
+		return opis;
+	}
+	public void setOpis(String opis) {
+		this.opis = opis;
+	}
 	public int getTrzni_centarID() {
 		return trzni_centarID;
 	}
