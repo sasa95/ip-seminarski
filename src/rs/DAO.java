@@ -1,5 +1,6 @@
 package rs;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +17,9 @@ public class DAO {
       private static String SELECTBROJSOBA = "SELECT ts.naziv as nazivTipaSobe,COUNT(s.sobaID) as brojsoba FROM sobe s LEFT JOIN tipovi_soba ts ON s.tip_sobeID=ts.tip_sobeID WHERE s.hotelID = ? GROUP BY ts.naziv";
       private static String SELECTHOTELIUSLUGE = "SELECT u.vrsta_usluge AS usluga,u.cena as cena FROM usluge u JOIN hoteli_usluge hu ON u.uslugaID=hu.uslugaID WHERE hu.hotelID=?";
       private static String SELECTHOTELITRETMANI = "SELECT t.naziv as naziv from tretmani t JOIN hoteli_tretmani ht ON t.tretmanID=ht.tretmanID WHERE ht.hotelID=?";
-      private static String SELECTTRZNICENTRI = "SELECT tc.naziv,tc.lokacija FROM trzni_centri tc WHERE tc.hotelID=?";
+      private static String SELECTTRZNICENTRI = "SELECT tc.naziv,tc.lokacija,tc.trzni_centarID FROM trzni_centri tc WHERE tc.hotelID=?";
       private static String SELECTPRODAVNICEBYCENTARID = "SELECT p.naziv FROM trzni_centri tc JOIN prodavnice p ON tc.trzni_centarID=p.trzni_centarID WHERE tc.hotelID=? AND tc.trzni_centarID=?";
+      
       public DAO(){
 	try {
 		InitialContext cxt = new InitialContext();
@@ -253,6 +255,7 @@ public class DAO {
 				trznicentar = new Trzni_centar();
 				trznicentar.setNaziv(rs.getString("naziv"));
 				trznicentar.setLokacija(rs.getString("lokacija"));
+				trznicentar.setTrzni_centarID(rs.getInt("trzni_centarID"));
 				lo.add(trznicentar);
 			}
 
@@ -268,40 +271,4 @@ public class DAO {
 		return lo; 
 	}
 	
-	public ArrayList<Trzni_centar_prodavnica> selectProdavnicaCentarID(int hotelID, int centarID){
-		Connection con = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-
-		ArrayList<Trzni_centar_prodavnica> lo = new ArrayList<Trzni_centar_prodavnica>();
-		Trzni_centar_prodavnica tcp = null;
-				
-            try {
-			con = ds.getConnection();
-			pstm = con.prepareStatement(SELECTPRODAVNICEBYCENTARID);
-
-			
-			pstm.setInt(1, hotelID);
-			pstm.setInt(2, centarID);
-			pstm.execute();
-
-			rs = pstm.getResultSet();
-
-			while(rs.next()){
-				tcp = new Trzni_centar_prodavnica();
-				tcp.setNazivProdavnice(rs.getString("naziv"));
-				lo.add(tcp);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return lo; 
-	}
 }

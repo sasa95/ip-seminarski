@@ -70,9 +70,7 @@
 	<h3>Tržni centri</h3>
 		<ol>
 			<c:forEach var="pom" items="${lscentar}">
-				<li>${pom.naziv} - ${pom.lokacija}
-					
-				</li>
+				<li>${pom.naziv} - ${pom.lokacija} - <a href="Servlet?centarID=${pom.trzni_centarID}&akcija=detaljiCentra">Detalji</a></li>
 			</c:forEach>
 		</ol>
 			
