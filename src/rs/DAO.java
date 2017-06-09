@@ -30,7 +30,7 @@ public class DAO {
 		} 		
 		} catch (NamingException e) {
 		}
-	}
+	} 
 	// DEFINICIJA METODE 
 	public ArrayList<Hotel> selectHoteli(String naziv){
 		Connection con = null;
@@ -257,6 +257,43 @@ public class DAO {
 				trznicentar.setLokacija(rs.getString("lokacija"));
 				trznicentar.setTrzni_centarID(rs.getInt("trzni_centarID"));
 				lo.add(trznicentar);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lo; 
+	}
+
+	public ArrayList<Trzni_centar_prodavnica> selectProdavniceByCentarId(int hotelID,int centarID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+
+		ArrayList<Trzni_centar_prodavnica> lo = new ArrayList<Trzni_centar_prodavnica>();
+		Trzni_centar_prodavnica tcp = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(SELECTPRODAVNICEBYCENTARID);
+
+			pstm.setInt(1, hotelID);
+			pstm.setInt(2, centarID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				tcp = new Trzni_centar_prodavnica();
+				tcp.setNazivProdavnice(rs.getString("naziv"));
+				
+				lo.add(tcp);
 			}
 
 		} catch (SQLException e) {

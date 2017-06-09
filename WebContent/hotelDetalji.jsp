@@ -28,9 +28,9 @@
 	<p>${h.opis}</p>
 
 	<ul>
-		<li>Adresa:${h.adresa}</li>
-		<li>Kategorija:${h.kategorija}</li>
-		<li>Broj ležaja:${h.broj_lezaja}</li>
+		<li>Adresa: ${h.adresa}</li>
+		<li>Kategorija: ${h.kategorija}</li>
+		<li>Broj ležaja: ${h.broj_lezaja}</li>
 	</ul>
 
 	<table>
@@ -70,7 +70,7 @@
 	<h3>Tržni centri</h3>
 		<ol>
 			<c:forEach var="pom" items="${lscentar}">
-				<li>${pom.naziv} - ${pom.lokacija} - <a href="Servlet?centarID=${pom.trzni_centarID}&akcija=detaljiCentra">Detalji</a></li>
+				<li>${pom.naziv} - ${pom.lokacija} - <a href="Servlet?centarID=${pom.trzni_centarID}&akcija=detaljiCentra&hotelID=${h.hotelID}">Detalji</a></li>
 			</c:forEach>
 		</ol>
 			

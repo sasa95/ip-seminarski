@@ -65,12 +65,20 @@ public class Servlet extends HttpServlet {
 			ArrayList<Trzni_centar>lscentar=dao.selectTrzniCentar(idh);
 			request.setAttribute("lscentar", lscentar);
 			
-			
-
 			request.getRequestDispatcher("hotelDetalji.jsp").forward(request, response);
+									
 		}
 		
-		
+		else if(akcija.equals("detaljiCentra")){
+			String id = request.getParameter("hotelID");
+			String centarID = request.getParameter("centarID");
+			int idh = Integer.parseInt(id);
+			int idc = Integer.parseInt(centarID);
+			DAO dao = new DAO();
+			ArrayList<Trzni_centar_prodavnica> lsprodavnica = dao.selectProdavniceByCentarId(idh, idc);
+			request.setAttribute("lsprodavnica", lsprodavnica);
+			request.getRequestDispatcher("trzniCentarDetalji.jsp").forward(request, response);
+		}
 	}
 
 	
