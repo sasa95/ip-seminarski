@@ -22,15 +22,14 @@ public class Servlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String akcija = request.getParameter("akcija");
+		DAO dao = new DAO();
 		if(akcija.equals("trazi")){
 			String pretraga = request.getParameter("pretraga");
 			if(pretraga!=null && pretraga.trim().length()>0){
 				if (pretraga.trim().length()>=3) {
-					DAO dao = new DAO();
 					ArrayList<Hotel> ls = dao.selectHoteli(pretraga);
 					request.setAttribute("ls", ls);
 					request.getRequestDispatcher("listaHotela.jsp").forward(request, response);
-					
 				} 
 				
 				else {
@@ -48,7 +47,6 @@ public class Servlet extends HttpServlet {
 		else if(akcija.equals("jedanHotel")){
 			String id = request.getParameter("id");
 			int idh = Integer.parseInt(id);
-			DAO dao = new DAO();
 			
 			Hotel h = dao.selectHotelByID(idh);
 			request.setAttribute("h", h);
@@ -77,13 +75,32 @@ public class Servlet extends HttpServlet {
 			String centarID = request.getParameter("centarID");
 			int idh = Integer.parseInt(id);
 			int idc = Integer.parseInt(centarID);
-			DAO dao = new DAO();
+			
 			Trzni_centar nazivCentra = dao.getCentarNazivByCentarID(idc);
 			request.setAttribute("nazivCentra", nazivCentra);
 			
 			ArrayList<Trzni_centar_prodavnica> lsprodavnica = dao.selectProdavniceByCentarId(idh, idc);
 			request.setAttribute("lsprodavnica", lsprodavnica);
 			request.getRequestDispatcher("trzniCentarDetalji.jsp").forward(request, response);
+		}
+		else if(akcija.equals("AktivnostDetalji")){
+			String aktivnostID = request.getParameter("aktivnostID");
+			int aktID = Integer.parseInt(aktivnostID);
+			String id = request.getParameter("hotelID");
+			int idh = Integer.parseInt(id);
+			
+			Vrsta_aktivnosti nazivAktivnosti = dao.getVrstaAktivnostiByID(aktID);
+			request.setAttribute("nazivAktivnosti", nazivAktivnosti);
+			
+			ArrayList<Aktivnost> akt = dao.getAktivnostByID(aktID);
+			request.setAttribute("akt", akt);
+			
+			ArrayList<Hotel_aktivnost>lsakt = dao.getDetaljiAktivnosti(idh, aktID);
+			request.setAttribute("lsakt", lsakt);
+			
+			
+			request.getRequestDispatcher("aktivnostiDetalji.jsp").forward(request, response);
+			
 		}
 	}
 

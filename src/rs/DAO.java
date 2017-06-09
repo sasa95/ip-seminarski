@@ -20,7 +20,11 @@ public class DAO {
       private static String SELECTTRZNICENTRI = "SELECT tc.naziv,tc.lokacija,tc.trzni_centarID FROM trzni_centri tc WHERE tc.hotelID=?";
       private static String SELECTPRODAVNICEBYCENTARID = "SELECT p.naziv AS nazivP,p.lokacija FROM trzni_centri tc JOIN prodavnice p ON tc.trzni_centarID=p.trzni_centarID WHERE tc.hotelID=? AND tc.trzni_centarID=?";
       private static String GETCENTARNAZIVBYCENTARID = "SELECT tc.naziv,tc.opis FROM trzni_centri tc WHERE tc.trzni_centarID=?";
-      private static String SELECTVRSTEAKTIVNOSTI = "SELECT va.naziv_vrste_aktivnosti AS vrstaAktivnosti FROM vrste_aktivnosti va JOIN aktivnosti a ON va.vrsta_aktivnostiID=a.vrsta_aktivnostiID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE ha.hotelID=?";
+      private static String SELECTVRSTEAKTIVNOSTI = "SELECT va.naziv_vrste_aktivnosti AS vrstaAktivnosti, va.vrsta_aktivnostiID AS aktivnostID  FROM vrste_aktivnosti va JOIN aktivnosti a ON va.vrsta_aktivnostiID=a.vrsta_aktivnostiID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE ha.hotelID=?";
+      private static String GETNAZIVVRSTEAKTIVNOSTIBYID="SELECT va.naziv_vrste_aktivnosti FROM vrste_aktivnosti va WHERE va.vrsta_aktivnostiID=?";
+      private static String GETAKTIVNOSTBYID = "SELECT a.naziv,a.opis FROM aktivnosti a WHERE a.aktivnostID=?";
+      private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja,ha.hotelID,ha.aktivnostID,a.naziv FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND ha.aktivnostID=?";
+      
       
       public DAO(){
 	try {
@@ -78,7 +82,6 @@ public class DAO {
 		return lo; 
 	}
 	 
-	
 	public Hotel selectHotelByID(int id){
 		Connection con = null;
 		PreparedStatement pstm = null;
@@ -123,6 +126,7 @@ public class DAO {
 		// VRACANJE REZULTATA AKO METODA VRACA REZULTAT
 		return hotel; 
 	}
+	
 	public ArrayList<SobaTip_sobe> brojSoba(int hotelID){
 		Connection con = null;
 		PreparedStatement pstm = null;
@@ -198,6 +202,7 @@ public class DAO {
 		
 		return lo; 
 	}
+	
 	public ArrayList<Tretman> selectHoteliTretmani(int hotelID){
 		Connection con = null;
 		PreparedStatement pstm = null;
@@ -344,6 +349,7 @@ public class DAO {
 		
 		return tc; 
 	}
+	
 	public ArrayList<Vrsta_aktivnosti> selectVrsteAktivnosti(int hotelID){
 		Connection con = null;
 		PreparedStatement pstm = null;
@@ -365,6 +371,7 @@ public class DAO {
 			while(rs.next()){
 				va = new Vrsta_aktivnosti();
 				va.setNaziv_vrste_aktivnosti(rs.getString("vrstaAktivnosti"));
+				va.setVrsta_aktivnostiID(rs.getInt("aktivnostID"));
 			
 				lo.add(va);
 			}
@@ -379,4 +386,117 @@ public class DAO {
 		}
 		
 		return lo; 
-}}
+	}
+	
+	public Vrsta_aktivnosti getVrstaAktivnostiByID(int aktivnostID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+
+		Vrsta_aktivnosti vaID = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETNAZIVVRSTEAKTIVNOSTIBYID);
+
+			
+			pstm.setInt(1, aktivnostID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			if(rs.next()){
+				vaID = new Vrsta_aktivnosti();
+				vaID.setNaziv_vrste_aktivnosti(rs.getString("naziv_vrste_aktivnosti"));
+	
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return vaID; 
+	}
+	
+	public ArrayList<Aktivnost> getAktivnostByID(int aktivnostID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		ArrayList<Aktivnost> lo = new ArrayList<Aktivnost>();
+		Aktivnost akt = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETAKTIVNOSTBYID);
+
+			
+			pstm.setInt(1, aktivnostID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				akt = new Aktivnost();
+				akt.setNaziv(rs.getString("naziv"));
+				akt.setOpis(rs.getString("opis"));
+				
+				lo.add(akt);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lo; 
+	}
+	
+	public ArrayList<Hotel_aktivnost> getDetaljiAktivnosti(int hotelID,int aktivnostID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		ArrayList<Hotel_aktivnost> lo = new ArrayList<Hotel_aktivnost>();
+		Hotel_aktivnost ha = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETDETALJIAKTIVNOSTI);
+
+			pstm.setInt(1, hotelID);
+			pstm.setInt(2, aktivnostID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				ha = new Hotel_aktivnost();
+				ha.setVreme_odrzavanja(rs.getTimestamp("vreme_odrzavanja"));
+				ha.setMesto_odrzavanja(rs.getString("mesto_odrzavanja"));
+				ha.setHotelID(rs.getInt("hotelID"));
+				ha.setAktivnostID(rs.getInt("aktivnostID"));
+				lo.add(ha);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lo; 
+	}
+}

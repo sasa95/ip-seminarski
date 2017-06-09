@@ -75,11 +75,10 @@
 				<li>${pom.naziv} - ${pom.lokacija} - <a href="Servlet?centarID=${pom.trzni_centarID}&akcija=detaljiCentra&hotelID=${h.hotelID}">Detalji</a></li>
 			</c:forEach>
 		</ol>
-	<h4>Aktivnosti:</h4>
+	<h3>Vrste aktivnosti:</h3>
 		<ol>
 			<c:forEach var="pom" items="${lsaktivnost }">
-				<li>${pom.naziv_vrste_aktivnosti }</li>
-			
+				<li>${pom.naziv_vrste_aktivnosti } - <a href="Servlet?akcija=AktivnostDetalji&aktivnostID=${pom.vrsta_aktivnostiID}&hotelID=${h.hotelID}">Detalji</a></li>
 			</c:forEach>
 		</ol>
 
