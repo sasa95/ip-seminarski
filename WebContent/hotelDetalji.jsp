@@ -68,19 +68,16 @@
 		</ol>
 		
 	<h3>Tržni centri</h3>
-		<table>
-			<tr>
-				<th>Naziv</th>
-				<th>Lokacija</th>
-			</tr>
-			
+		<ol>
 			<c:forEach var="pom" items="${lscentar}">
-				<tr>
-					<td>${pom.naziv}</td>
-					<td>${pom.lokacija}</td>
-				</tr>
+				<li>${pom.naziv} - ${pom.lokacija}
+					
+				</li>
 			</c:forEach>
-		</table>
+		</ol>
+			
+			
+	
 		
 		
 		
