@@ -22,8 +22,8 @@ public class DAO {
       private static String GETCENTARNAZIVBYCENTARID = "SELECT tc.naziv,tc.opis FROM trzni_centri tc WHERE tc.trzni_centarID=?";
       private static String SELECTVRSTEAKTIVNOSTI = "SELECT va.naziv_vrste_aktivnosti AS vrstaAktivnosti, va.vrsta_aktivnostiID AS aktivnostID  FROM vrste_aktivnosti va JOIN aktivnosti a ON va.vrsta_aktivnostiID=a.vrsta_aktivnostiID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE ha.hotelID=?";
       private static String GETNAZIVVRSTEAKTIVNOSTIBYID="SELECT va.naziv_vrste_aktivnosti FROM vrste_aktivnosti va WHERE va.vrsta_aktivnostiID=?";
-      private static String GETAKTIVNOSTBYID = "SELECT a.naziv,a.opis FROM aktivnosti a WHERE a.aktivnostID=?";
-      private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja,ha.hotelID,ha.aktivnostID,a.naziv FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND ha.aktivnostID=?";
+      private static String GETAKTIVNOSTBYID = "SELECT a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
+      private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
       
       
       public DAO(){
@@ -423,7 +423,7 @@ public class DAO {
 		return vaID; 
 	}
 	
-	public ArrayList<Aktivnost> getAktivnostByID(int aktivnostID){
+	public ArrayList<Aktivnost> getAktivnostByID(int aktivnostID,int hotelID){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -437,6 +437,7 @@ public class DAO {
 
 			
 			pstm.setInt(1, aktivnostID);
+			pstm.setInt(2, hotelID);
 			pstm.execute();
 
 			rs = pstm.getResultSet();
@@ -483,8 +484,8 @@ public class DAO {
 				ha = new Hotel_aktivnost();
 				ha.setVreme_odrzavanja(rs.getTimestamp("vreme_odrzavanja"));
 				ha.setMesto_odrzavanja(rs.getString("mesto_odrzavanja"));
-				ha.setHotelID(rs.getInt("hotelID"));
-				ha.setAktivnostID(rs.getInt("aktivnostID"));
+				//ha.setHotelID(rs.getInt("hotelID"));
+				//ha.setAktivnostID(rs.getInt("vrsta_aktivnostiID"));
 				lo.add(ha);
 			}
 

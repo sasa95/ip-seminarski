@@ -92,7 +92,7 @@ public class Servlet extends HttpServlet {
 			Vrsta_aktivnosti nazivAktivnosti = dao.getVrstaAktivnostiByID(aktID);
 			request.setAttribute("nazivAktivnosti", nazivAktivnosti);
 			
-			ArrayList<Aktivnost> akt = dao.getAktivnostByID(aktID);
+			ArrayList<Aktivnost> akt = dao.getAktivnostByID(aktID,idh);
 			request.setAttribute("akt", akt);
 			
 			ArrayList<Hotel_aktivnost>lsakt = dao.getDetaljiAktivnosti(idh, aktID);
