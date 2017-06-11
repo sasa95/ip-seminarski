@@ -11,8 +11,9 @@ import javax.sql.DataSource;
 import java.util.ArrayList;
 public class DAO {
       private DataSource ds;
-
-      private static String SELECTHOTELI = "SELECT * FROM hoteli WHERE naziv LIKE ?";
+      
+      private static String MAINSEARCH = "SELECT * from hoteli WHERE naziv LIKE ? AND kategorija = ? ";
+     
       private static String SELECTHOTELBYID = "SELECT * FROM hoteli WHERE hotelID = ?";
       private static String SELECTBROJSOBA = "SELECT ts.naziv as nazivTipaSobe,COUNT(s.sobaID) as brojsoba FROM sobe s LEFT JOIN tipovi_soba ts ON s.tip_sobeID=ts.tip_sobeID WHERE s.hotelID = ? GROUP BY ts.naziv";
       private static String SELECTHOTELIUSLUGE = "SELECT u.vrsta_usluge AS usluga,u.cena as cena FROM usluge u JOIN hoteli_usluge hu ON u.uslugaID=hu.uslugaID WHERE hu.hotelID=?";
@@ -24,9 +25,9 @@ public class DAO {
       private static String GETNAZIVVRSTEAKTIVNOSTIBYID="SELECT va.naziv_vrste_aktivnosti FROM vrste_aktivnosti va WHERE va.vrsta_aktivnostiID=?";
       private static String GETAKTIVNOSTBYID = "SELECT a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
       private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
-      private static String KATEGORIJECHECKBOXES = "SELECT * from hoteli WHERE kategorija = ? ";
+     
       
-      private static String MAINSEARCH = "SELECT * from hoteli WHERE naziv LIKE ? AND kategorija = ? ";
+     
       
       
       public DAO(){
@@ -41,49 +42,7 @@ public class DAO {
 		}
 	} 
 	// DEFINICIJA METODE 
-	public ArrayList<Hotel> selectHoteli(String naziv){
-		Connection con = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
 	
-		ArrayList<Hotel> lo = new ArrayList<Hotel>();
-		Hotel hoteli = null;
-				
-            try {
-			con = ds.getConnection();
-			pstm = con.prepareStatement(SELECTHOTELI);
-
-			
-			pstm.setString(1, "%" +naziv +"%");
-			pstm.execute();
-
-
-			rs = pstm.getResultSet();
-
-			while(rs.next()){ 
-				hoteli = new Hotel();
-				hoteli.setHotelID(rs.getInt("hotelID"));
-				hoteli.setNaziv(rs.getString("naziv"));
-				hoteli.setAdresa(rs.getString("adresa"));
-				hoteli.setKategorija(rs.getInt("kategorija"));
-				hoteli.setBroj_lezaja(rs.getInt("broj_lezaja"));
-				hoteli.setOpis(rs.getString("opis"));
-			
-				
-				lo.add(hoteli);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return lo; 
-	}
 	 
 	public Hotel selectHotelByID(int id){
 		Connection con = null;
