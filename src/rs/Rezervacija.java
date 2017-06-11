@@ -1,16 +1,17 @@
 package rs;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Rezervacija {
-private Date datum_prijavljivanja;
+private Timestamp datum_prijavljivanja;
 private Date datum_odlaska;
 private String broj_licne_karte;
 private int sobaID,hotelID,uslugaID;
-public Date getDatum_prijavljivanja() {
+public Timestamp getDatum_prijavljivanja() {
 	return datum_prijavljivanja;
 }
-public void setDatum_prijavljivanja(Date datum_prijavljivanja) {
+public void setDatum_prijavljivanja(Timestamp datum_prijavljivanja) {
 	this.datum_prijavljivanja = datum_prijavljivanja;
 }
 public Date getDatum_odlaska() {
@@ -43,7 +44,7 @@ public int getUslugaID() {
 public void setUslugaID(int uslugaID) {
 	this.uslugaID = uslugaID;
 }
-public Rezervacija(Date datum_prijavljivanja, Date datum_odlaska,
+public Rezervacija(Timestamp datum_prijavljivanja, Date datum_odlaska,
 		String broj_licne_karte, int sobaID, int hotelID, int uslugaID) {
 	super();
 	this.datum_prijavljivanja = datum_prijavljivanja;
