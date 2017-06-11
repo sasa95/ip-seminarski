@@ -24,8 +24,10 @@ public class DAO {
       private static String GETNAZIVVRSTEAKTIVNOSTIBYID="SELECT va.naziv_vrste_aktivnosti FROM vrste_aktivnosti va WHERE va.vrsta_aktivnostiID=?";
       private static String GETAKTIVNOSTBYID = "SELECT a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
       private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
-      
       private static String KATEGORIJECHECKBOXES = "SELECT * from hoteli WHERE kategorija = ? ";
+      
+      private static String MAINSEARCH = "SELECT * from hoteli WHERE naziv LIKE ? AND kategorija = ? ";
+      
       
       public DAO(){
 	try {
@@ -502,7 +504,7 @@ public class DAO {
 		return lo; 
 	}
 	
-	public ArrayList<Hotel> kategorije(String kategorije ){
+	public ArrayList<Hotel> mainSearch(String naziv,String kategorije ){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -512,9 +514,10 @@ public class DAO {
 				
             try {
 			con = ds.getConnection();
-			pstm = con.prepareStatement(KATEGORIJECHECKBOXES);
+			pstm = con.prepareStatement(MAINSEARCH);
 
-			pstm.setString(1, kategorije);
+			pstm.setString(1, "%" +naziv +"%");
+			pstm.setString(2, kategorije);
 			pstm.execute();
 
 			rs = pstm.getResultSet();

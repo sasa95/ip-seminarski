@@ -10,18 +10,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Lista hotela</title>
 
-<%
-
-ArrayList<Hotel>haha = (ArrayList<Hotel>)request.getAttribute("haha");
-
-%>
-
-
 </head>
+	<%
+		ArrayList<Hotel>hotel = (ArrayList<Hotel>)request.getAttribute("hotel");
+		if(hotel.size()>0 && hotel!=null){
+	%>
 <body>
 
-		<c:forEach var="pom" items="${ls}">
-			
+		<c:forEach var="pom" items="${hotel}">	
 			<ul>
 				<li>Naziv: ${pom.naziv}</li>
 				<li>Adresa: ${pom.adresa}</li>
@@ -30,23 +26,11 @@ ArrayList<Hotel>haha = (ArrayList<Hotel>)request.getAttribute("haha");
 			</ul>
 			<a href="Servlet?id=${pom.hotelID}&akcija=jedanHotel">Detalji</a><br><br>
 		</c:forEach>
-
-		<c:forEach var="pom" items="${haha}">
-			
-			<ul>
-				<li>Naziv: ${pom.naziv}</li>
-				<li>Adresa: ${pom.adresa}</li>
-				<li>Kategorija: ${pom.kategorija}</li>
-				<li>Broj ležaja: ${pom.broj_lezaja}</li>	
-			</ul>
-			<a href="Servlet?id=${pom.hotelID}&akcija=jedanHotel">Detalji</a><br><br>
-		</c:forEach>
-		
-		<%
-			out.println(haha.size());
-		%>
-		
-		<%System.out.println(haha); %>
-
+	<%
+		}else {
+			request.setAttribute("msg", "Nema rezultata koji odgovaraju unosu.");
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+		}
+	%>
 </body>
 </html>

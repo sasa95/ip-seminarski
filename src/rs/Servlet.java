@@ -28,18 +28,17 @@ public class Servlet extends HttpServlet {
 		if(akcija.equals("trazi")){
 			String pretraga = request.getParameter("pretraga");
 			String [] kategorija = request.getParameterValues("kategorija");
-			String kata = String.join(",", kategorija);
-			ArrayList<Hotel>haha= new ArrayList<Hotel>();
+			ArrayList<Hotel>hotel= new ArrayList<Hotel>();
 			
-			if(kategorija!=null){
+			if(kategorija!=null && kategorija.length>0){
 				for(int i=0;i<kategorija.length;i++){
-					haha.addAll(dao.kategorije(kategorija[i]));
+					hotel.addAll(dao.mainSearch(pretraga, kategorija[i]));
 				}
-				request.setAttribute("haha", haha);
+				request.setAttribute("hotel", hotel);
 				request.getRequestDispatcher("listaHotela.jsp").forward(request, response);
 			}
 			
-			else {
+			else if(kategorija==null){
 				request.setAttribute("msg", "Morate odabrati bar jednu kategoriju hotela.");
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 				
