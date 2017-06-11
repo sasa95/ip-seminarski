@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DAO {
       private DataSource ds;
       
-      private static String MAINSEARCH = "SELECT * from hoteli WHERE naziv LIKE ? AND kategorija = ? AND adresa LIKE ? ";
+      private static String MAINSEARCH = "SELECT h.* from hoteli h JOIN hoteli_aktivnosti ha ON h.hotelID=ha.hotelID JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID JOIN vrste_aktivnosti va ON a.vrsta_aktivnostiID=va.vrsta_aktivnostiID WHERE h.naziv LIKE ? AND h.kategorija = ? AND h.adresa LIKE ? AND va.naziv_vrste_aktivnosti=COALESCE(?,va.naziv_vrste_aktivnosti)";
      
       private static String SELECTHOTELBYID = "SELECT * FROM hoteli WHERE hotelID = ?";
       private static String SELECTBROJSOBA = "SELECT ts.naziv as nazivTipaSobe,COUNT(s.sobaID) as brojsoba FROM sobe s LEFT JOIN tipovi_soba ts ON s.tip_sobeID=ts.tip_sobeID WHERE s.hotelID = ? GROUP BY ts.naziv";
@@ -25,7 +25,7 @@ public class DAO {
       private static String GETNAZIVVRSTEAKTIVNOSTIBYID="SELECT va.naziv_vrste_aktivnosti FROM vrste_aktivnosti va WHERE va.vrsta_aktivnostiID=?";
       private static String GETAKTIVNOSTBYID = "SELECT a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
       private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
-     
+      private static String GETVRSTEAKTIVNOSTI = "SELECT naziv_vrste_aktivnosti FROM vrste_aktivnosti";
       
      
       
@@ -463,7 +463,7 @@ public class DAO {
 		return lo; 
 	}
 	
-	public ArrayList<Hotel> mainSearch(String naziv,String kategorije, String adresa ){
+	public ArrayList<Hotel> mainSearch(String naziv,String kategorije, String adresa, String vrsta_aktivnosti ){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -478,6 +478,7 @@ public class DAO {
 			pstm.setString(1, "%" +naziv +"%");
 			pstm.setString(2, kategorije);
 			pstm.setString(3, "%" +adresa +"%");
+			pstm.setString(4, vrsta_aktivnosti);
 			pstm.execute();
 
 			rs = pstm.getResultSet();
@@ -491,6 +492,41 @@ public class DAO {
 				hoteli.setBroj_lezaja(rs.getInt("broj_lezaja"));
 				hoteli.setOpis(rs.getString("opis"));
 				lo.add(hoteli);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lo; 
+	}
+	
+	public ArrayList<Vrsta_aktivnosti> getVrsteAktivnosti(){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		ArrayList<Vrsta_aktivnosti> lo = new ArrayList<Vrsta_aktivnosti>();
+		Vrsta_aktivnosti aktivnosti = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETVRSTEAKTIVNOSTI);
+
+			
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				aktivnosti = new Vrsta_aktivnosti();
+				aktivnosti.setNaziv_vrste_aktivnosti(rs.getString("naziv_vrste_aktivnosti"));
+				lo.add(aktivnosti);
 			}
 
 		} catch (SQLException e) {

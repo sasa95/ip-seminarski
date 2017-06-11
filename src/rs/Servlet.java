@@ -29,11 +29,15 @@ public class Servlet extends HttpServlet {
 			String pretraga = request.getParameter("pretraga");
 			String [] kategorija = request.getParameterValues("kategorija");
 			String adresa = request.getParameter("adresa");
+			String naziv_vrste_aktivnosti = request.getParameter("naziv_vrste_aktivnosti");
+			if(naziv_vrste_aktivnosti==""){
+				naziv_vrste_aktivnosti=null;
+			}
 			ArrayList<Hotel>hotel= new ArrayList<Hotel>();
 			
 			if(kategorija!=null && kategorija.length>0){
 				for(int i=0;i<kategorija.length;i++){
-					hotel.addAll(dao.mainSearch(pretraga, kategorija[i],adresa));
+					hotel.addAll(dao.mainSearch(pretraga, kategorija[i],adresa,naziv_vrste_aktivnosti));
 				}
 				request.setAttribute("hotel", hotel);
 				request.getRequestDispatcher("listaHotela.jsp").forward(request, response);
