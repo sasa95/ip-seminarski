@@ -73,15 +73,23 @@ public class Servlet extends HttpServlet {
 		else if(akcija.equals("detaljiCentra")){
 			String id = request.getParameter("hotelID");
 			String centarID = request.getParameter("centarID");
-			int idh = Integer.parseInt(id);
-			int idc = Integer.parseInt(centarID);
 			
-			Trzni_centar nazivCentra = dao.getCentarNazivByCentarID(idc);
-			request.setAttribute("nazivCentra", nazivCentra);
+			try {
+				int idh = Integer.parseInt(id);
+				int idc = Integer.parseInt(centarID);
+				
+				Trzni_centar nazivCentra = dao.getCentarNazivByCentarID(idc);
+				request.setAttribute("nazivCentra", nazivCentra);
+				
+				ArrayList<Trzni_centar_prodavnica> lsprodavnica = dao.selectProdavniceByCentarId(idh, idc);
+				request.setAttribute("lsprodavnica", lsprodavnica);
+				request.getRequestDispatcher("trzniCentarDetalji.jsp").forward(request, response);
+			}
 			
-			ArrayList<Trzni_centar_prodavnica> lsprodavnica = dao.selectProdavniceByCentarId(idh, idc);
-			request.setAttribute("lsprodavnica", lsprodavnica);
-			request.getRequestDispatcher("trzniCentarDetalji.jsp").forward(request, response);
+			catch(Exception e){
+				response.sendRedirect("error.jsp");
+			}
+			
 		}
 		else if(akcija.equals("AktivnostDetalji")){
 			String aktivnostID = request.getParameter("aktivnostID");

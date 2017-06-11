@@ -26,12 +26,13 @@
 
 	<h1>${nazivAktivnosti.naziv_vrste_aktivnosti }</h1>
 
+	
+	
+	<h2>Detalji:</h2>
 	<c:forEach var="pom" items="${akt}">
 			<h3>${pom.naziv }</h3>
 			<p>${pom.opis }</p>
 	</c:forEach>
-	
-	<h2>Detalji</h2>
 	<c:forEach var="pom" items="${lsakt}">
 			<p>Lokacija: ${pom.mesto_odrzavanja }</p>
 			<p>Datum i vreme održavanja: ${pom.vreme_odrzavanja }</p>
