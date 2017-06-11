@@ -46,27 +46,35 @@ public class Servlet extends HttpServlet {
 		
 		else if(akcija.equals("jedanHotel")){
 			String id = request.getParameter("id");
-			int idh = Integer.parseInt(id);
 			
-			Hotel h = dao.selectHotelByID(idh);
-			request.setAttribute("h", h);
+			try {
+				int idh = Integer.parseInt(id);
+				
+				Hotel h = dao.selectHotelByID(idh);
+				request.setAttribute("h", h);
+				
+				ArrayList<SobaTip_sobe>lsts = dao.brojSoba(idh);
+				request.setAttribute("lsts", lsts);
+				
+				ArrayList<Usluga>lsusluga = dao.selectHoteliUsluge(idh);
+				request.setAttribute("lsusluga", lsusluga);
+				
+				ArrayList<Tretman>lstretman = dao.selectHoteliTretmani(idh);
+				request.setAttribute("lstretman", lstretman);
+				
+				ArrayList<Trzni_centar>lscentar=dao.selectTrzniCentar(idh);
+				request.setAttribute("lscentar", lscentar);
+				
+				ArrayList<Vrsta_aktivnosti> lsaktivnost=dao.selectVrsteAktivnosti(idh);
+				request.setAttribute("lsaktivnost", lsaktivnost);
+				
+				request.getRequestDispatcher("hotelDetalji.jsp").forward(request, response);
+			}
 			
-			ArrayList<SobaTip_sobe>lsts = dao.brojSoba(idh);
-			request.setAttribute("lsts", lsts);
+			catch(Exception e){
+				response.sendRedirect("error.jsp");
+			}
 			
-			ArrayList<Usluga>lsusluga = dao.selectHoteliUsluge(idh);
-			request.setAttribute("lsusluga", lsusluga);
-			
-			ArrayList<Tretman>lstretman = dao.selectHoteliTretmani(idh);
-			request.setAttribute("lstretman", lstretman);
-			
-			ArrayList<Trzni_centar>lscentar=dao.selectTrzniCentar(idh);
-			request.setAttribute("lscentar", lscentar);
-			
-			ArrayList<Vrsta_aktivnosti> lsaktivnost=dao.selectVrsteAktivnosti(idh);
-			request.setAttribute("lsaktivnost", lsaktivnost);
-			
-			request.getRequestDispatcher("hotelDetalji.jsp").forward(request, response);
 									
 		}
 		
@@ -93,22 +101,30 @@ public class Servlet extends HttpServlet {
 		}
 		else if(akcija.equals("AktivnostDetalji")){
 			String aktivnostID = request.getParameter("aktivnostID");
-			int aktID = Integer.parseInt(aktivnostID);
 			String id = request.getParameter("hotelID");
-			int idh = Integer.parseInt(id);
-			
-			Vrsta_aktivnosti nazivAktivnosti = dao.getVrstaAktivnostiByID(aktID);
-			request.setAttribute("nazivAktivnosti", nazivAktivnosti);
-			
-			ArrayList<Aktivnost> akt = dao.getAktivnostByID(aktID,idh);
-			request.setAttribute("akt", akt);
-			
-			ArrayList<Hotel_aktivnost>lsakt = dao.getDetaljiAktivnosti(idh, aktID);
-			request.setAttribute("lsakt", lsakt);
 			
 			
-			request.getRequestDispatcher("aktivnostiDetalji.jsp").forward(request, response);
+			try {
+				int aktID = Integer.parseInt(aktivnostID);
+				int idh = Integer.parseInt(id);
+				
+				Vrsta_aktivnosti nazivAktivnosti = dao.getVrstaAktivnostiByID(aktID);
+				request.setAttribute("nazivAktivnosti", nazivAktivnosti);
+				
+				ArrayList<Aktivnost> akt = dao.getAktivnostByID(aktID,idh);
+				request.setAttribute("akt", akt);
+				
+				ArrayList<Hotel_aktivnost>lsakt = dao.getDetaljiAktivnosti(idh, aktID);
+				request.setAttribute("lsakt", lsakt);
+				
+				
+				request.getRequestDispatcher("aktivnostiDetalji.jsp").forward(request, response);
+			}
 			
+			catch(Exception e){
+				response.sendRedirect("error.jsp");
+			}
+
 		}
 	}
 
