@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DAO {
       private DataSource ds;
       
-      private static String MAINSEARCH = "SELECT * from hoteli WHERE naziv LIKE ? AND kategorija = ? ";
+      private static String MAINSEARCH = "SELECT * from hoteli WHERE naziv LIKE ? AND kategorija = ? AND adresa LIKE ? ";
      
       private static String SELECTHOTELBYID = "SELECT * FROM hoteli WHERE hotelID = ?";
       private static String SELECTBROJSOBA = "SELECT ts.naziv as nazivTipaSobe,COUNT(s.sobaID) as brojsoba FROM sobe s LEFT JOIN tipovi_soba ts ON s.tip_sobeID=ts.tip_sobeID WHERE s.hotelID = ? GROUP BY ts.naziv";
@@ -463,7 +463,7 @@ public class DAO {
 		return lo; 
 	}
 	
-	public ArrayList<Hotel> mainSearch(String naziv,String kategorije ){
+	public ArrayList<Hotel> mainSearch(String naziv,String kategorije, String adresa ){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -477,6 +477,7 @@ public class DAO {
 
 			pstm.setString(1, "%" +naziv +"%");
 			pstm.setString(2, kategorije);
+			pstm.setString(3, "%" +adresa +"%");
 			pstm.execute();
 
 			rs = pstm.getResultSet();
