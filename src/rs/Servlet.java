@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+
 @WebServlet("/Servlet")
 public class Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,23 +27,25 @@ public class Servlet extends HttpServlet {
 		DAO dao = new DAO();
 		if(akcija.equals("trazi")){
 			String pretraga = request.getParameter("pretraga");
-			if(pretraga!=null && pretraga.trim().length()>0){
-				if (pretraga.trim().length()>=3) {
-					ArrayList<Hotel> ls = dao.selectHoteli(pretraga);
-					request.setAttribute("ls", ls);
-					request.getRequestDispatcher("listaHotela.jsp").forward(request, response);
-				} 
-				
-				else {
-					request.setAttribute("msg", "Naziv hotela ne sme biti kraci od 3 karaktera.");
-					request.getRequestDispatcher("index.jsp").forward(request, response);
+			String [] kategorija = request.getParameterValues("kategorija");
+			String kata = String.join(",", kategorija);
+			ArrayList<Hotel>haha= new ArrayList<Hotel>();
+			
+			if(kategorija!=null){
+				for(int i=0;i<kategorija.length;i++){
+					haha.addAll(dao.kategorije(kategorija[i]));
 				}
+				request.setAttribute("haha", haha);
+				request.getRequestDispatcher("listaHotela.jsp").forward(request, response);
 			}
 			
 			else {
-				request.setAttribute("msg", "Morate uneti naziv hotela");
+				request.setAttribute("msg", "Morate odabrati bar jednu kategoriju hotela.");
 				request.getRequestDispatcher("index.jsp").forward(request, response);
+				
 			}
+			
+			
 		}
 		
 		else if(akcija.equals("jedanHotel")){

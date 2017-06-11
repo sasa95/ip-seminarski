@@ -25,6 +25,7 @@ public class DAO {
       private static String GETAKTIVNOSTBYID = "SELECT a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
       private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
       
+      private static String KATEGORIJECHECKBOXES = "SELECT * from hoteli WHERE kategorija = ? ";
       
       public DAO(){
 	try {
@@ -487,6 +488,46 @@ public class DAO {
 				//ha.setHotelID(rs.getInt("hotelID"));
 				//ha.setAktivnostID(rs.getInt("vrsta_aktivnostiID"));
 				lo.add(ha);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lo; 
+	}
+	
+	public ArrayList<Hotel> kategorije(String kategorije ){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		ArrayList<Hotel> lo = new ArrayList<Hotel>();
+		Hotel hoteli = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(KATEGORIJECHECKBOXES);
+
+			pstm.setString(1, kategorije);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				hoteli = new Hotel();
+				hoteli.setHotelID(rs.getInt("hotelID"));
+				hoteli.setNaziv(rs.getString("naziv"));
+				hoteli.setAdresa(rs.getString("adresa"));
+				hoteli.setKategorija(rs.getInt("kategorija"));
+				hoteli.setBroj_lezaja(rs.getInt("broj_lezaja"));
+				hoteli.setOpis(rs.getString("opis"));
+				lo.add(hoteli);
 			}
 
 		} catch (SQLException e) {
