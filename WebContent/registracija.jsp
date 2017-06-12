@@ -10,28 +10,28 @@
 </head>
 <body>
 <h2>Popunite podatke za registraciju:</h2>
-<form action="Servlet" method="post">
+<form action="Servlet_registracija" method="post">
 ${msg }<br><br>
 	<label for="broj_licne_karte">Broj lične karte: </label>
-	<input type="text" placeholder="broj_licne_karte" name="broj_licne_karte"><br>
+	<input type="number" min="100000000" max="999999999" placeholder="Npr. 001234567" name="broj_licne_karte" required="required"><br>
 	
 	<label for="ime">Ime: </label>
-	<input type="text" placeholder="ime" name="ime"><br>
+	<input type="text" placeholder="Npr. Petar" name="ime" required="required"><br>
 	
 	<label for="prezime">Prezime: </label>
-	<input type="text" placeholder="prezime" name="prezime"><br>
+	<input type="text" placeholder="Npr. Petrović" name="prezime" required="required"><br>
 	
 	<label for="adresa">Adresa: </label>
-	<input type="text" placeholder="adresa" name="adresa"><br><br>
+	<input type="text" placeholder="Npr. Svetog Save 66, Čačak" name="adresa" required="required"><br><br>
 	
 	<label for="korisnicko_ime">Korisničko ime: </label>
-	<input type="text" placeholder="korisnicko_ime" name="korisnicko_ime"><br>
+	<input type="text" placeholder="Npr. petar_petrovic" name="korisnicko_ime" required="required"><br>
 	
 	<label for="lozinka1">Lozinka: </label>
-	<input type="password" placeholder="lozinka" name="lozinka1"><br>
+	<input type="password" name="lozinka1" required="required"><br>
 	
 	<label for="lozinka2">Ponovite lozinku: </label>
-	<input type="password" placeholder="lozinka" name="lozinka2"><br>
+	<input type="password" name="lozinka2" required="required"><br>
 	
 	<input type="submit" value="Registracija" name="registracija">
 </form>
