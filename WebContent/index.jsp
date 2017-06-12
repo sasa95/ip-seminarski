@@ -34,7 +34,7 @@ ${msg }
 		<label for="naziv_vrste_aktivnosti">Vrste aktivnosti:</label>
 		
 		<select name="naziv_vrste_aktivnosti" id="naziv_vrste_aktivnosti">
-			<option selected="selected"></option>
+			<option selected="selected" value="">Sve</option>
 			<%
 				for(Vrsta_aktivnosti pom:va){
 			%>

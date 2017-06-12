@@ -36,7 +36,7 @@ public class Servlet extends HttpServlet {
 			ArrayList<Hotel>hotel= new ArrayList<Hotel>();
 			
 			if(kategorija!=null && kategorija.length>0){
-				for(int i=0;i<kategorija.length;i++){
+				for(int i=kategorija.length-1;i>=0; i--){
 					hotel.addAll(dao.mainSearch(pretraga, kategorija[i],adresa,naziv_vrste_aktivnosti));
 				}
 				request.setAttribute("hotel", hotel);

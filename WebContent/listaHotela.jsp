@@ -16,7 +16,7 @@
 		if(hotel.size()>0 && hotel!=null){
 	%>
 <body>
-
+	
 		<c:forEach var="pom" items="${hotel}">	
 			<ul>
 				<li>Naziv: ${pom.naziv}</li>
