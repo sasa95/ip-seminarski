@@ -34,6 +34,9 @@ public class Servlet extends HttpServlet {
 			if(naziv_vrste_aktivnosti==""){
 				naziv_vrste_aktivnosti=null;
 			}
+			if(vrsta_usluge==""){
+				vrsta_usluge=null;
+			}
 			ArrayList<Hotel>hotel= new ArrayList<Hotel>();
 			
 			if(kategorija!=null && kategorija.length>0){

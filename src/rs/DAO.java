@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DAO {
       private DataSource ds;
       
-      private static String MAINSEARCH = "SELECT DISTINCT (h.hotelID),h.naziv, h.adresa,h.kategorija,h.broj_lezaja from hoteli h JOIN hoteli_aktivnosti ha ON h.hotelID=ha.hotelID JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID JOIN vrste_aktivnosti va ON a.vrsta_aktivnostiID=va.vrsta_aktivnostiID JOIN hoteli_usluge hu ON h.hotelID=hu.hotelID JOIN usluge u ON hu.uslugaID=u.uslugaID WHERE h.naziv LIKE ? AND h.kategorija = ? AND h.adresa LIKE ? AND va.naziv_vrste_aktivnosti=COALESCE(?,va.naziv_vrste_aktivnosti) AND u.vrsta_usluge=? ORDER BY h.hotelID";
+      private static String MAINSEARCH = "SELECT DISTINCT (h.hotelID),h.naziv, h.adresa,h.kategorija,h.broj_lezaja from hoteli h JOIN hoteli_aktivnosti ha ON h.hotelID=ha.hotelID JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID JOIN vrste_aktivnosti va ON a.vrsta_aktivnostiID=va.vrsta_aktivnostiID JOIN hoteli_usluge hu ON h.hotelID=hu.hotelID JOIN usluge u ON hu.uslugaID=u.uslugaID WHERE h.naziv LIKE ? AND h.kategorija = ? AND h.adresa LIKE ? AND va.naziv_vrste_aktivnosti=COALESCE(?,va.naziv_vrste_aktivnosti) AND u.vrsta_usluge=COALESCE(?,u.vrsta_usluge) ORDER BY h.hotelID";
      
       private static String SELECTHOTELBYID = "SELECT * FROM hoteli WHERE hotelID = ?";
       private static String SELECTBROJSOBA = "SELECT ts.naziv as nazivTipaSobe,COUNT(s.sobaID) as brojsoba FROM sobe s LEFT JOIN tipovi_soba ts ON s.tip_sobeID=ts.tip_sobeID WHERE s.hotelID = ? GROUP BY ts.naziv";

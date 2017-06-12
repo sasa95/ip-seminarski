@@ -13,10 +13,17 @@
 </head>
 	<%
 		ArrayList<Hotel>hotel = (ArrayList<Hotel>)request.getAttribute("hotel");
+		String [] kat = request.getParameterValues("kategorija");
 		if(hotel.size()>0 && hotel!=null){
 	%>
 <body>
-	
+	<h1>Rezultati pretrage za:</h1>
+	<p>Kategorije: 
+		<%
+			for(int i=0;i<kat.length;i++)
+				out.println(kat[i]);
+		%>
+	</p>
 		<c:forEach var="pom" items="${hotel}">	
 			<ul>
 				<li>Naziv: ${pom.naziv}</li>
