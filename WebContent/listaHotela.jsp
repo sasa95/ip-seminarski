@@ -11,19 +11,35 @@
 <title>Lista hotela</title>
 
 </head>
-	<%
+	<%		
 		ArrayList<Hotel>hotel = (ArrayList<Hotel>)request.getAttribute("hotel");
 		String [] kat = request.getParameterValues("kategorija");
+		String nazivHotela = request.getParameter("pretraga");
+		String grad = request.getParameter("adresa");
+		String naziv_vrste_aktivnosti = request.getParameter("naziv_vrste_aktivnosti");
+		String vrsta_usluge = request.getParameter("vrsta_usluge");
 		if(hotel.size()>0 && hotel!=null){
 	%>
 <body>
 	<h1>Rezultati pretrage za:</h1>
+	<%if(!nazivHotela.equals("")){ %>
+		<p>Naziv hotela: <%=nazivHotela %></p>
+	<%} %>
 	<p>Kategorije: 
 		<%
 			for(int i=0;i<kat.length;i++)
 				out.println(kat[i]);
 		%>
 	</p>
+	<%if(!grad.equals("")){ %>
+		<p>Mesto: <%=grad %></p>
+	<%} %>
+	<%if(!naziv_vrste_aktivnosti.equals("")){ %>
+		<p>Vrsta aktivnosti:<%=naziv_vrste_aktivnosti %></p>
+	<%} %>
+	<%if(!vrsta_usluge.equals("")){ %>
+		<p>Vrsta usluge:<%=vrsta_usluge %></p>
+	<%} %>
 		<c:forEach var="pom" items="${hotel}">	
 			<ul>
 				<li>Naziv: ${pom.naziv}</li>
