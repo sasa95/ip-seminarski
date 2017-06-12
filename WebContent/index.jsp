@@ -43,6 +43,16 @@ ${msg }
 		
 		</select><br>
 		
+		<label for="vrsta_usluge">Vrsta usluge:</label>
+		
+		<select name="vrsta_usluge" id="vrsta_usluge">
+			<option selected="selected" value="">Sve</option>
+			<option value="pansion">Pansion</option>
+			<option value="polu-pansion">Polu-pansion</option>
+			<option value="full-pansion">Full-pansion</option>	
+		
+		</select><br>
+		
 		<input type="submit" value="trazi" name="akcija">
 	</form>
 </body>

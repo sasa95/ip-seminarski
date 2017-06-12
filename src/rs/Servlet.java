@@ -30,6 +30,7 @@ public class Servlet extends HttpServlet {
 			String [] kategorija = request.getParameterValues("kategorija");
 			String adresa = request.getParameter("adresa");
 			String naziv_vrste_aktivnosti = request.getParameter("naziv_vrste_aktivnosti");
+			String vrsta_usluge = request.getParameter("vrsta_usluge");
 			if(naziv_vrste_aktivnosti==""){
 				naziv_vrste_aktivnosti=null;
 			}
@@ -37,7 +38,7 @@ public class Servlet extends HttpServlet {
 			
 			if(kategorija!=null && kategorija.length>0){
 				for(int i=kategorija.length-1;i>=0; i--){
-					hotel.addAll(dao.mainSearch(pretraga, kategorija[i],adresa,naziv_vrste_aktivnosti));
+					hotel.addAll(dao.mainSearch(pretraga, kategorija[i],adresa,naziv_vrste_aktivnosti,vrsta_usluge));
 				}
 				request.setAttribute("hotel", hotel);
 				request.getRequestDispatcher("listaHotela.jsp").forward(request, response);
