@@ -2,8 +2,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="rs.DAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>  
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>  
     
 <%
 	DAO dao = new DAO();
@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Index</title>
 </head>
 <body>
@@ -53,7 +53,10 @@ ${msg }
 		
 		</select><br>
 		
-		<input type="submit" value="trazi" name="akcija">
+		<input type="submit" value="Traži" name="akcija"><br><br>
+		<a href="registracija.jsp">Registracija</a><br>
+		<a href="prijava.jsp">Prijava</a>
+		
 	</form>
 </body>
 </html>

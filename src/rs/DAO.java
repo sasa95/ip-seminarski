@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DAO {
       private DataSource ds;
       
-      private static String MAINSEARCH = "SELECT DISTINCT (h.hotelID),h.naziv, h.adresa,h.kategorija,h.broj_lezaja from hoteli h JOIN hoteli_aktivnosti ha ON h.hotelID=ha.hotelID JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID JOIN vrste_aktivnosti va ON a.vrsta_aktivnostiID=va.vrsta_aktivnostiID JOIN hoteli_usluge hu ON h.hotelID=hu.hotelID JOIN usluge u ON hu.uslugaID=u.uslugaID WHERE h.naziv LIKE ? AND h.kategorija = ? AND h.adresa LIKE ? AND va.naziv_vrste_aktivnosti=COALESCE(?,va.naziv_vrste_aktivnosti) AND u.vrsta_usluge=COALESCE(?,u.vrsta_usluge) ORDER BY h.hotelID";
+      private static String MAINSEARCH = "SELECT DISTINCT (h.hotelID),h.naziv, h.adresa,h.kategorija,h.broj_lezaja from hoteli h JOIN hoteli_aktivnosti ha ON h.hotelID=ha.hotelID JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID JOIN vrste_aktivnosti va ON a.vrsta_aktivnostiID=va.vrsta_aktivnostiID JOIN hoteli_usluge hu ON h.hotelID=hu.hotelID JOIN usluge u ON hu.uslugaID=u.uslugaID WHERE h.naziv LIKE ? AND h.kategorija = COALESCE(?,h.kategorija) AND h.adresa LIKE ? AND va.naziv_vrste_aktivnosti=COALESCE(?,va.naziv_vrste_aktivnosti) AND u.vrsta_usluge=COALESCE(?,u.vrsta_usluge) ORDER BY h.hotelID";
      
       private static String SELECTHOTELBYID = "SELECT * FROM hoteli WHERE hotelID = ?";
       private static String SELECTBROJSOBA = "SELECT ts.naziv as nazivTipaSobe,COUNT(s.sobaID) as brojsoba FROM sobe s LEFT JOIN tipovi_soba ts ON s.tip_sobeID=ts.tip_sobeID WHERE s.hotelID = ? GROUP BY ts.naziv";
@@ -26,9 +26,7 @@ public class DAO {
       private static String GETAKTIVNOSTBYID = "SELECT a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
       private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
       private static String GETVRSTEAKTIVNOSTI = "SELECT naziv_vrste_aktivnosti FROM vrste_aktivnosti";
-      
-     
-      
+      private static String INSERTKORISNIK = "INSERT INTO korisnici (broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka) VALUES (?,?,?,?,?,?)";
       
       public DAO(){
 	try {
@@ -541,4 +539,38 @@ public class DAO {
 		
 		return lo; 
 	}
+
+	public void insertKorisnik(String broj_licne_karte,String ime,String prezime,String adresa,String korisnicko_ime,String lozinka1){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(INSERTKORISNIK);
+
+			pstm.setString(1, broj_licne_karte);
+			pstm.setString(2, ime);
+			pstm.setString(3, prezime);
+			pstm.setString(4, adresa);
+			pstm.setString(5, korisnicko_ime);
+			pstm.setString(6, lozinka1);
+
+			pstm.execute();
+
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	
 }
