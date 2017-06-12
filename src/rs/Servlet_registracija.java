@@ -59,7 +59,7 @@ public class Servlet_registracija extends HttpServlet {
 												}
 												else {
 													request.setAttribute("msg", "Lozinka mora sadržati najmanje jedno malo i veliko slovo, broj i bar jedan od navedenih alfanumeričkih karaktera - @#%$^");
-													request.getRequestDispatcher("prijava.jsp").forward(request, response);
+													request.getRequestDispatcher("registracija.jsp").forward(request, response);
 												}
 											}
 											else {

@@ -35,10 +35,10 @@
 		<p>Mesto: <%=grad %></p>
 	<%} %>
 	<%if(!naziv_vrste_aktivnosti.equals("")){ %>
-		<p>Vrsta aktivnosti:<%=naziv_vrste_aktivnosti %></p>
+		<p>Vrsta aktivnosti: <%=naziv_vrste_aktivnosti %></p>
 	<%} %>
 	<%if(!vrsta_usluge.equals("")){ %>
-		<p>Vrsta usluge:<%=vrsta_usluge %></p>
+		<p>Vrsta usluge: <%=vrsta_usluge %></p>
 	<%} %>
 		<c:forEach var="pom" items="${hotel}">	
 			<ul>
