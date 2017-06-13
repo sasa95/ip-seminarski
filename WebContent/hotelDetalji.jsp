@@ -23,6 +23,15 @@
 	ArrayList<Tretman> lstretman = (ArrayList<Tretman>)request.getAttribute("lstretman");
 	ArrayList<Trzni_centar> lscentar = (ArrayList<Trzni_centar>)request.getAttribute("lscentar");
 	ArrayList<Vrsta_aktivnosti> lsaktivnost = (ArrayList<Vrsta_aktivnosti>)request.getAttribute("lsaktivnost");
+	
+	String id = request.getParameter("id");
+	String akcija = request.getParameter("akcija");
+	String fullString = "/Servlet?id="+id+"&akcija="+akcija;
+	
+	HttpSession trenutnaStrana = request.getSession();
+	trenutnaStrana.setAttribute("fullString", fullString);
+	trenutnaStrana.setMaxInactiveInterval(60);
+
 
 %>
 

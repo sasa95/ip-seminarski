@@ -14,6 +14,16 @@
 		if(username!=null){
 	%>
 	<h2>Popunite formu za rezervaciju</h2>
-	<%}else response.sendRedirect("prijava.jsp"); %>
+	
+	<form method="post" action="Servlet_sesija?akcija=rezervacija">
+		<label for="datum_prijavljivanja">Datum prijavljivanja:</label>
+		<input type="date" name="datum_prijavljivanja" id="datum_prijavljivanja">
+	</form>
+	
+	<%}else {
+			String url = request.getRequestURL().toString();
+			response.sendRedirect("prijava.jsp"); 
+		}
+	%>
 </body>
 </html>

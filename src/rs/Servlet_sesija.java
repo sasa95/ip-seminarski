@@ -36,8 +36,17 @@ public class Servlet_sesija extends HttpServlet {
 			if(dao.login(username, password)){
 				HttpSession loginSesija = request.getSession();
 				loginSesija.setAttribute("username", username);
-				loginSesija.setAttribute("msg", "Dobrodošli, "+username);
-				request.getRequestDispatcher("prijava.jsp").forward(request, response);
+				//loginSesija.setAttribute("msg", "Dobrodošli, "+username);
+				//request.getRequestDispatcher("prijava.jsp").forward(request, response);
+				HttpSession trenutnaStrana = request.getSession();
+				String fullString = (String)trenutnaStrana.getAttribute("fullString");
+				if(fullString!=null){
+					request.getRequestDispatcher(fullString).forward(request, response);
+				}
+				else {
+					loginSesija.setAttribute("msg", "Dobrodošli, "+username);
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}
 			}
 			
 			else {

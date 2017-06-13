@@ -25,10 +25,6 @@
 		<input type="password" name="password"><br>
 		<input type="submit" value="Prijava" name="akcija">
 	</form>
-	<%}else{ %>
-	
-		<a href="Servlet_sesija?akcija=logout">Odjava</a>
-	
-	<%} %>
+	<%}else response.sendRedirect("index.jsp"); %>
 </body>
 </html>
