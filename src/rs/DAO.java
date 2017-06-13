@@ -26,6 +26,7 @@ public class DAO {
       private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
       private static String GETVRSTEAKTIVNOSTI = "SELECT naziv_vrste_aktivnosti FROM vrste_aktivnosti";
       private static String INSERTKORISNIK = "INSERT INTO korisnici (broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka) VALUES (?,?,?,?,?,?)";
+      private static String GETKORISNIKBYUSERNAME = "SELECT broj_licne_karte,ime,prezime,adresa,email FROM korisnici WHERE korisnicko_ime=?";
       
       private static String LOGIN = "SELECT korisnicko_ime FROM korisnici WHERE korisnicko_ime=? AND lozinka=?";
       
@@ -612,5 +613,51 @@ public class DAO {
 		
 	}
 
-	
+	public Korisnik getKorisnikByUsername(String korisnicko_ime,String ime,String prezime,String adresa,String email){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		// POMOCNE PROMENLJIVE ZA KONKRETNU METODU 
+		Korisnik korisnik = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETKORISNIKBYUSERNAME);
+
+			// DOPUNJAVANJE SQL STRINGA, SVAKI ? SE MORA PODESITI 
+			pstm.setString(1, korisnicko_ime);
+			pstm.execute();
+
+//****POCETAK AKO UPIT VRACA REZULTAT TREBA SLEDECI DEO 
+			rs = pstm.getResultSet();
+
+			if(rs.next()){ // if UMESTO while AKO UPIT VRACA JEDAN REZULTAT
+				// KREIRANJE INSTANCE KLASE PREKO PODRAZUMEVANOG KONSTRUKTORA
+				korisnik = new Korisnik();
+				// SET-OVANJE SVIH ATRIBUTA KLASE SA ODGOVARAJUCIM VREDNOSTIMA IZ RESULTSET-A rs
+				korisnik.setBroj_licne_karte(rs.getString("broj_licne_karte"));
+				korisnik.setIme(rs.getString("ime"));
+				korisnik.setPrezime(rs.getString("prezime"));
+				korisnik.setAdresa(rs.getString("adresa"));
+				korisnik.setEmail(rs.getString("email"));
+
+
+
+
+			
+				// DODAVANJE INSTANCE U LISTU AKO METODA VRACA LISTU, AKO NE VRACA ONDA NE TREBA 
+				
+			}
+//****KRAJ OBRADE ResultSet-a	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// VRACANJE REZULTATA AKO METODA VRACA REZULTAT
+		return korisnik; 
+	}
 }

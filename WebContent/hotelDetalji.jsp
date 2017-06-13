@@ -28,9 +28,9 @@
 	String akcija = request.getParameter("akcija");
 	String fullString = "/Servlet?id="+id+"&akcija="+akcija;
 	
-	HttpSession trenutnaStrana = request.getSession();
-	trenutnaStrana.setAttribute("fullString", fullString);
-	trenutnaStrana.setMaxInactiveInterval(60);
+	HttpSession loginSesija = request.getSession();
+	loginSesija.setAttribute("fullString", fullString);
+	loginSesija.setMaxInactiveInterval(600);
 
 
 %>

@@ -27,38 +27,49 @@ public class Servlet_sesija extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username=request.getParameter("username");
-		String password = request.getParameter("password");
+		String akcija = request.getParameter("akcija");
 		
 		DAO dao = new DAO();
 		
-		if(username!=null && password!=null && username.trim().length()>0 && password.trim().length()>0){
-			if(dao.login(username, password)){
-				HttpSession loginSesija = request.getSession();
-				loginSesija.setAttribute("username", username);
-				//loginSesija.setAttribute("msg", "Dobrodošli, "+username);
-				//request.getRequestDispatcher("prijava.jsp").forward(request, response);
-				HttpSession trenutnaStrana = request.getSession();
-				String fullString = (String)trenutnaStrana.getAttribute("fullString");
-				if(fullString!=null){
-					request.getRequestDispatcher(fullString).forward(request, response);
+		if(akcija.equals("Prijava")) {
+			String username=request.getParameter("username");
+			String password = request.getParameter("password");
+			String ime = request.getParameter("ime");
+			String prezime = request.getParameter("prezime");
+			String adresa = request.getParameter("adresa");
+			String email = request.getParameter("email");
+
+			if(username!=null && password!=null && username.trim().length()>0 && password.trim().length()>0){
+				if(dao.login(username, password)){
+					HttpSession loginSesija = request.getSession();
+					loginSesija.setAttribute("username", username);
+					Korisnik kor = dao.getKorisnikByUsername(username, ime, prezime, adresa, email);
+					loginSesija.setAttribute("kor", kor);
+
+
+					
+					String fullString = (String)loginSesija.getAttribute("fullString");
+					if(fullString!=null){
+						request.getRequestDispatcher(fullString).forward(request, response);
+					}
+					else {
+						loginSesija.setAttribute("msg", "Dobrodošli, "+username);
+						request.getRequestDispatcher("index.jsp").forward(request, response);
+					}
 				}
+				
 				else {
-					loginSesija.setAttribute("msg", "Dobrodošli, "+username);
-					request.getRequestDispatcher("index.jsp").forward(request, response);
+					request.setAttribute("msg", "Pogrešni parametri za prijavu");
+					request.getRequestDispatcher("prijava.jsp").forward(request, response);
 				}
 			}
 			
 			else {
-				request.setAttribute("msg", "Pogrešni parametri za prijavu");
+				request.setAttribute("msg", "Morate popuniti oba polja");
 				request.getRequestDispatcher("prijava.jsp").forward(request, response);
 			}
 		}
-		
-		else {
-			request.setAttribute("msg", "Morate popuniti oba polja");
-			request.getRequestDispatcher("prijava.jsp").forward(request, response);
-		}
+	
 	}
-
+	
 }

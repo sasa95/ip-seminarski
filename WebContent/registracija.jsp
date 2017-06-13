@@ -22,7 +22,10 @@ ${msg }<br><br>
 	<input type="text" placeholder="Npr. Petrović" name="prezime" required="required" value="${param.prezime}"><br>
 	
 	<label for="adresa">Adresa: </label>
-	<input type="text" placeholder="Npr. Svetog Save 66, Čačak" name="adresa" required="required" value="${param.adresa}"><br><br>
+	<input type="text" placeholder="Npr. Svetog Save 66, Čačak" name="adresa" required="required" value="${param.adresa}"><br>
+	
+	<label for="email">Email: </label>
+	<input type="email" placeholder="Npr. petarpetrovic95@gmail.com" name="email" required="required" value="${param.email}"><br><br>
 	
 	<label for="korisnicko_ime">Korisničko ime: </label>
 	<input type="text" placeholder="Npr. petar_petrovic" name="korisnicko_ime" required="required" value="${param.korisnicko_ime}"><br>

@@ -1,8 +1,16 @@
 package rs;
 
 public class Korisnik {
-private String broj_licne_karte,ime,prezime,adresa,korisnicko_ime,lozinka,tip_korisnika;
+private String broj_licne_karte,ime,prezime,adresa,korisnicko_ime,lozinka,tip_korisnika,email;
 private int hotelID;
+
+
+public String getEmail() {
+	return email;
+}
+public void setEmail(String email) {
+	this.email = email;
+}
 public String getBroj_licne_karte() {
 	return broj_licne_karte;
 }
@@ -52,13 +60,14 @@ public void setHotelID(int hotelID) {
 	this.hotelID = hotelID;
 }
 public Korisnik(String broj_licne_karte, String ime, String prezime,
-		String adresa, String korisnicko_ime, String lozinka,
+		String adresa, String email, String korisnicko_ime, String lozinka,
 		String tip_korisnika, int hotelID) {
 	super();
 	this.broj_licne_karte = broj_licne_karte;
 	this.ime = ime;
 	this.prezime = prezime;
 	this.adresa = adresa;
+	this.email = email;
 	this.korisnicko_ime = korisnicko_ime;
 	this.lozinka = lozinka;
 	this.tip_korisnika = tip_korisnika;

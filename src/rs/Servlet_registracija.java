@@ -27,6 +27,7 @@ public class Servlet_registracija extends HttpServlet {
 		String ime = request.getParameter("ime");
 		String prezime = request.getParameter("prezime");
 		String adresa = request.getParameter("adresa");
+		String email = request.getParameter("email");
 		String korisnicko_ime = request.getParameter("korisnicko_ime");
 		String lozinka1 = request.getParameter("lozinka1");
 		String lozinka2 = request.getParameter("lozinka2");
@@ -35,6 +36,7 @@ public class Servlet_registracija extends HttpServlet {
 				ime != null && ime.trim().length()>0 &&
 				prezime != null && prezime.trim().length()>0 &&
 				adresa != null && adresa.trim().length()>0 &&
+				email != null && email.trim().length()>0 &&
 				korisnicko_ime != null && korisnicko_ime.trim().length()>0 &&
 				lozinka1 != null && lozinka1.trim().length()>0 &&
 				lozinka2 != null && lozinka2.trim().length()>0) {
@@ -47,10 +49,63 @@ public class Servlet_registracija extends HttpServlet {
 											if (!korisnicko_ime.contains(" ")) {
 												if ((lozinka1.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$"))) {
 													if (broj_licne_karte.matches("[0-9]+"))	{
-														DAO dao = new DAO();
-														dao.insertKorisnik(broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka1);
-														request.setAttribute("msg", "Uspešna registracija. Sada se možete prijaviti.");
-														request.getRequestDispatcher("prijava.jsp").forward(request, response);
+														if(email.contains("@") && email.trim().length()>5) {
+															try {
+																String [] splitAt = email.split("@");
+																String part1 = splitAt[0];
+																String part2 = splitAt[1];
+																
+																if(part1.trim().length()>2) {
+																	if(part2.trim().length()>2) {
+																		if(part2.contains(".")) {
+																			try {
+																				
+																				String [] splitDot = part2.split("\\.");
+																				String part3 = splitDot[1];
+																				
+																				if(part3.trim().length()>1) {
+																					DAO dao = new DAO();
+																					dao.insertKorisnik(broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka1);
+																					request.setAttribute("msg", "Uspešna registracija. Sada se možete prijaviti.");
+																					request.getRequestDispatcher("prijava.jsp").forward(request, response);
+																				}
+																				else {
+																					request.setAttribute("msg", "Deo email-a nakon tacke mora imati bar 2 karaktera!");
+																					request.getRequestDispatcher("index.jsp").forward(request, response);
+																				}
+																				
+																				
+																			} catch (Exception e1) {
+																				request.setAttribute("msg", "Deo email-a nakon tacke ne sme ostati prazan!");
+																				request.getRequestDispatcher("index.jsp").forward(request, response);
+																			}
+																		}
+																		else {
+																			request.setAttribute("msg", "Deo email-a desno od znaka '@' mora sadrzati tacku!");
+																			request.getRequestDispatcher("index.jsp").forward(request, response);
+																		}
+																	}
+																	else {
+																		request.setAttribute("msg", "Deo email-a desno od znaka '@' mora sadrzati bar 3 karaktera!");
+																		request.getRequestDispatcher("index.jsp").forward(request, response);
+																	}
+																}
+																else {
+																	request.setAttribute("msg", "Deo email-a levo od znaka '@' mora sadrzati bar 3 karaktera!");
+																	request.getRequestDispatcher("index.jsp").forward(request, response);
+																}
+															
+															} catch (Exception e1) {
+																request.setAttribute("msg", "Deo email-a nakon znaka @ ne sme ostati prazan!");
+																request.getRequestDispatcher("index.jsp").forward(request, response);
+															}
+																
+		
+														}
+														else {
+															request.setAttribute("msg", "Email mora sadrzati znak '@' i mora imati bar 6 karaktera!");
+															request.getRequestDispatcher("index.jsp").forward(request, response);
+														}
 													}
 													else {
 														request.setAttribute("msg", "Broj lične karte mora sadržati samo numeričke vrednosti.");
