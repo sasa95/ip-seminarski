@@ -9,6 +9,8 @@
 	DAO dao = new DAO();
 	ArrayList<Vrsta_aktivnosti>va = new ArrayList<Vrsta_aktivnosti>();
 	va = dao.getVrsteAktivnosti();
+	HttpSession loginSesija = request.getSession();
+	String username = (String)loginSesija.getAttribute("username");
 %>    
     
 <!DOCTYPE html>
@@ -55,7 +57,11 @@ ${msg }
 		
 		<input type="submit" value="Traži" name="akcija"><br><br>
 		<a href="registracija.jsp">Registracija</a><br>
+		<%if(username==null){ %>
 		<a href="prijava.jsp">Prijava</a>
+		<%} else { %>
+		<a href="Servlet_sesija?akcija=logout">Odjava</a>
+		<%} %>
 		
 	</form>
 </body>

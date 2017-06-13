@@ -22,7 +22,7 @@ public class Servlet_sesija extends HttpServlet {
 		if(akcija.equals("logout")){
 			HttpSession loginSesija = request.getSession();
 			loginSesija.invalidate();
-			response.sendRedirect("prijava.jsp");
+			response.sendRedirect("index.jsp");
 		}
 	}
 
