@@ -23,7 +23,7 @@
 ${msg }
 	<form action="Servlet" method="get">
 		<input type="search" name="pretraga" placeholder="Trazite hotel..."><br>
-		
+		<span>Kategorije</span>
 		<span class="kategorija-broj">1</span><input type="checkbox" name="kategorija" value="1" checked="checked">
 		<span class="kategorija-broj">2</span><input type="checkbox" name="kategorija" value="2" checked="checked">
 		<span class="kategorija-broj">3</span><input type="checkbox" name="kategorija" value="3" checked="checked">

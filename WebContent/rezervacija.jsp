@@ -1,3 +1,6 @@
+<%@page import="rs.Tip_sobe"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="rs.DAO"%>
 <%@page import="rs.Korisnik"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -11,19 +14,36 @@
 <body>
 	<%
 		HttpSession loginSesija = request.getSession();
+		String hotelID = request.getParameter("hotelID");
+		
+		String parametri = "hotelID="+hotelID;
+		loginSesija.setAttribute("parametri", parametri);
+		
 		String username = (String)loginSesija.getAttribute("username");
 		Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
+		DAO dao = new DAO();
+		ArrayList<Tip_sobe>lsts=new ArrayList<Tip_sobe>();
+		lsts = dao.getTipSobeByHotelID(hotelID);
 		if(username!=null){
 	%>
 	<h1>${msg }</h1>
 	<h2>Popunite formu za rezervaciju</h2>
 	
-	<form method="post" action="Servlet_rezervacija?akcija=Rezervisi">
+	<form method="post" action="Servlet_rezervacija?akcija=Rezervisi&hotelID=<%=hotelID%>">
 		<label for="datum_prijavljivanja">Datum prijavljivanja:</label>
-		<input type="date" name="datum_prijavljivanja" id="datum_prijavljivanja" placeholder="Npr. 01-10-2017"><br>
+		<input type="date" required="required" name="datum_prijavljivanja" id="datum_prijavljivanja" placeholder="Npr. 01-Jan-2017" value="${param.datum_prijavljivanja}"><br>
 		
 		<label for="datum_odlaska">Datum odlaska (opciono):</label>
-		<input type="date" name="datum_odlaska" id="datum_odlaska" placeholder="Npr. 31-10-2017"><br>
+		<input type="date" name="datum_odlaska" id="datum_odlaska" placeholder="Npr. 07-Jan-2017" value="${param.datum_odlaska}"><br>
+		
+		<span>Tip sobe:</span>
+		<select name="tip_sobe">
+			<%
+				for(Tip_sobe ts:lsts){
+			%>
+			<option value="<%=ts.getNaziv()%>"><%=ts.getNaziv()%></option>
+			<%} %>
+		</select>
 		
 		<label for="broj_licne_karte">Lična karta:</label>
 		<input type="number" name="broj_licne_karte" disabled="disabled" value="${kor.broj_licne_karte }"><br>

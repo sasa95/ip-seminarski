@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import com.mysql.jdbc.Statement;
+
 import java.util.ArrayList;
 public class DAO {
       private DataSource ds;
@@ -28,7 +31,10 @@ public class DAO {
       private static String INSERTKORISNIK = "INSERT INTO korisnici (broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka) VALUES (?,?,?,?,?,?)";
       private static String GETKORISNIKBYUSERNAME = "SELECT broj_licne_karte,ime,prezime,adresa,email FROM korisnici WHERE korisnicko_ime=?";
       
+      private static String GETSOBEBYHOTELIDANDTIPSOBE = "SELECT s.sobaID FROM sobe s JOIN hoteli h ON h.hotelID=s.hotelID JOIN tipovi_soba ts ON ts.tip_sobeID = s.tip_sobeID WHERE s.hotelID=? AND ts.naziv=? AND s.dostupna='da' LIMIT 1";
       private static String LOGIN = "SELECT korisnicko_ime FROM korisnici WHERE korisnicko_ime=? AND lozinka=?";
+      private static String GETTIPSOBEBYHOTELID = "SELECT DISTINCT ts.naziv as naziv_tipa_sobe FROM hoteli h JOIN sobe s ON h.hotelID=s.hotelID JOIN tipovi_soba ts ON s.tip_sobeID=ts.tip_sobeID WHERE h.hotelID=? AND s.dostupna='da'";
+      private static String UPDATEDOSTUPNOSTBYSOBAID = "UPDATE sobe SET dostupna='ne' WHERE sobaID=?";
       
       public DAO(){
 	try {
@@ -659,5 +665,104 @@ public class DAO {
 		}
 		// VRACANJE REZULTATA AKO METODA VRACA REZULTAT
 		return korisnik; 
+	}
+
+	public int getSobaByHotelIdAndTipSobe(int hotelID,String tip_sobe){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		Soba soba = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETSOBEBYHOTELIDANDTIPSOBE);
+			
+			pstm.setInt(1, hotelID);
+			pstm.setString(2, tip_sobe);
+
+			pstm.execute();
+			rs = pstm.getResultSet();
+			
+			while(rs.next()){
+				soba = new Soba();
+				soba.setSobaID(rs.getInt("sobaID"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return soba.getSobaID(); 
+	}
+	
+	public ArrayList<Tip_sobe> getTipSobeByHotelID(String hotelID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		ArrayList<Tip_sobe> lo = new ArrayList<Tip_sobe>();
+		Tip_sobe tip = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETTIPSOBEBYHOTELID);
+			pstm.setString(1, hotelID);
+			
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				tip = new Tip_sobe();
+				tip.setNaziv(rs.getString("naziv_tipa_sobe"));
+				lo.add(tip);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lo; 
+	}
+
+	public void updateDostupnostBySobaId(int sobaID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		// POMOCNE PROMENLJIVE ZA KONKRETNU METODU 
+		Soba soba = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(UPDATEDOSTUPNOSTBYSOBAID);
+
+			// DOPUNJAVANJE SQL STRINGA, SVAKI ? SE MORA PODESITI 
+			pstm.setInt(1, sobaID);
+			pstm.execute();
+
+//****POCETAK AKO UPIT VRACA REZULTAT TREBA SLEDECI DEO 
+
+				// DODAVANJE INSTANCE U LISTU AKO METODA VRACA LISTU, AKO NE VRACA ONDA NE TREBA 
+				
+			
+//****KRAJ OBRADE ResultSet-a	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
 	}
 }
