@@ -35,6 +35,8 @@
 		<li>Broj ležaja: ${h.broj_lezaja}</li>
 	</ul>
 
+	<h2><a href="rezervacija.jsp?hotelID=${h.hotelID}">REZERVIŠI</a></h2>
+
 	<table>
 		<tr>
 			<th>Vrsta usluge</th>
