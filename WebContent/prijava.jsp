@@ -14,6 +14,9 @@
 
 	<h1>${msg}</h1>
 	<% 
+	
+	System.out.println(request.getHeader("Referer"));
+	
 		HttpSession loginSesija = request.getSession();
 		String username = (String)loginSesija.getAttribute("username");
 		if(username==null){

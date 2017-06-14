@@ -46,7 +46,6 @@ public class Servlet_sesija extends HttpServlet {
 					Korisnik kor = dao.getKorisnikByUsername(username, ime, prezime, adresa, email);
 					loginSesija.setAttribute("kor", kor);
 
-					
 					String fullString = (String)loginSesija.getAttribute("fullString");
 					if(fullString!=null){
 						request.getRequestDispatcher(fullString).forward(request, response);

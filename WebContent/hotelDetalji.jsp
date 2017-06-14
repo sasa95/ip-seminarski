@@ -93,7 +93,5 @@
 				<li>${pom.naziv_vrste_aktivnosti } - <a href="Servlet?akcija=AktivnostDetalji&aktivnostID=${pom.vrsta_aktivnostiID}&hotelID=${h.hotelID}">Detalji</a></li>
 			</c:forEach>
 		</ol>
-
-		
 </body>
 </html>

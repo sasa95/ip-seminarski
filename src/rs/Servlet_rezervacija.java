@@ -78,6 +78,7 @@ public class Servlet_rezervacija extends HttpServlet {
 						Timestamp timestamp_o = new java.sql.Timestamp(parsedDate_o.getTime());
 
 						dao.insertRezervacija(timestamp, timestamp_o, broj_licne_karte, s_id, id, u_id);
+						dao.updateDostupnostBySobaId(s_id);
 					}
 					
 					
