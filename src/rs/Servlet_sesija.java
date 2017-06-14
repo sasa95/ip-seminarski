@@ -52,7 +52,7 @@ public class Servlet_sesija extends HttpServlet {
 						
 					}
 					else {
-						loginSesija.setAttribute("msg", "Dobrodošli, "+username);
+						request.setAttribute("msg", "Dobrodošli, "+username);
 						request.getRequestDispatcher("index.jsp").forward(request, response);
 					}
 				}
