@@ -2,6 +2,7 @@ package rs;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +24,24 @@ public class Servlet_rezervacija extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String hotelID = request.getParameter("hotelID");
+		DAO dao = new DAO();
+		HttpSession loginSesija = request.getSession();
+		
+		if(loginSesija.getAttribute("username")!=null){
+			ArrayList<Usluga>lsusl = dao.getUslugaByHotelID(hotelID);
+			ArrayList<Tip_sobe>lsts = dao.getTipSobeByHotelID(hotelID);
+			
+			
+			loginSesija.setAttribute("lsusl", lsusl);
+			loginSesija.setAttribute("lsts", lsts);
+			request.getRequestDispatcher("rezervacija2.jsp?hotelID="+hotelID).forward(request, response);
+		}
+		else {
+			response.sendRedirect("prijava.jsp");
+		}
+		
+	
 	}
 
 

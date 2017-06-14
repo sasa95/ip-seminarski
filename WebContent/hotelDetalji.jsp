@@ -45,6 +45,8 @@
 	</ul>
 
 	<h2><a href="rezervacija.jsp?hotelID=${h.hotelID}">REZERVIŠI</a></h2>
+	
+	<h2><a href="Servlet_rezervacija?hotelID=${h.hotelID}">REZERVIŠI</a></h2>
 	<table>
 		<tr>
 			<th>Vrsta usluge</th>
