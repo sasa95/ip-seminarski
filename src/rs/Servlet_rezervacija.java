@@ -67,7 +67,7 @@ public class Servlet_rezervacija extends HttpServlet {
 				int s_id = dao.getSobaByHotelIdAndTipSobe(id, tip_sobe);
 				int u_id = Integer.parseInt(uslugaID);
 				
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					
 					if(datum_odlaska!=null){
