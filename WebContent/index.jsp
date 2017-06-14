@@ -6,9 +6,6 @@
     pageEncoding="UTF-8"%>  
     
 <%
-	DAO dao = new DAO();
-	ArrayList<Vrsta_aktivnosti>va = new ArrayList<Vrsta_aktivnosti>();
-	va = dao.getVrsteAktivnosti();
 	HttpSession loginSesija = request.getSession();
 	String username = (String)loginSesija.getAttribute("username");
 %>    
@@ -34,26 +31,24 @@ ${msg }
 		<input type="text" name="adresa" id="grad"><br>
 		
 		<label for="naziv_vrste_aktivnosti">Vrste aktivnosti:</label>
-		
 		<select name="naziv_vrste_aktivnosti" id="naziv_vrste_aktivnosti">
 			<option selected="selected" value="">Sve</option>
-			<%
-				for(Vrsta_aktivnosti pom:va){
-			%>
-				<option value="<%=pom.getNaziv_vrste_aktivnosti()%>"><%=pom.getNaziv_vrste_aktivnosti()%></option>
-			<%} %>
-		
+				<option value="Sport">Sport</option>
+				<option value="Kultura">Kultura</option>
+				<option value="Religija">Religija</option>
+				<option value="Zabava">Zabava</option>
+				<option value="Edukacija">Edukacija</option>
 		</select><br>
 		
 		<label for="vrsta_usluge">Vrsta usluge:</label>
-		
 		<select name="vrsta_usluge" id="vrsta_usluge">
 			<option selected="selected" value="">Sve</option>
 			<option value="pansion">Pansion</option>
 			<option value="polu-pansion">Polu-pansion</option>
 			<option value="full-pansion">Full-pansion</option>	
-		
 		</select><br>
+		
+		
 		
 		<input type="submit" value="Traži" name="akcija"><br><br>
 		<a href="registracija.jsp">Registracija</a><br>
