@@ -1,3 +1,4 @@
+<%@page import="rs.Usluga"%>
 <%@page import="rs.Tip_sobe"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="rs.DAO"%>
@@ -24,6 +25,11 @@
 		DAO dao = new DAO();
 		ArrayList<Tip_sobe>lsts=new ArrayList<Tip_sobe>();
 		lsts = dao.getTipSobeByHotelID(hotelID);
+		
+		ArrayList<Usluga>lsus = new ArrayList<Usluga>();
+		lsus=dao.getUslugaByHotelID(hotelID);
+		
+		
 		if(username!=null){
 	%>
 	<h1>${msg }</h1>
@@ -36,6 +42,15 @@
 		<label for="datum_odlaska">Datum odlaska (opciono):</label>
 		<input type="date" name="datum_odlaska" id="datum_odlaska" placeholder="Npr. 07-Jan-2017" value="${param.datum_odlaska}"><br>
 		
+		<span>Vrsta usluge:</span>
+		<select name="uslugaID">
+			<%
+				for(Usluga usluga:lsus){
+			%>
+			<option value="<%=usluga.getUslugaID()%>"><%=usluga.getVrsta_usluge()%></option>
+			<%} %>
+		</select>
+		
 		<span>Tip sobe:</span>
 		<select name="tip_sobe">
 			<%
@@ -46,19 +61,21 @@
 		</select>
 		
 		<label for="broj_licne_karte">Lična karta:</label>
-		<input type="number" name="broj_licne_karte" disabled="disabled" value="${kor.broj_licne_karte }"><br>
+		<input type="number" name="broj_licne_karte" disabled="disabled" value="<%=kor.getBroj_licne_karte()%>"><br>
 		
 		<label for="ime">Ime:</label>
-		<input type="text" name="ime" disabled="disabled" value="${kor.ime }"><br>
+		<input type="text" name="ime" disabled="disabled" value="${kor.ime}"><br>
 		
 		<label for="prezime">Prezime:</label>
-		<input type="text" name="prezime" disabled="disabled" value="${kor.prezime }"><br>
+		<input type="text" name="prezime" disabled="disabled" value="${kor.prezime}"><br>
 		
 		<label for="adresa">Adresa:</label>
-		<input type="text" name="adresa" disabled="disabled" value="${kor.adresa }"><br>
+		<input type="text" name="adresa" disabled="disabled" value="${kor.adresa}"><br>
 		
 		<label for="email">Email:</label>
-		<input type="email" name="email" disabled="disabled" value="${kor.email }"><br>
+		<input type="email" name="email" disabled="disabled" value="${kor.email}"><br>
+		
+		<input type="hidden" name="broj_licne_karte" value="<%=kor.getBroj_licne_karte()%>"><br>
 		
 		<input type="submit" name="akcija" value="Rezervisi">
 		

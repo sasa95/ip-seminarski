@@ -5,19 +5,27 @@ import java.sql.Timestamp;
 
 public class Rezervacija {
 private Timestamp datum_prijavljivanja;
-private Date datum_odlaska;
+private Timestamp datum_odlaska;
 private String broj_licne_karte;
-private int sobaID,hotelID,uslugaID;
+private int rezervacijaID,sobaID,hotelID,uslugaID;
+
+
+public int getRezervacijaID() {
+	return rezervacijaID;
+}
+public void setRezervacijaID(int rezervacijaID) {
+	this.rezervacijaID = rezervacijaID;
+}
 public Timestamp getDatum_prijavljivanja() {
 	return datum_prijavljivanja;
 }
 public void setDatum_prijavljivanja(Timestamp datum_prijavljivanja) {
 	this.datum_prijavljivanja = datum_prijavljivanja;
 }
-public Date getDatum_odlaska() {
+public Timestamp getDatum_odlaska() {
 	return datum_odlaska;
 }
-public void setDatum_odlaska(Date datum_odlaska) {
+public void setDatum_odlaska(Timestamp datum_odlaska) {
 	this.datum_odlaska = datum_odlaska;
 }
 public String getBroj_licne_karte() {
@@ -44,9 +52,10 @@ public int getUslugaID() {
 public void setUslugaID(int uslugaID) {
 	this.uslugaID = uslugaID;
 }
-public Rezervacija(Timestamp datum_prijavljivanja, Date datum_odlaska,
+public Rezervacija(int rezervacijaID, Timestamp datum_prijavljivanja, Timestamp datum_odlaska,
 		String broj_licne_karte, int sobaID, int hotelID, int uslugaID) {
 	super();
+	this.rezervacijaID = rezervacijaID;
 	this.datum_prijavljivanja = datum_prijavljivanja;
 	this.datum_odlaska = datum_odlaska;
 	this.broj_licne_karte = broj_licne_karte;
@@ -56,6 +65,5 @@ public Rezervacija(Timestamp datum_prijavljivanja, Date datum_odlaska,
 }
 public Rezervacija() {
 	super();
-	// TODO Auto-generated constructor stub
-}
+	}
 }

@@ -2,9 +2,12 @@ package rs;
 
 import java.sql.Array;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -35,6 +38,9 @@ public class DAO {
       private static String LOGIN = "SELECT korisnicko_ime FROM korisnici WHERE korisnicko_ime=? AND lozinka=?";
       private static String GETTIPSOBEBYHOTELID = "SELECT DISTINCT ts.naziv as naziv_tipa_sobe FROM hoteli h JOIN sobe s ON h.hotelID=s.hotelID JOIN tipovi_soba ts ON s.tip_sobeID=ts.tip_sobeID WHERE h.hotelID=? AND s.dostupna='da'";
       private static String UPDATEDOSTUPNOSTBYSOBAID = "UPDATE sobe SET dostupna='ne' WHERE sobaID=?";
+      private static String INSERTREZERVACIJA = "INSERT INTO rezervacije (datum_prijavljivanja, datum_odlaska, broj_licne_karte, sobaID, hotelID, uslugaID) VALUES (?,?,?,?,?,?)";
+      private static String GETUSLUGABYHOTELID = "SELECT u.vrsta_usluge,u.uslugaID FROM hoteli h JOIN hoteli_usluge hu ON h.hotelID=hu.hotelID JOIN usluge u ON hu.uslugaID=u.uslugaID WHERE h.hotelID=?";
+      
       
       public DAO(){
 	try {
@@ -764,5 +770,72 @@ public class DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
+	}
+	public void insertRezervacija(Timestamp datum_prijavljivanja,Timestamp datum_odlaska,String broj_licne_karte,int sobaID,int hotelID,int uslugaID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(INSERTREZERVACIJA);
+
+			pstm.setTimestamp(1, datum_prijavljivanja);
+			pstm.setTimestamp(2, datum_odlaska);
+			pstm.setString(3, broj_licne_karte);
+			pstm.setInt(4, sobaID);
+			pstm.setInt(5, hotelID);
+			pstm.setInt(6, uslugaID);
+
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public ArrayList<Usluga> getUslugaByHotelID(String hotelID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Usluga usluge = null;
+		ArrayList<Usluga>ls=new ArrayList<Usluga>();
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETUSLUGABYHOTELID);
+
+			pstm.setString(1, hotelID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				usluge = new Usluga();
+				usluge.setVrsta_usluge(rs.getString("vrsta_usluge"));
+				usluge.setUslugaID(rs.getInt("uslugaID"));
+				ls.add(usluge);
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
 	}
 }
