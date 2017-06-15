@@ -68,7 +68,7 @@ public class Servlet_rezervacija extends HttpServlet {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					
-					if(datum_odlaska!=null){
+					if(datum_odlaska.equals("")==false){
 						Date parsedDate = dateFormat.parse(datum_prijavljivanja);
 						Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
 						
@@ -76,6 +76,14 @@ public class Servlet_rezervacija extends HttpServlet {
 						Timestamp timestamp_o = new java.sql.Timestamp(parsedDate_o.getTime());
 
 						dao.insertRezervacija(timestamp, timestamp_o, broj_licne_karte, s_id, id, u_id);
+						dao.updateDostupnostBySobaId(s_id);
+					}
+					
+					else {
+						Date parsedDate = dateFormat.parse(datum_prijavljivanja);
+						Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+
+						dao.insertRezervacija(timestamp, null, broj_licne_karte, s_id, id, u_id);
 						dao.updateDostupnostBySobaId(s_id);
 					}
 					

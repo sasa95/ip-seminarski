@@ -39,8 +39,7 @@ public class DAO {
       private static String GETTIPSOBEBYHOTELID = "SELECT DISTINCT ts.naziv as naziv_tipa_sobe FROM hoteli h JOIN sobe s ON h.hotelID=s.hotelID JOIN tipovi_soba ts ON s.tip_sobeID=ts.tip_sobeID WHERE h.hotelID=? AND s.dostupna='da'";
       private static String UPDATEDOSTUPNOSTBYSOBAID = "UPDATE sobe SET dostupna='ne' WHERE sobaID=?";
       private static String INSERTREZERVACIJA = "INSERT INTO rezervacije (datum_prijavljivanja, datum_odlaska, broj_licne_karte, sobaID, hotelID, uslugaID) VALUES (?,?,?,?,?,?)";
-      private static String GETUSLUGABYHOTELID = "SELECT u.vrsta_usluge,u.uslugaID FROM hoteli h JOIN hoteli_usluge hu ON h.hotelID=hu.hotelID JOIN usluge u ON hu.uslugaID=u.uslugaID WHERE h.hotelID=?";
-      
+      private static String GETUSLUGABYHOTELID = "SELECT u.vrsta_usluge,u.uslugaID FROM hoteli h JOIN hoteli_usluge hu ON h.hotelID=hu.hotelID JOIN usluge u ON hu.uslugaID=u.uslugaID WHERE h.hotelID=?";      
       
       public DAO(){
 	try {
