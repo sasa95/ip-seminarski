@@ -41,10 +41,10 @@
 	
 	<form method="post" action="Servlet_rezervacija?akcija=Rezervisi&hotelID=<%=hotelID%>">
 		<label for="datum_prijavljivanja">Datum prijavljivanja:</label>
-		<input type="date" required="required" name="datum_prijavljivanja" id="datum_prijavljivanja" placeholder="Npr. 01-Jan-2017" value="${param.datum_prijavljivanja}"><br>
+		<input type="date" required="required" name="datum_prijavljivanja" id="datum_prijavljivanja" placeholder="Npr. 2017-01-31" value="${param.datum_prijavljivanja}"><br>
 		
 		<label for="datum_odlaska">Datum odlaska (opciono):</label>
-		<input type="date" name="datum_odlaska" id="datum_odlaska" placeholder="Npr. 07-Jan-2017" value="${param.datum_odlaska}"><br>
+		<input type="date" name="datum_odlaska" id="datum_odlaska" placeholder="Npr. 2017-02-31" value="${param.datum_odlaska}"><br>
 		
 		<label for="uslugaID">Vrsta usluge:</label>
 		<select name="uslugaID" id="uslugaID">
