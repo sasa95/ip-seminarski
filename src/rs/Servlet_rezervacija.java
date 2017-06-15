@@ -66,39 +66,27 @@ public class Servlet_rezervacija extends HttpServlet {
 				int u_id = Integer.parseInt(uslugaID);
 				
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				
 				try {
-					
+					Date parsedDate = dateFormat.parse(datum_prijavljivanja);
+					Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
 					if(datum_odlaska.equals("")==false){
-						Date parsedDate = dateFormat.parse(datum_prijavljivanja);
-						Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-						
 						Date parsedDate_o = dateFormat.parse(datum_odlaska);
 						Timestamp timestamp_o = new java.sql.Timestamp(parsedDate_o.getTime());
-
 						dao.insertRezervacija(timestamp, timestamp_o, broj_licne_karte, s_id, id, u_id);
-						dao.updateDostupnostBySobaId(s_id);
 					}
 					
 					else {
-						Date parsedDate = dateFormat.parse(datum_prijavljivanja);
-						Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-
 						dao.insertRezervacija(timestamp, null, broj_licne_karte, s_id, id, u_id);
-						dao.updateDostupnostBySobaId(s_id);
+						
 					}
 					
-					
-				
-					
-					//dao.updateDostupnostBySobaId(dao.getSobaByHotelIdAndTipSobe(id, tip_sobe));
+					dao.updateDostupnostBySobaId(s_id);
 				} 
 				
 				catch (ParseException e) {
 					e.printStackTrace();
 				}
-				
-			
-			
 			}
 			
 			else {
