@@ -48,7 +48,6 @@
 
 	
 	<%
-		System.out.println(lsts_bool);
 		if(lsts_bool.size()>0){
 	%>	
 	<h2><a href="Servlet_rezervacija?hotelID=${h.hotelID}">REZERVIŠI</a></h2>

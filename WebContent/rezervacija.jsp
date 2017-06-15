@@ -17,17 +17,19 @@
 		HttpSession loginSesija = request.getSession();
 		String hotelID = request.getParameter("hotelID");
 		
+		// OD RANIJE
+		
 		String parametri = "hotelID="+hotelID;
 		loginSesija.setAttribute("parametri", parametri);
 		
+		//
+		
 		String username = (String)loginSesija.getAttribute("username");
 		Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
-		DAO dao = new DAO();
-		ArrayList<Tip_sobe>lsts=new ArrayList<Tip_sobe>();
-		lsts = dao.getTipSobeByHotelID(hotelID);
 		
-		ArrayList<Usluga>lsus = new ArrayList<Usluga>();
-		lsus=dao.getUslugaByHotelID(hotelID);
+		ArrayList<Usluga>lsusl = (ArrayList<Usluga>)loginSesija.getAttribute("lsusl");
+		ArrayList<Tip_sobe>lsts = (ArrayList<Tip_sobe>)loginSesija.getAttribute("lsts");
+		
 		
 		
 		if(username!=null){
@@ -37,28 +39,28 @@
 	
 	<form method="post" action="Servlet_rezervacija?akcija=Rezervisi&hotelID=<%=hotelID%>">
 		<label for="datum_prijavljivanja">Datum prijavljivanja:</label>
-		<input type="date" required="required" name="datum_prijavljivanja" id="datum_prijavljivanja" placeholder="Npr. 01-Jan-2017" value="${param.datum_prijavljivanja}"><br>
+		<input type="date" required="required" name="datum_prijavljivanja" id="datum_prijavljivanja" placeholder="Npr. 2017-01-31" value="${param.datum_prijavljivanja}"><br>
 		
 		<label for="datum_odlaska">Datum odlaska (opciono):</label>
-		<input type="date" name="datum_odlaska" id="datum_odlaska" placeholder="Npr. 07-Jan-2017" value="${param.datum_odlaska}"><br>
+		<input type="date" name="datum_odlaska" id="datum_odlaska" placeholder="Npr. 2017-02-31" value="${param.datum_odlaska}"><br>
 		
-		<span>Vrsta usluge:</span>
-		<select name="uslugaID">
+		<label for="uslugaID">Vrsta usluge:</label>
+		<select name="uslugaID" id="uslugaID">
 			<%
-				for(Usluga usluga:lsus){
+				for(Usluga usluga:lsusl){
 			%>
 			<option value="<%=usluga.getUslugaID()%>"><%=usluga.getVrsta_usluge()%></option>
 			<%} %>
-		</select>
+		</select><br>
 		
-		<span>Tip sobe:</span>
-		<select name="tip_sobe">
+		<label for="tip_sobe">Tip sobe:</label>
+		<select name="tip_sobe" id="tip_sobe">
 			<%
 				for(Tip_sobe ts:lsts){
 			%>
 			<option value="<%=ts.getNaziv()%>"><%=ts.getNaziv()%></option>
 			<%} %>
-		</select>
+		</select><br>
 		
 		<label for="broj_licne_karte">Lična karta:</label>
 		<input type="number" name="broj_licne_karte" disabled="disabled" value="<%=kor.getBroj_licne_karte()%>"><br>
@@ -78,8 +80,6 @@
 		<input type="hidden" name="broj_licne_karte" value="<%=kor.getBroj_licne_karte()%>"><br>
 		
 		<input type="submit" name="akcija" value="Rezervisi">
-		
-		
 	</form>
 	
 	<%}else {

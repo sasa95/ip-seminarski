@@ -35,7 +35,7 @@ public class Servlet_rezervacija extends HttpServlet {
 			
 			loginSesija.setAttribute("lsusl", lsusl);
 			loginSesija.setAttribute("lsts", lsts);
-			request.getRequestDispatcher("rezervacija2.jsp?hotelID="+hotelID).forward(request, response);
+			request.getRequestDispatcher("rezervacija.jsp?hotelID="+hotelID).forward(request, response);
 		}
 		else {
 			response.sendRedirect("prijava.jsp");
@@ -55,8 +55,6 @@ public class Servlet_rezervacija extends HttpServlet {
 			String datum_odlaska = request.getParameter("datum_odlaska");
 			String broj_licne_karte = request.getParameter("broj_licne_karte");
 			String uslugaID = request.getParameter("uslugaID");
-		
-			System.out.println(datum_prijavljivanja);
 			
 			if(datum_prijavljivanja!=null && datum_prijavljivanja.trim().length()>0){
 				String hotelID = request.getParameter("hotelID");
