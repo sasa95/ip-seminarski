@@ -78,6 +78,9 @@ public class Servlet extends HttpServlet {
 				
 				ArrayList<Vrsta_aktivnosti> lsaktivnost=dao.selectVrsteAktivnosti(idh);
 				request.setAttribute("lsaktivnost", lsaktivnost);
+
+				ArrayList<Tip_sobe>lsts_bool = dao.getTipSobeByHotelID(id);
+				request.setAttribute("lsts_bool", lsts_bool);
 				
 				request.getRequestDispatcher("hotelDetalji.jsp").forward(request, response);
 			}
@@ -102,6 +105,9 @@ public class Servlet extends HttpServlet {
 				
 				ArrayList<Trzni_centar_prodavnica> lsprodavnica = dao.selectProdavniceByCentarId(idh, idc);
 				request.setAttribute("lsprodavnica", lsprodavnica);
+				
+				
+				
 				request.getRequestDispatcher("trzniCentarDetalji.jsp").forward(request, response);
 			}
 			

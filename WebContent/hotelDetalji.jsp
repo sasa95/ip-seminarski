@@ -1,3 +1,4 @@
+<%@page import="rs.Tip_sobe"%>
 <%@page import="rs.Vrsta_aktivnosti"%>
 <%@page import="rs.Trzni_centar"%>
 <%@page import="rs.Tretman"%>
@@ -23,6 +24,7 @@
 	ArrayList<Tretman> lstretman = (ArrayList<Tretman>)request.getAttribute("lstretman");
 	ArrayList<Trzni_centar> lscentar = (ArrayList<Trzni_centar>)request.getAttribute("lscentar");
 	ArrayList<Vrsta_aktivnosti> lsaktivnost = (ArrayList<Vrsta_aktivnosti>)request.getAttribute("lsaktivnost");
+	ArrayList<Tip_sobe>lsts_bool = (ArrayList<Tip_sobe>)request.getAttribute("lsts_bool");
 	
 	String id = request.getParameter("id");
 	String akcija = request.getParameter("akcija");
@@ -44,9 +46,15 @@
 		<li>Broj ležaja: ${h.broj_lezaja}</li>
 	</ul>
 
-	<h2><a href="rezervacija.jsp?hotelID=${h.hotelID}">REZERVIŠI</a></h2>
 	
+	<%
+		System.out.println(lsts_bool);
+		if(lsts_bool.size()>0){
+	%>	
 	<h2><a href="Servlet_rezervacija?hotelID=${h.hotelID}">REZERVIŠI</a></h2>
+	<%}else {%>
+	<h2>REZERVACIJA NEDOSTUPNA</h2>
+	<%} %>
 	<table>
 		<tr>
 			<th>Vrsta usluge</th>
