@@ -33,6 +33,16 @@ public class Servlet_profil extends HttpServlet {
 				request.setAttribute("msg", "Uspesna rezervacija");
 				request.getRequestDispatcher("profilKorisnika.jsp").forward(request, response);
 			}
+			
+			else if(akcija[i].equals("zanimljivo")){
+				String akt = request.getParameter("akt");
+				Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
+				String broj_licne_karte = kor.getBroj_licne_karte();
+				
+				int a_id = Integer.parseInt(akt);
+				
+				dao.insertKorisniciAktivnosti(broj_licne_karte, a_id);
+			}
 		}
 	}
 

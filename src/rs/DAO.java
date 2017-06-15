@@ -26,9 +26,9 @@ public class DAO {
       private static String SELECTTRZNICENTRI = "SELECT tc.naziv,tc.lokacija,tc.trzni_centarID FROM trzni_centri tc WHERE tc.hotelID=?";
       private static String SELECTPRODAVNICEBYCENTARID = "SELECT p.naziv AS nazivP,p.lokacija FROM trzni_centri tc JOIN prodavnice p ON tc.trzni_centarID=p.trzni_centarID WHERE tc.hotelID=? AND tc.trzni_centarID=?";
       private static String GETCENTARNAZIVBYCENTARID = "SELECT tc.naziv,tc.opis FROM trzni_centri tc WHERE tc.trzni_centarID=?";
-      private static String SELECTVRSTEAKTIVNOSTI = "SELECT va.naziv_vrste_aktivnosti AS vrstaAktivnosti, va.vrsta_aktivnostiID AS aktivnostID  FROM vrste_aktivnosti va JOIN aktivnosti a ON va.vrsta_aktivnostiID=a.vrsta_aktivnostiID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE ha.hotelID=?";
+      private static String SELECTVRSTEAKTIVNOSTI = "SELECT va.naziv_vrste_aktivnosti AS vrstaAktivnosti,a.aktivnostID, va.vrsta_aktivnostiID FROM vrste_aktivnosti va JOIN aktivnosti a ON va.vrsta_aktivnostiID=a.vrsta_aktivnostiID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE ha.hotelID=?";
       private static String GETNAZIVVRSTEAKTIVNOSTIBYID="SELECT va.naziv_vrste_aktivnosti FROM vrste_aktivnosti va WHERE va.vrsta_aktivnostiID=?";
-      private static String GETAKTIVNOSTBYID = "SELECT a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
+      private static String GETAKTIVNOSTBYID = "SELECT a.aktivnostID,a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
       private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
       private static String GETVRSTEAKTIVNOSTI = "SELECT naziv_vrste_aktivnosti FROM vrste_aktivnosti";
       private static String INSERTKORISNIK = "INSERT INTO korisnici (broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka) VALUES (?,?,?,?,?,?)";
@@ -41,6 +41,9 @@ public class DAO {
       private static String INSERTREZERVACIJA = "INSERT INTO rezervacije (datum_prijavljivanja, datum_odlaska, broj_licne_karte, sobaID, hotelID, uslugaID) VALUES (?,?,?,?,?,?)";
       private static String GETUSLUGABYHOTELID = "SELECT u.vrsta_usluge,u.uslugaID FROM hoteli h JOIN hoteli_usluge hu ON h.hotelID=hu.hotelID JOIN usluge u ON hu.uslugaID=u.uslugaID WHERE h.hotelID=?";      
       private static String GETREZERVACIJABYKORISNICKOIME = "SELECT * FROM rezervacije r JOIN korisnici k ON r.broj_licne_karte=k.broj_licne_karte WHERE k.korisnicko_ime=?";
+      private static String INSERTKORISNICIAKTIVNOSTI = "INSERT INTO korisnici_aktivnosti VALUES (?, ?)";
+      private static String GETAKTIVNOSTIBYHOTELID = "SELECT a.* from hoteli h JOIN hoteli_aktivnosti ha ON h.hotelID=ha.hotelID JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE h.hotelID=?";
+      
       
       public DAO(){
 	try {
@@ -324,13 +327,13 @@ public class DAO {
 		return tc; 
 	}
 	
-	public ArrayList<Vrsta_aktivnosti> selectVrsteAktivnosti(int hotelID){
+	public ArrayList<Vrsta_aktivnostiAktivnost> selectVrsteAktivnosti(int hotelID){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 
-		ArrayList<Vrsta_aktivnosti> lo = new ArrayList<Vrsta_aktivnosti>();
-		Vrsta_aktivnosti va = null;
+		ArrayList<Vrsta_aktivnostiAktivnost> lo = new ArrayList<Vrsta_aktivnostiAktivnost>();
+		Vrsta_aktivnostiAktivnost va = null;
 				
             try {
 			con = ds.getConnection();
@@ -343,9 +346,10 @@ public class DAO {
 			rs = pstm.getResultSet();
 
 			while(rs.next()){
-				va = new Vrsta_aktivnosti();
-				va.setNaziv_vrste_aktivnosti(rs.getString("vrstaAktivnosti"));
-				va.setVrsta_aktivnostiID(rs.getInt("aktivnostID"));
+				va = new Vrsta_aktivnostiAktivnost();
+				va.setAktivnostID(rs.getInt("aktivnostID"));
+				va.setVrsta_aktivnostiID(rs.getInt("vrsta_aktivnostiID"));
+				va.setVrstaAktivnosti(rs.getString("vrstaAktivnosti"));
 			
 				lo.add(va);
 			}
@@ -418,6 +422,7 @@ public class DAO {
 
 			while(rs.next()){
 				akt = new Aktivnost();
+				akt.setAktivnostID(rs.getInt("aktivnostID"));
 				akt.setNaziv(rs.getString("naziv"));
 				akt.setOpis(rs.getString("opis"));
 				
@@ -625,7 +630,7 @@ public class DAO {
 		
 	}
 
-	public Korisnik getKorisnikByUsername(String korisnicko_ime,String ime,String prezime,String adresa,String email){
+	public Korisnik getKorisnikByUsername(String korisnicko_ime){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -878,5 +883,74 @@ public class DAO {
 		}
 		
 		return lo; 
+	}
+	
+	public void insertKorisniciAktivnosti(String broj_licne_karte, int aktivnostID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(INSERTKORISNICIAKTIVNOSTI);
+
+			pstm.setString(1, broj_licne_karte);
+			pstm.setInt(2, aktivnostID);
+			
+
+			pstm.execute();
+
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public ArrayList<Aktivnost> getAktivnostByHotelID(int hotelID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Aktivnost akt = null;
+		ArrayList<Aktivnost>ls=new ArrayList<Aktivnost>();
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETAKTIVNOSTIBYHOTELID);
+
+			pstm.setInt(1, hotelID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				akt = new Aktivnost();
+				akt.setAktivnostID(rs.getInt("aktivnostID"));
+				akt.setNaziv(rs.getString("naziv"));
+				akt.setOpis(rs.getString("opis"));
+				akt.setVrsta_aktivnostiID(rs.getInt("vrsta_aktivnostiID"));
+				
+				ls.add(akt);
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
 	}
 }

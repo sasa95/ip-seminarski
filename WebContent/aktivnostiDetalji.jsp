@@ -1,3 +1,5 @@
+<%@page import="rs.Vrsta_aktivnostiAktivnost"%>
+<%@page import="rs.Korisnik"%>
 <%@page import="rs.Hotel_aktivnost"%>
 <%@page import="rs.Hotel"%>
 <%@page import="rs.Hotel_aktivnost"%>
@@ -22,6 +24,13 @@
 	Vrsta_aktivnosti nazivAktivnosti = (Vrsta_aktivnosti)request.getAttribute("nazivAktivnosti");
 	ArrayList<Aktivnost> akt = (ArrayList<Aktivnost>)request.getAttribute("akt");
 	ArrayList<Hotel_aktivnost>lsakt = (ArrayList<Hotel_aktivnost>)request.getAttribute("lsakt");
+	ArrayList<Vrsta_aktivnostiAktivnost>lsaktivnost=(ArrayList<Vrsta_aktivnostiAktivnost>)request.getAttribute("lsaktivnost");
+	HttpSession loginSesija = request.getSession();
+	Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
+	
+	if(kor!=null){
+	System.out.println(kor.getBroj_licne_karte());
+	}
 %>
 
 	<h1>${nazivAktivnosti.naziv_vrste_aktivnosti }</h1>
@@ -37,4 +46,9 @@
 			<p>Lokacija: ${pom.mesto_odrzavanja }</p>
 			<p>Datum i vreme održavanja: ${pom.vreme_odrzavanja }</p>
 	</c:forEach>
+	
+	<c:forEach var="pom" items="${akt}">
+		<a href="Servlet_profil?akcija=zanimljivo&akt=${pom.aktivnostID}">Zanima me</a>
+	</c:forEach>
+	
 </body>

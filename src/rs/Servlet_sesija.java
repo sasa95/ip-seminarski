@@ -34,16 +34,13 @@ public class Servlet_sesija extends HttpServlet {
 		if(akcija.equals("Prijava")) {
 			String username=request.getParameter("username");
 			String password = request.getParameter("password");
-			String ime = request.getParameter("ime");
-			String prezime = request.getParameter("prezime");
-			String adresa = request.getParameter("adresa");
-			String email = request.getParameter("email");
-
+			
 			if(username!=null && password!=null && username.trim().length()>0 && password.trim().length()>0){
 				if(dao.login(username, password)){
 					HttpSession loginSesija = request.getSession();
 					loginSesija.setAttribute("username", username);
-					Korisnik kor = dao.getKorisnikByUsername(username, ime, prezime, adresa, email);
+					
+					Korisnik kor = dao.getKorisnikByUsername(username);
 					loginSesija.setAttribute("kor", kor);
 
 					String fullString = (String)loginSesija.getAttribute("fullString");

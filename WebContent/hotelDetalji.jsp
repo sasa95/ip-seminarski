@@ -1,3 +1,5 @@
+<%@page import="rs.Vrsta_aktivnostiAktivnost"%>
+<%@page import="rs.Aktivnost"%>
 <%@page import="rs.Tip_sobe"%>
 <%@page import="rs.Vrsta_aktivnosti"%>
 <%@page import="rs.Trzni_centar"%>
@@ -23,8 +25,9 @@
 	ArrayList<Usluga> lsusluga = (ArrayList<Usluga>)request.getAttribute("lsusluga");
 	ArrayList<Tretman> lstretman = (ArrayList<Tretman>)request.getAttribute("lstretman");
 	ArrayList<Trzni_centar> lscentar = (ArrayList<Trzni_centar>)request.getAttribute("lscentar");
-	ArrayList<Vrsta_aktivnosti> lsaktivnost = (ArrayList<Vrsta_aktivnosti>)request.getAttribute("lsaktivnost");
+	ArrayList<Vrsta_aktivnostiAktivnost> lsaktivnost = (ArrayList<Vrsta_aktivnostiAktivnost>)request.getAttribute("lsaktivnost");
 	ArrayList<Tip_sobe>lsts_bool = (ArrayList<Tip_sobe>)request.getAttribute("lsts_bool");
+	
 	
 	String id = request.getParameter("id");
 	String akcija = request.getParameter("akcija");
@@ -96,8 +99,10 @@
 		</ol>
 	<h3>Vrste aktivnosti:</h3>
 		<ol>
+			
+		
 			<c:forEach var="pom" items="${lsaktivnost }">
-				<li>${pom.naziv_vrste_aktivnosti } - <a href="Servlet?akcija=AktivnostDetalji&aktivnostID=${pom.vrsta_aktivnostiID}&hotelID=${h.hotelID}">Detalji</a></li>
+				<li>${pom.vrstaAktivnosti} - <a href="Servlet?akcija=AktivnostDetalji&aktivnostID=${pom.vrsta_aktivnostiID}&hotelID=${h.hotelID}&akt=${pom.aktivnostID}">Detalji</a></li>
 			</c:forEach>
 		</ol>
 </body>
