@@ -82,6 +82,8 @@ public class Servlet_rezervacija extends HttpServlet {
 					}
 					
 					dao.updateDostupnostBySobaId(s_id);
+					request.setAttribute("msg", "Uspesna rezervacija");
+					request.getRequestDispatcher("profilKorisnika.jsp").forward(request, response);
 				} 
 				
 				catch (ParseException e) {
