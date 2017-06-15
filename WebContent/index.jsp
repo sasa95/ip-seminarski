@@ -55,8 +55,8 @@ ${msg }
 		<%if(username==null){ %>
 		<a href="prijava.jsp">Prijava</a>
 		<%} else { %>
-		<a href="Servlet_sesija?akcija=logout">Odjava</a>
-		<a href="profilKorisnika.jsp">Profil</a>
+		<a href="Servlet_sesija?akcija=logout">Odjava</a><br>
+		<a href="Servlet_profil?akcija=profil&username=<%=username%>">Profil korisnika</a>
 		<%} %>
 		
 	</form>

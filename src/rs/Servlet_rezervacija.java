@@ -47,15 +47,16 @@ public class Servlet_rezervacija extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String akcija = request.getParameter("akcija");
+		HttpSession loginSesija = request.getSession();
+		String username = (String)loginSesija.getAttribute("username");
 		DAO dao = new DAO();
 
 		if(akcija.equals("Rezervisi")) {
-			HttpSession loginSesija = request.getSession();
 			String datum_prijavljivanja = request.getParameter("datum_prijavljivanja");
 			String datum_odlaska = request.getParameter("datum_odlaska");
 			String broj_licne_karte = request.getParameter("broj_licne_karte");
 			String uslugaID = request.getParameter("uslugaID");
-			
+					
 			if(datum_prijavljivanja!=null && datum_prijavljivanja.trim().length()>0){
 				String hotelID = request.getParameter("hotelID");
 				String tip_sobe = request.getParameter("tip_sobe");
@@ -80,10 +81,13 @@ public class Servlet_rezervacija extends HttpServlet {
 						dao.insertRezervacija(timestamp, null, broj_licne_karte, s_id, id, u_id);
 						
 					}
-					
 					dao.updateDostupnostBySobaId(s_id);
+					ArrayList<Rezervacija> lsrez = dao.getRezervacijaByKorisnickoIme(username);
+					loginSesija.setAttribute("lsrez", lsrez);
+					
 					request.setAttribute("msg", "Uspesna rezervacija");
 					request.getRequestDispatcher("profilKorisnika.jsp").forward(request, response);
+					
 				} 
 				
 				catch (ParseException e) {

@@ -40,6 +40,7 @@ public class DAO {
       private static String UPDATEDOSTUPNOSTBYSOBAID = "UPDATE sobe SET dostupna='ne' WHERE sobaID=?";
       private static String INSERTREZERVACIJA = "INSERT INTO rezervacije (datum_prijavljivanja, datum_odlaska, broj_licne_karte, sobaID, hotelID, uslugaID) VALUES (?,?,?,?,?,?)";
       private static String GETUSLUGABYHOTELID = "SELECT u.vrsta_usluge,u.uslugaID FROM hoteli h JOIN hoteli_usluge hu ON h.hotelID=hu.hotelID JOIN usluge u ON hu.uslugaID=u.uslugaID WHERE h.hotelID=?";      
+      private static String GETREZERVACIJABYKORISNICKOIME = "SELECT * FROM rezervacije r JOIN korisnici k ON r.broj_licne_karte=k.broj_licne_karte WHERE k.korisnicko_ime=?";
       
       public DAO(){
 	try {
@@ -836,5 +837,46 @@ public class DAO {
 		}
 
 		return ls;
+	}
+
+	public ArrayList<Rezervacija> getRezervacijaByKorisnickoIme(String korisnicko_ime){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		ArrayList<Rezervacija> lo = new ArrayList<Rezervacija>();
+		Rezervacija rezervacija = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETREZERVACIJABYKORISNICKOIME);
+			pstm.setString(1, korisnicko_ime);
+			
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				rezervacija = new Rezervacija();
+				rezervacija.setDatum_prijavljivanja(rs.getTimestamp("datum_prijavljivanja"));
+				rezervacija.setDatum_odlaska(rs.getTimestamp("datum_odlaska"));
+				rezervacija.setBroj_licne_karte(rs.getString("broj_licne_karte"));
+				rezervacija.setSobaID(rs.getInt("sobaID"));
+				rezervacija.setHotelID(rs.getInt("hotelID"));
+				rezervacija.setUslugaID(rs.getInt("uslugaID"));
+
+				lo.add(rezervacija);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lo; 
 	}
 }

@@ -37,7 +37,7 @@
 	<h1>${msg }</h1>
 	<h2>Popunite formu za rezervaciju</h2>
 	
-	<form method="post" action="Servlet_rezervacija?akcija=Rezervisi&hotelID=<%=hotelID%>">
+	<form method="post" action="Servlet_rezervacija?akcija=Rezervisi&akcija=profil&hotelID=<%=hotelID%>">
 		<label for="datum_prijavljivanja">Datum prijavljivanja:</label>
 		<input type="date" required="required" name="datum_prijavljivanja" id="datum_prijavljivanja" placeholder="Npr. 2017-01-31" value="${param.datum_prijavljivanja}"><br>
 		
