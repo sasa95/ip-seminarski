@@ -28,9 +28,27 @@
 	HttpSession loginSesija = request.getSession();
 	Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
 	
+	String aktivnostID = request.getParameter("aktivnostID");
+	String hotelID = request.getParameter("hotelID");
+	String aktt = request.getParameter("akt");
+	String returnString = "Servlet?akcija=AktivnostDetalji&aktivnostID="+aktivnostID+"&hotelID="+hotelID+"&akt="+aktt;
+	
+	loginSesija.setAttribute("returnString",returnString);
+	
+	Boolean akt_bool;
 	if(kor!=null){
-	System.out.println(kor.getBroj_licne_karte());
+		 akt_bool = (Boolean)request.getAttribute("akt_bool");
 	}
+	
+	else {
+		akt_bool = false;
+	}
+	
+	
+
+
+	
+	
 %>
 
 	<h1>${nazivAktivnosti.naziv_vrste_aktivnosti }</h1>
@@ -47,8 +65,18 @@
 			<p>Datum i vreme održavanja: ${pom.vreme_odrzavanja }</p>
 	</c:forEach>
 	
+	<%
+		if(!akt_bool){
+	%>
+	
 	<c:forEach var="pom" items="${akt}">
 		<a href="Servlet_profil?akcija=zanimljivo&akt=${pom.aktivnostID}">Zanima me</a>
 	</c:forEach>
+	
+	<%}else{ %>
+		<h3>Dodato</h3>
+	<%} %>
+	
+	
 	
 </body>

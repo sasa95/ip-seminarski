@@ -37,11 +37,23 @@ public class Servlet_profil extends HttpServlet {
 			else if(akcija[i].equals("zanimljivo")){
 				String akt = request.getParameter("akt");
 				Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
-				String broj_licne_karte = kor.getBroj_licne_karte();
 				
-				int a_id = Integer.parseInt(akt);
+				if(kor!=null){
+					String broj_licne_karte = kor.getBroj_licne_karte();
+					String returnString = (String)loginSesija.getAttribute("returnString");
+					int a_id = Integer.parseInt(akt);
+					
+					dao.insertKorisniciAktivnosti(broj_licne_karte, a_id);
+					//request.getRequestDispatcher(path).forward(request, response);
+					//response.sendRedirect(path);
+					request.getRequestDispatcher(returnString).forward(request, response);
+					
+				}
 				
-				dao.insertKorisniciAktivnosti(broj_licne_karte, a_id);
+				else {
+					response.sendRedirect("prijava.jsp");
+				}
+				
 			}
 		}
 	}

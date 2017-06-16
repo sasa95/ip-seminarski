@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 
@@ -118,13 +119,16 @@ public class Servlet extends HttpServlet {
 			
 		}
 		else if(akcija.equals("AktivnostDetalji")){
+			
 			String aktivnostID = request.getParameter("aktivnostID");
 			String id = request.getParameter("hotelID");
+			String akt_ID = request.getParameter("akt");
 			
 			
 			try {
 				int aktID = Integer.parseInt(aktivnostID);
 				int idh = Integer.parseInt(id);
+				int a_id = Integer.parseInt(akt_ID);
 				
 				Vrsta_aktivnosti nazivAktivnosti = dao.getVrstaAktivnostiByID(aktID);
 				request.setAttribute("nazivAktivnosti", nazivAktivnosti);
@@ -138,11 +142,24 @@ public class Servlet extends HttpServlet {
 				ArrayList<Vrsta_aktivnostiAktivnost> lsaktivnost=dao.selectVrsteAktivnosti(idh);
 				request.setAttribute("lsaktivnost", lsaktivnost);
 				
-				request.getRequestDispatcher("aktivnostiDetalji.jsp").forward(request, response);
+				HttpSession loginSesija = request.getSession();
+				Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
+				if(kor!=null){
+					String lk = kor.getBroj_licne_karte();
+					if(dao.korisnikAktivnost_bool(lk, a_id)==true){
+						request.setAttribute("akt_bool", true);
+					}
+					
+					else {
+						request.setAttribute("akt_bool", false);
+					}
+				}
+				
+				request.getRequestDispatcher("/aktivnostiDetalji.jsp").forward(request, response);
 			}
 			
 			catch(Exception e){
-				response.sendRedirect("error.jsp");
+				//response.sendRedirect("error.jsp");
 			}
 
 		}

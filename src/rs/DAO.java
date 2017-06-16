@@ -43,7 +43,8 @@ public class DAO {
       private static String GETREZERVACIJABYKORISNICKOIME = "SELECT * FROM rezervacije r JOIN korisnici k ON r.broj_licne_karte=k.broj_licne_karte WHERE k.korisnicko_ime=?";
       private static String INSERTKORISNICIAKTIVNOSTI = "INSERT INTO korisnici_aktivnosti VALUES (?, ?)";
       private static String GETAKTIVNOSTIBYHOTELID = "SELECT a.* from hoteli h JOIN hoteli_aktivnosti ha ON h.hotelID=ha.hotelID JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE h.hotelID=?";
-      
+      private static String KORISNIKAKTIVNOST_BOOL = "SELECT * FROM korisnici_aktivnosti WHERE broj_licne_karte = ? AND aktivnostiID=?";
+
       
       public DAO(){
 	try {
@@ -952,5 +953,47 @@ public class DAO {
 		}
 
 		return ls;
+	}
+	
+	public boolean korisnikAktivnost_bool(String lk, int aktID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Korisnici_aktivnosti akt = null;
+		ArrayList<Korisnici_aktivnosti>ls=new ArrayList<Korisnici_aktivnosti>();
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(KORISNIKAKTIVNOST_BOOL);
+
+			pstm.setString(1, lk);
+			pstm.setInt(2, aktID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				akt = new Korisnici_aktivnosti();
+				akt.setBroj_licne_karte(rs.getString("broj_licne_karte"));
+				akt.setAktivnostiID(rs.getInt("aktivnostiID"));
+				
+				ls.add(akt);
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if(ls.size()>0)
+			return true;
+		else
+			return false;
 	}
 }
