@@ -44,8 +44,8 @@ public class DAO {
       private static String INSERTKORISNICIAKTIVNOSTI = "INSERT INTO korisnici_aktivnosti VALUES (?, ?)";
       private static String GETAKTIVNOSTIBYHOTELID = "SELECT a.* from hoteli h JOIN hoteli_aktivnosti ha ON h.hotelID=ha.hotelID JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE h.hotelID=?";
       private static String KORISNIKAKTIVNOST_BOOL = "SELECT * FROM korisnici_aktivnosti WHERE broj_licne_karte = ? AND aktivnostiID=?";
-
-      
+      private static String GETDODATAAKTIVNOST = "SELECT a.naziv,ha.datum_odrzavanja,ha.mesto_odrzavanja,ha.vreme_odrzavanja FROM korisnici k join korisnici_aktivnosti ka ON k.broj_licne_karte=ka.broj_licne_karte JOIN aktivnosti a ON ka.aktivnostiID=a.aktivnostID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE k.broj_licne_karte=?";
+		      
       public DAO(){
 	try {
 		InitialContext cxt = new InitialContext();
@@ -995,5 +995,44 @@ public class DAO {
 			return true;
 		else
 			return false;
+	}
+	
+	public ArrayList<Hotel_aktivnost> getDodataAktivnost(String lk){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Hotel_aktivnost akt = null;
+		ArrayList<Hotel_aktivnost>ls=new ArrayList<Hotel_aktivnost>();
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETDODATAAKTIVNOST);
+
+			pstm.setString(1, lk);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				akt = new Hotel_aktivnost();
+				akt.setNaziv(rs.getString("naziv"));
+				akt.setDatum_odrzavanja(rs.getDate("datum_odrzavanja"));
+				akt.setMesto_odrzavanja(rs.getString("mesto_odrzavanja"));
+				akt.setVreme_odrzavanja(rs.getTimestamp("vreme_odrzavanja"));
+				ls.add(akt);
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
 	}
 }

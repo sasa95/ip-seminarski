@@ -1,3 +1,4 @@
+<%@page import="rs.Hotel_aktivnost"%>
 <%@page import="rs.Rezervacija"%>
 <%@page import="rs.Vrsta_aktivnosti"%>
 <%@page import="java.util.ArrayList"%>
@@ -10,6 +11,9 @@
 	HttpSession loginSesija = request.getSession();
 	String username = (String)loginSesija.getAttribute("username");
 	ArrayList<Rezervacija> lsrez = (ArrayList<Rezervacija>)loginSesija.getAttribute("lsrez");
+	ArrayList<Hotel_aktivnost> lsakt = (ArrayList<Hotel_aktivnost>)loginSesija.getAttribute("lsakt");
+	
+	
 	if(username!=null && lsrez.size()>0){
 %>    
 <!DOCTYPE html>
@@ -31,6 +35,18 @@ ${msg }
 		<li>Usluga: ${rez.uslugaID }</li>		
 		</ul>
 	</c:forEach>
+	
+	
+	<c:forEach var="rez" items="${lsakt}">	
+		<ul>
+			<li>Naziv: ${rez.naziv}</li>
+			<li>Datum: ${rez.datum_odrzavanja}</li>
+			<li>Vreme: ${rez.vreme_odrzavanja}</li>
+			<li>Mesto: ${rez.mesto_odrzavanja}</li>
+		</ul>
+	</c:forEach>
+	
+	
 	
 </body>
 </html>

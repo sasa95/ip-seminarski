@@ -85,8 +85,10 @@ public class Servlet_rezervacija extends HttpServlet {
 					ArrayList<Rezervacija> lsrez = dao.getRezervacijaByKorisnickoIme(username);
 					loginSesija.setAttribute("lsrez", lsrez);
 					
+					String fullString = (String)loginSesija.getAttribute("fullString");
+					
 					request.setAttribute("msg", "Uspesna rezervacija");
-					request.getRequestDispatcher("profilKorisnika.jsp").forward(request, response);
+					request.getRequestDispatcher(fullString).forward(request, response);
 					
 				} 
 				

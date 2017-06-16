@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class Hotel_aktivnost {
 private Date datum_odrzavanja;
-private String mesto_odrzavanja;
+private String mesto_odrzavanja,naziv;
 private Timestamp vreme_odrzavanja;
 private int aktivnostID,hotelID;
 public Date getDatum_odrzavanja() {
@@ -38,14 +38,22 @@ public int getHotelID() {
 public void setHotelID(int hotelID) {
 	this.hotelID = hotelID;
 }
+
+public String getNaziv() {
+	return naziv;
+}
+public void setNaziv(String naziv) {
+	this.naziv = naziv;
+}
 public Hotel_aktivnost(Date datum_odrzavanja, String mesto_odrzavanja,
-		Timestamp vreme_odrzavanja, int aktivnostID, int hotelID) {
+		Timestamp vreme_odrzavanja, int aktivnostID, int hotelID,String naziv) {
 	super();
 	this.datum_odrzavanja = datum_odrzavanja;
 	this.mesto_odrzavanja = mesto_odrzavanja;
 	this.vreme_odrzavanja = vreme_odrzavanja;
 	this.aktivnostID = aktivnostID;
 	this.hotelID = hotelID;
+	this.naziv=naziv;
 }
 public Hotel_aktivnost() {
 	super();
