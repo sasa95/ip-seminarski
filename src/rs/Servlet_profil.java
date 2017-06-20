@@ -25,7 +25,9 @@ public class Servlet_profil extends HttpServlet {
 		HttpSession loginSesija = request.getSession();
 		String username = (String)loginSesija.getAttribute("username");
 		Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
-		String lk = kor.getBroj_licne_karte();
+		
+		
+		
 		
 		DAO dao = new DAO();
 		for(int i=0;i<akcija.length;i++){
@@ -33,9 +35,11 @@ public class Servlet_profil extends HttpServlet {
 				ArrayList<Rezervacija> lsrez = dao.getRezervacijaByKorisnickoIme(username);
 				loginSesija.setAttribute("lsrez", lsrez);
 				
-				ArrayList<Hotel_aktivnost>lsakt = dao.getDodataAktivnost(lk);
-				request.setAttribute("lsakt", lsakt);
-				
+				if(kor!=null){
+					String lk = kor.getBroj_licne_karte();
+					ArrayList<Hotel_aktivnost>lsakt = dao.getDodataAktivnost(lk);
+					request.setAttribute("lsakt", lsakt);
+				}
 				request.setAttribute("msg", "Uspesna rezervacija");
 				request.getRequestDispatcher("profilKorisnika.jsp").forward(request, response);
 			}
