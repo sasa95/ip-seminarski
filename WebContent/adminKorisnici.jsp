@@ -1,3 +1,5 @@
+<%@page import="rs.Hotel"%>
+<%@page import="rs.Korisnik"%>
 <%@page import="rs.Vrsta_aktivnosti"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="rs.DAO"%>
@@ -8,7 +10,9 @@
 <%
 	HttpSession adminSesija = request.getSession();
 	String adminUsername = (String)adminSesija.getAttribute("adminUsername");
+	Hotel hotel = (Hotel)request.getAttribute("hotel");
 	
+	ArrayList<Korisnik>korisnici = (ArrayList<Korisnik>)request.getAttribute("korisnici");
 	String hotelID = request.getParameter("hotelID");
 	
 	if(adminUsername!=null && !adminUsername.equals("")){
@@ -24,14 +28,32 @@
 <title>Index</title>
 </head>
 <body>
-	<h1>Dobrodošli, admineee</h1>
+	<h1>Korisnici hotela ${hotel.naziv}</h1>
+	<table border=1>
+		<tr>
+			<th>Ime</th>
+			<th>Prezme</th>
+			<th>Broj lične karte</th>
+			<th>Adresa</th>
+			<th>Email</th>
+			<th>Korisnicko ime</th>
+			<th>Tip korisnika</th>
+			<th></th>
+		<tr>
+		<c:forEach var="pom" items="${korisnici}">
+			<tr>
+				<td>${pom.ime}</td>
+				<td>${pom.prezime}</td>
+				<td>${pom.broj_licne_karte}</td>
+				<td>${pom.adresa}</td>
+				<td>${pom.email}</td>
+				<td>${pom.korisnicko_ime}</td>
+				<td>${pom.tip_korisnika}</td>
+				<td><a href="Servlet_admin?akcija=obrisiKorisnika&user=${pom.korisnicko_ime}&hotelID=<%=hotelID%>">Obriši</a></td>
+			</tr>
+		</c:forEach>
+	</table>
 	
-	<ul>
-		<li><a href="Servlet_admin?akcija=hotelDetalji&hotelID=<%=hotelID%>">Detalji hotela</a></li>
-		<li><a href="Servlet_admin?akcija=korisniciTabela&hotelID=<%=hotelID%>">Korisnici</a></li>
-	</ul>
-	
-	<a href="Servlet_admin?akcija=logout">Odjava</a><br>
 </body>
 </html>
 <%}else response.sendRedirect("indexAdmin.jsp?hotelID="+hot_id); %>

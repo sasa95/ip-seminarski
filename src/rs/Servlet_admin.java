@@ -1,6 +1,8 @@
 package rs;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,24 +25,31 @@ public class Servlet_admin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String akcija = request.getParameter("akcija");
 		DAOAdmin daoAdmin = new DAOAdmin();
+		HttpSession adminSesija = request.getSession();
+		int hot_id = (Integer)adminSesija.getAttribute("hot_id");
 		if(akcija.equals("logout")){
-			HttpSession adminSesija = request.getSession();
 			adminSesija.invalidate();
 			response.sendRedirect("index.jsp");
 		}
 		
 		else if(akcija.equals("hotelDetalji")){
-			String hotelID = request.getParameter("hotelID");
-			try {
-				int hid = Integer.parseInt(hotelID);
-				Hotel hotel = daoAdmin.getHotelByID(hid);
-				request.setAttribute("hotel", hotel);
-				request.getRequestDispatcher("adminHotelDetalji.jsp").forward(request, response);
-			}
-			
-			catch(Exception e){
-				response.sendRedirect("error.jsp");
-			}
+			Hotel hotel = daoAdmin.getHotelByID(hot_id);
+			request.setAttribute("hotel", hotel);
+			request.getRequestDispatcher("adminHotelDetalji.jsp").forward(request, response);
+		}
+		
+		else if(akcija.equals("korisniciTabela")){
+			Hotel hotel = daoAdmin.getHotelByID(hot_id);
+			request.setAttribute("hotel", hotel);
+			ArrayList<Korisnik>korisnici = daoAdmin.getKorisnikByHotelID(hot_id);
+			request.setAttribute("korisnici", korisnici);
+			request.getRequestDispatcher("adminKorisnici.jsp").forward(request, response);
+		}
+		
+		else if(akcija.equals("obrisiKorisnika")){
+			String user = request.getParameter("user");
+			daoAdmin.deleteKorisnikByUsername(user);
+			response.sendRedirect("Servlet_admin?akcija=korisniciTabela&hotelID="+hot_id);
 		}
 	}
 

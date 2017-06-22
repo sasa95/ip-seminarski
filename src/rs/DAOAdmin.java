@@ -21,8 +21,8 @@ public class DAOAdmin {
       private static String GETHOTELIDBYUSERNAME = "SELECT hotelID FROM korisnici WHERE korisnicko_ime=?";
       private static String GETHOTELBYID = "SELECT * from hoteli WHERE hotelID=?";
       private static String UPDATEHOTELBYID = "UPDATE hoteli SET naziv=?,adresa=?,kategorija=?,broj_lezaja=?,opis=? WHERE hotelID=?";
-      
-      
+      private static String GETKORISNICIBYHOTELID = "SELECT ime,prezime,broj_licne_karte,adresa,email,korisnicko_ime,tip_korisnika FROM korisnici WHERE hotelID = ?";
+      private static String DELETEKORISNIKBYUSERNAME = "DELETE FROM korisnici WHERE korisnicko_ime=?";
       public DAOAdmin(){
 	try {
 		InitialContext cxt = new InitialContext();
@@ -124,6 +124,70 @@ public class DAOAdmin {
 			pstm.setInt(4, broj_lezaja);
 			pstm.setString(5, opis);
 			pstm.setInt(6, hotelID);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Korisnik> getKorisnikByHotelID(int hotelID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Korisnik korisnik = null;
+		ArrayList<Korisnik>ls=new ArrayList<Korisnik>();
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETKORISNICIBYHOTELID);
+
+			pstm.setInt(1, hotelID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				korisnik = new Korisnik();
+				korisnik.setIme(rs.getString("ime"));
+				korisnik.setPrezime(rs.getString("prezime"));
+				korisnik.setBroj_licne_karte(rs.getString("broj_licne_karte"));
+				korisnik.setAdresa(rs.getString("adresa"));
+				korisnik.setEmail(rs.getString("email"));
+				korisnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
+				korisnik.setTip_korisnika(rs.getString("tip_korisnika"));
+				
+				ls.add(korisnik);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
+	}
+	
+	public void deleteKorisnikByUsername(String user){
+		Connection con = null;
+		PreparedStatement pstm = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(DELETEKORISNIKBYUSERNAME);
+
+			pstm.setString(1, user);
 			pstm.execute();
 
 

@@ -13,15 +13,14 @@
 	
 	String hotelID = request.getParameter("hotelID");
 	
-	//Uzima se ID iz sesije
-	int hot_id = (Integer)adminSesija.getAttribute("hot_id");
-	System.out.println(hot_id);
+	
 	Hotel hotel = (Hotel)request.getAttribute("hotel");
 	
 	String status = request.getParameter("status");
 	
 	if(adminUsername!=null && !adminUsername.equals("")){
 		//Zabraniti adminu da menja druge hotele proverom ID iz URL-a i ID-a iz sesije
+		int hot_id = (Integer)adminSesija.getAttribute("hot_id");
 		if(Integer.parseInt(hotelID)==hot_id){
 %>
 <!DOCTYPE html>
