@@ -35,7 +35,7 @@
 	
 	HttpSession loginSesija = request.getSession();
 	loginSesija.setAttribute("fullString", fullString);
-	loginSesija.setMaxInactiveInterval(600);
+	
 
 
 %>

@@ -36,23 +36,35 @@ public class Servlet_sesija extends HttpServlet {
 			String password = request.getParameter("password");
 			
 			if(username!=null && password!=null && username.trim().length()>0 && password.trim().length()>0){
-				if(dao.login(username, password)){
-					HttpSession loginSesija = request.getSession();
-					loginSesija.setAttribute("username", username);
+				if(dao.loginAdmin(username, password)){
+					HttpSession adminSesija = request.getSession();
+					adminSesija.setMaxInactiveInterval(600);
 					
-					Korisnik kor = dao.getKorisnikByUsername(username);
-					loginSesija.setAttribute("kor", kor);
-
-					String fullString = (String)loginSesija.getAttribute("fullString");
-					if(fullString!=null){
-						request.getRequestDispatcher(fullString).forward(request, response);
-						
-					}
-					else {
-						request.setAttribute("msg", "Dobrodošli, "+username);
-						request.getRequestDispatcher("index.jsp").forward(request, response);
-					}
+					DAOAdmin daoAdmin = new DAOAdmin();
+					int hotelID = daoAdmin.getHotelIDByUsername(username);
+					
+					adminSesija.setAttribute("adminUsername", username);
+					response.sendRedirect("indexAdmin.jsp?hotelID="+hotelID);
 				}
+				else if(dao.login(username, password)){
+						HttpSession loginSesija = request.getSession();
+						loginSesija.setMaxInactiveInterval(600);
+						
+						loginSesija.setAttribute("username", username);
+						
+						Korisnik kor = dao.getKorisnikByUsername(username);
+						loginSesija.setAttribute("kor", kor);
+	
+						String fullString = (String)loginSesija.getAttribute("fullString");
+						if(fullString!=null){
+							request.getRequestDispatcher(fullString).forward(request, response);
+							
+						}
+						else {
+							request.setAttribute("msg", "Dobrodošli, "+username);
+							request.getRequestDispatcher("index.jsp").forward(request, response);
+						}
+					}
 				
 				else {
 					request.setAttribute("msg", "Pogrešni parametri za prijavu");
