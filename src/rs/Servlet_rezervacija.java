@@ -82,7 +82,7 @@ public class Servlet_rezervacija extends HttpServlet {
 						
 					}
 					dao.updateDostupnostBySobaId(s_id);
-					ArrayList<Rezervacija> lsrez = dao.getRezervacijaByKorisnickoIme(username);
+					ArrayList<Hotel_Rezervacija_Usluga> lsrez = dao.getRezervacijaByKorisnickoIme(username);
 					loginSesija.setAttribute("lsrez", lsrez);
 					
 					String fullString = (String)loginSesija.getAttribute("fullString");

@@ -7,7 +7,7 @@ public class Rezervacija {
 private Timestamp datum_prijavljivanja;
 private Timestamp datum_odlaska;
 private String broj_licne_karte;
-private int rezervacijaID,sobaID,hotelID,uslugaID;
+private int rezervacijaID,sobaID,hotelID,uslugaID,adminID;
 
 
 public int getRezervacijaID() {
@@ -52,8 +52,15 @@ public int getUslugaID() {
 public void setUslugaID(int uslugaID) {
 	this.uslugaID = uslugaID;
 }
+
+public int getAdminID() {
+	return adminID;
+}
+public void setAdminID(int adminID) {
+	this.adminID = adminID;
+}
 public Rezervacija(int rezervacijaID, Timestamp datum_prijavljivanja, Timestamp datum_odlaska,
-		String broj_licne_karte, int sobaID, int hotelID, int uslugaID) {
+		String broj_licne_karte, int sobaID, int hotelID, int uslugaID, int adminID) {
 	super();
 	this.rezervacijaID = rezervacijaID;
 	this.datum_prijavljivanja = datum_prijavljivanja;
@@ -62,6 +69,7 @@ public Rezervacija(int rezervacijaID, Timestamp datum_prijavljivanja, Timestamp 
 	this.sobaID = sobaID;
 	this.hotelID = hotelID;
 	this.uslugaID = uslugaID;
+	this.adminID = adminID;
 }
 public Rezervacija() {
 	super();

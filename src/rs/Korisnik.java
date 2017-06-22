@@ -2,7 +2,7 @@ package rs;
 
 public class Korisnik {
 private String broj_licne_karte,ime,prezime,adresa,korisnicko_ime,lozinka,tip_korisnika,email;
-private int hotelID;
+private int hotelID,adminID;
 
 
 public String getEmail() {
@@ -59,9 +59,16 @@ public int getHotelID() {
 public void setHotelID(int hotelID) {
 	this.hotelID = hotelID;
 }
+
+public int getAdminID() {
+	return adminID;
+}
+public void setAdminID(int adminID) {
+	this.adminID = adminID;
+}
 public Korisnik(String broj_licne_karte, String ime, String prezime,
 		String adresa, String email, String korisnicko_ime, String lozinka,
-		String tip_korisnika, int hotelID) {
+		String tip_korisnika, int hotelID, int adminID) {
 	super();
 	this.broj_licne_karte = broj_licne_karte;
 	this.ime = ime;
@@ -72,6 +79,7 @@ public Korisnik(String broj_licne_karte, String ime, String prezime,
 	this.lozinka = lozinka;
 	this.tip_korisnika = tip_korisnika;
 	this.hotelID = hotelID;
+	this.adminID = adminID;
 }
 public Korisnik() {
 	super();
