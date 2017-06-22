@@ -49,7 +49,7 @@ public class Servlet_admin extends HttpServlet {
 		else if(akcija.equals("obrisiKorisnika")){
 			String user = request.getParameter("user");
 			daoAdmin.deleteKorisnikByUsername(user);
-			response.sendRedirect("Servlet_admin?akcija=korisniciTabela&hotelID="+hot_id);
+			response.sendRedirect("Servlet_admin?akcija=korisniciTabela&hotelID="+hot_id+"&status=ok");
 		}
 	}
 

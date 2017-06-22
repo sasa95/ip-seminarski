@@ -11,14 +11,10 @@
 	HttpSession adminSesija = request.getSession();
 	String adminUsername = (String)adminSesija.getAttribute("adminUsername");
 	Hotel hotel = (Hotel)request.getAttribute("hotel");
-	
 	ArrayList<Korisnik>korisnici = (ArrayList<Korisnik>)request.getAttribute("korisnici");
-	String hotelID = request.getParameter("hotelID");
-	
+	String status = request.getParameter("status");
 	if(adminUsername!=null && !adminUsername.equals("")){
-		//Zabraniti adminu da menja druge hotele proverom ID iz URL-a i ID-a iz sesije
 		int hot_id = (Integer)adminSesija.getAttribute("hot_id");
-		if(Integer.parseInt(hotelID)==hot_id){
 %>    
      
 <!DOCTYPE html>
@@ -49,12 +45,13 @@
 				<td>${pom.email}</td>
 				<td>${pom.korisnicko_ime}</td>
 				<td>${pom.tip_korisnika}</td>
-				<td><a href="Servlet_admin?akcija=obrisiKorisnika&user=${pom.korisnicko_ime}&hotelID=<%=hotelID%>">Obriši</a></td>
+				<td><a href="Servlet_admin?akcija=obrisiKorisnika&user=${pom.korisnicko_ime}&hotelID=<%=hot_id%>">Obriši</a></td>
 			</tr>
 		</c:forEach>
 	</table>
-	
+	<% if(status!=null && status.equals("ok")){ %>
+		<h3>Uspešno brisanje korisnika</h3>
+	<%} %>
 </body>
 </html>
-<%}else response.sendRedirect("indexAdmin.jsp?hotelID="+hot_id); %>
 <%}else { response.sendRedirect("prijava.jsp");}%>

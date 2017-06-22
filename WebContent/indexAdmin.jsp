@@ -9,12 +9,8 @@
 	HttpSession adminSesija = request.getSession();
 	String adminUsername = (String)adminSesija.getAttribute("adminUsername");
 	
-	String hotelID = request.getParameter("hotelID");
-	
 	if(adminUsername!=null && !adminUsername.equals("")){
-		//Zabraniti adminu da menja druge hotele proverom ID iz URL-a i ID-a iz sesije
 		int hot_id = (Integer)adminSesija.getAttribute("hot_id");
-		if(Integer.parseInt(hotelID)==hot_id){
 %>    
      
 <!DOCTYPE html>
@@ -27,12 +23,11 @@
 	<h1>Dobrodošli, admineee</h1>
 	
 	<ul>
-		<li><a href="Servlet_admin?akcija=hotelDetalji&hotelID=<%=hotelID%>">Detalji hotela</a></li>
-		<li><a href="Servlet_admin?akcija=korisniciTabela&hotelID=<%=hotelID%>">Korisnici</a></li>
+		<li><a href="Servlet_admin?akcija=hotelDetalji&hotelID=<%=hot_id%>">Detalji hotela</a></li>
+		<li><a href="Servlet_admin?akcija=korisniciTabela&hotelID=<%=hot_id%>">Korisnici</a></li>
 	</ul>
 	
 	<a href="Servlet_admin?akcija=logout">Odjava</a><br>
 </body>
 </html>
-<%}else response.sendRedirect("indexAdmin.jsp?hotelID="+hot_id); %>
 <%}else { response.sendRedirect("prijava.jsp");}%>

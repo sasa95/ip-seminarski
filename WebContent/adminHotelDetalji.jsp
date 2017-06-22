@@ -10,18 +10,11 @@
 
 	HttpSession adminSesija = request.getSession();
 	String adminUsername = (String)adminSesija.getAttribute("adminUsername");
-	
-	String hotelID = request.getParameter("hotelID");
-	
-	
 	Hotel hotel = (Hotel)request.getAttribute("hotel");
 	
 	String status = request.getParameter("status");
-	
 	if(adminUsername!=null && !adminUsername.equals("")){
-		//Zabraniti adminu da menja druge hotele proverom ID iz URL-a i ID-a iz sesije
 		int hot_id = (Integer)adminSesija.getAttribute("hot_id");
-		if(Integer.parseInt(hotelID)==hot_id){
 %>
 <!DOCTYPE html>
 <html>
@@ -53,8 +46,8 @@
 		<label for="opis">Opis:</label>
 		<textarea rows="5" cols="50" name="opis">${hotel.opis}</textarea><br>
 		
-		<input type="hidden" name="hotelID" value="<%=hotelID%>">
-		<input type="hidden" name="returnPath" value="Servlet_admin?akcija=hotelDetalji&hotelID=<%=hotelID%>">
+		<input type="hidden" name="hotelID" value="<%=hot_id%>">
+		<input type="hidden" name="returnPath" value="Servlet_admin?akcija=hotelDetalji&hotelID=<%=hot_id%>">
 		<input type="submit" value="Izmeni">
 	</form>
 	<%if(status!=null && status.equals("ok")){ %>
@@ -62,5 +55,4 @@
 	<%} %>
 </body>
 </html>
-<%}else response.sendRedirect("indexAdmin.jsp?hotelID="+hot_id); %>
 <%}else { response.sendRedirect("prijava.jsp");}%>
