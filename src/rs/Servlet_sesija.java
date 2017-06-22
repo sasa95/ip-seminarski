@@ -43,6 +43,7 @@ public class Servlet_sesija extends HttpServlet {
 					DAOAdmin daoAdmin = new DAOAdmin();
 					int hotelID = daoAdmin.getHotelIDByUsername(username);
 					
+					adminSesija.setAttribute("hot_id", hotelID);
 					adminSesija.setAttribute("adminUsername", username);
 					response.sendRedirect("indexAdmin.jsp?hotelID="+hotelID);
 				}
