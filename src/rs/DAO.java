@@ -89,7 +89,8 @@ public class DAO {
 				hotel.setKategorija(rs.getInt("kategorija"));
 				hotel.setBroj_lezaja(rs.getInt("broj_lezaja"));
 				hotel.setOpis(rs.getString("opis"));
-				hotel.setAdminID(rs.getInt("adminID"));
+				
+				
 			
 				// DODAVANJE INSTANCE U LISTU AKO METODA VRACA LISTU, AKO NE VRACA ONDA NE TREBA 
 				

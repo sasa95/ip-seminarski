@@ -23,6 +23,7 @@ public class DAOAdmin {
       private static String UPDATEHOTELBYID = "UPDATE hoteli SET naziv=?,adresa=?,kategorija=?,broj_lezaja=?,opis=? WHERE hotelID=?";
       private static String GETKORISNICIBYHOTELID = "SELECT ime,prezime,broj_licne_karte,adresa,email,korisnicko_ime,tip_korisnika FROM korisnici WHERE hotelID = ?";
       private static String DELETEKORISNIKBYUSERNAME = "DELETE FROM korisnici WHERE korisnicko_ime=?";
+      private static String GETREZERVACIJEBYHOTELID = "SELECT r.rezervacijaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,r.sobaID,u.vrsta_usluge FROM rezervacije r JOIN usluge u ON r.uslugaID=u.uslugaID WHERE hotelID = ?";
       public DAOAdmin(){
 	try {
 		InitialContext cxt = new InitialContext();
@@ -199,6 +200,47 @@ public class DAOAdmin {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Hotel_Rezervacija_Usluga> getRezervacijeByHotelID(int hotelID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Hotel_Rezervacija_Usluga rezervacije = null;
+		ArrayList<Hotel_Rezervacija_Usluga>ls=new ArrayList<Hotel_Rezervacija_Usluga>();
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETREZERVACIJEBYHOTELID);
+
+			pstm.setInt(1, hotelID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				rezervacije = new Hotel_Rezervacija_Usluga();
+				rezervacije.setRezervacijaID(rs.getInt("rezervacijaID"));
+				rezervacije.setDatum_prijavljivanja(rs.getTimestamp("datum_prijavljivanja"));
+				rezervacije.setDatum_odlaska(rs.getTimestamp("datum_odlaska"));
+				rezervacije.setBroj_licne_karte(rs.getString("broj_licne_karte"));
+				rezervacije.setSobaID(rs.getInt("sobaID"));
+				rezervacije.setVrsta_usluge(rs.getString("vrsta_usluge"));
+				
+				ls.add(rezervacije);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
 	}
 	
 }

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Hotel_Rezervacija_Usluga {
 	private String naziv,broj_licne_karte,vrsta_usluge;
-	private int sobaID;
+	private int sobaID,rezervacijaID;
 	private Timestamp datum_prijavljivanja,datum_odlaska;
 	public String getNaziv() {
 		return naziv;
@@ -42,12 +42,20 @@ public class Hotel_Rezervacija_Usluga {
 	public void setDatum_odlaska(Timestamp datum_odlaska) {
 		this.datum_odlaska = datum_odlaska;
 	}
-	public Hotel_Rezervacija_Usluga(String naziv, String broj_licne_karte, String vrsta_usluge, int sobaID,
+	
+	public int getRezervacijaID() {
+		return rezervacijaID;
+	}
+	public void setRezervacijaID(int rezervacijaID) {
+		this.rezervacijaID = rezervacijaID;
+	}
+	public Hotel_Rezervacija_Usluga(String naziv, String broj_licne_karte, String vrsta_usluge, int sobaID,int rezervacijaID,
 			Timestamp datum_prijavljivanja, Timestamp datum_odlaska) {
 		super();
 		this.naziv = naziv;
 		this.broj_licne_karte = broj_licne_karte;
 		this.vrsta_usluge = vrsta_usluge;
+		this.rezervacijaID=rezervacijaID;
 		this.sobaID = sobaID;
 		this.datum_prijavljivanja = datum_prijavljivanja;
 		this.datum_odlaska = datum_odlaska;

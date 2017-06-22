@@ -51,6 +51,14 @@ public class Servlet_admin extends HttpServlet {
 			daoAdmin.deleteKorisnikByUsername(user);
 			response.sendRedirect("Servlet_admin?akcija=korisniciTabela&hotelID="+hot_id+"&status=ok");
 		}
+		
+		else if(akcija.equals("rezervacijeTabela")){
+			ArrayList<Hotel_Rezervacija_Usluga> rezervacije = daoAdmin.getRezervacijeByHotelID(hot_id);
+			Hotel hotel = daoAdmin.getHotelByID(hot_id);
+			request.setAttribute("rezervacije", rezervacije);
+			request.setAttribute("hotel", hotel);
+			request.getRequestDispatcher("adminRezervacije.jsp").forward(request, response);
+		}
 	}
 
 	
