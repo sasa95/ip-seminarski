@@ -32,13 +32,13 @@ public class Servlet_profil extends HttpServlet {
 		DAO dao = new DAO();
 		for(int i=0;i<akcija.length;i++){
 			if(akcija[i].equals("profil")){
-				ArrayList<Rezervacija> lsrez = dao.getRezervacijaByKorisnickoIme(username);
+				ArrayList<Hotel_Rezervacija_Usluga> lsrez = dao.getRezervacijaByKorisnickoIme(username);
 				loginSesija.setAttribute("lsrez", lsrez);
 				
 				if(kor!=null){
 					String lk = kor.getBroj_licne_karte();
 					ArrayList<Hotel_aktivnost>lsakt = dao.getDodataAktivnost(lk);
-					request.setAttribute("lsakt", lsakt);
+					loginSesija.setAttribute("lsakt", lsakt);
 				}
 				request.setAttribute("msg", "Uspesna rezervacija");
 				request.getRequestDispatcher("profilKorisnika.jsp").forward(request, response);

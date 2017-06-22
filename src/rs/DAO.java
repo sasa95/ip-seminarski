@@ -40,12 +40,13 @@ public class DAO {
       private static String UPDATEDOSTUPNOSTBYSOBAID = "UPDATE sobe SET dostupna='ne' WHERE sobaID=?";
       private static String INSERTREZERVACIJA = "INSERT INTO rezervacije (datum_prijavljivanja, datum_odlaska, broj_licne_karte, sobaID, hotelID, uslugaID) VALUES (?,?,?,?,?,?)";
       private static String GETUSLUGABYHOTELID = "SELECT u.vrsta_usluge,u.uslugaID FROM hoteli h JOIN hoteli_usluge hu ON h.hotelID=hu.hotelID JOIN usluge u ON hu.uslugaID=u.uslugaID WHERE h.hotelID=?";      
-      private static String GETREZERVACIJABYKORISNICKOIME = "SELECT * FROM rezervacije r JOIN korisnici k ON r.broj_licne_karte=k.broj_licne_karte WHERE k.korisnicko_ime=?";
       private static String INSERTKORISNICIAKTIVNOSTI = "INSERT INTO korisnici_aktivnosti VALUES (?, ?)";
       private static String GETAKTIVNOSTIBYHOTELID = "SELECT a.* from hoteli h JOIN hoteli_aktivnosti ha ON h.hotelID=ha.hotelID JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE h.hotelID=?";
       private static String KORISNIKAKTIVNOST_BOOL = "SELECT * FROM korisnici_aktivnosti WHERE broj_licne_karte = ? AND aktivnostiID=?";
       private static String GETDODATAAKTIVNOST = "SELECT a.naziv,ha.datum_odrzavanja,ha.mesto_odrzavanja,ha.vreme_odrzavanja FROM korisnici k join korisnici_aktivnosti ka ON k.broj_licne_karte=ka.broj_licne_karte JOIN aktivnosti a ON ka.aktivnostiID=a.aktivnostID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE k.broj_licne_karte=?";
-		      
+      private static String GETREZERVACIJABYKORISNICKOIME = "SELECT h.naziv,r.sobaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,U.vrsta_usluge FROM rezervacije r JOIN korisnici k ON r.broj_licne_karte=k.broj_licne_karte JOIN hoteli h ON r.hotelID=h.hotelID LEFT JOIN usluge u ON r.uslugaID=u.uslugaID WHERE k.korisnicko_ime=?";  
+      
+      
       public DAO(){
 	try {
 		InitialContext cxt = new InitialContext();
@@ -845,46 +846,7 @@ public class DAO {
 		return ls;
 	}
 
-	public ArrayList<Rezervacija> getRezervacijaByKorisnickoIme(String korisnicko_ime){
-		Connection con = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		
-		ArrayList<Rezervacija> lo = new ArrayList<Rezervacija>();
-		Rezervacija rezervacija = null;
-				
-            try {
-			con = ds.getConnection();
-			pstm = con.prepareStatement(GETREZERVACIJABYKORISNICKOIME);
-			pstm.setString(1, korisnicko_ime);
-			
-			pstm.execute();
-
-			rs = pstm.getResultSet();
-
-			while(rs.next()){
-				rezervacija = new Rezervacija();
-				rezervacija.setDatum_prijavljivanja(rs.getTimestamp("datum_prijavljivanja"));
-				rezervacija.setDatum_odlaska(rs.getTimestamp("datum_odlaska"));
-				rezervacija.setBroj_licne_karte(rs.getString("broj_licne_karte"));
-				rezervacija.setSobaID(rs.getInt("sobaID"));
-				rezervacija.setHotelID(rs.getInt("hotelID"));
-				rezervacija.setUslugaID(rs.getInt("uslugaID"));
-
-				lo.add(rezervacija);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return lo; 
-	}
+	
 	
 	public void insertKorisniciAktivnosti(String broj_licne_karte, int aktivnostID){
 		Connection con = null;
@@ -1034,5 +996,46 @@ public class DAO {
 		}
 
 		return ls;
+	}
+	
+	public ArrayList<Hotel_Rezervacija_Usluga> getRezervacijaByKorisnickoIme(String korisnicko_ime){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		ArrayList<Hotel_Rezervacija_Usluga> lo = new ArrayList<Hotel_Rezervacija_Usluga>();
+		Hotel_Rezervacija_Usluga hru = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETREZERVACIJABYKORISNICKOIME);
+			pstm.setString(1, korisnicko_ime);
+			
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				hru = new Hotel_Rezervacija_Usluga();
+				hru.setNaziv(rs.getString("naziv"));
+				hru.setSobaID(rs.getInt("sobaID"));
+				hru.setDatum_prijavljivanja(rs.getTimestamp("datum_prijavljivanja"));
+				hru.setDatum_odlaska(rs.getTimestamp("datum_odlaska"));
+				hru.setBroj_licne_karte(rs.getString("broj_licne_karte"));
+				hru.setVrsta_usluge(rs.getString("vrsta_usluge"));
+
+				lo.add(hru);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return lo; 
 	}
 }
