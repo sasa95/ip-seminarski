@@ -21,7 +21,7 @@ public class DAOAdmin {
       private static String GETHOTELIDBYUSERNAME = "SELECT hotelID FROM korisnici WHERE korisnicko_ime=?";
       private static String GETHOTELBYID = "SELECT * from hoteli WHERE hotelID=?";
       private static String UPDATEHOTELBYID = "UPDATE hoteli SET naziv=?,adresa=?,kategorija=?,broj_lezaja=?,opis=? WHERE hotelID=?";
-      private static String GETKORISNICIBYHOTELID = "SELECT ime,prezime,broj_licne_karte,adresa,email,korisnicko_ime,tip_korisnika FROM korisnici WHERE hotelID = ?";
+      private static String GETKORISNICIBYHOTELID = "SELECT ime,prezime,k.broj_licne_karte,adresa,email,korisnicko_ime,tip_korisnika FROM korisnici k JOIN rezervacije r ON k.broj_licne_karte=r.broj_licne_karte WHERE r.hotelID=?";
       private static String DELETEKORISNIKBYUSERNAME = "DELETE FROM korisnici WHERE korisnicko_ime=?";
       private static String GETREZERVACIJEBYHOTELID = "SELECT r.rezervacijaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,r.sobaID,u.vrsta_usluge FROM rezervacije r JOIN usluge u ON r.uslugaID=u.uslugaID WHERE hotelID = ?";
       private static String DELETEREZERVACIJABYID = "DELETE FROM rezervacije WHERE rezervacijaID = ?";
