@@ -15,6 +15,7 @@
 <%
 	HttpSession adminSesija = request.getSession();
 	String adminUsername = (String)adminSesija.getAttribute("adminUsername");
+	String msg = request.getParameter("msg");
 	Hotel hotel = (Hotel)request.getAttribute("hotel");
 	ArrayList<Zaposleni_posao>lszap = (ArrayList<Zaposleni_posao>)request.getAttribute("lszap");
 	ArrayList<Posao>lsp = (ArrayList<Posao>)request.getAttribute("lsp");
@@ -40,6 +41,7 @@
 			<th>Plata</th>
 			<th>Posao</th>
 			<th>Rukovodilac</th>
+			<th></th>
 		<tr>
 		<c:forEach var="pom" items="${lszap}">
 			<tr>
@@ -49,9 +51,12 @@
 				<td>${pom.plata}</td>
 				<td>${pom.naziv_posla}</td>
 				<td>${pom.imeRuk} ${pom.prezimeRuk}</td>
+				<td><a href="Servlet_admin?akcija=obrisiZaposlenog&zaposleniID=${pom.zaposleniID}">Izbriši</a></td>
 			</tr>
 		</c:forEach>
 	</table>
+	
+	<h2><%if(msg!=null){out.println(msg);}%></h2>
 	
 	<form action="Servlet_admin" method="POST">
 		<label for="ime">Ime</label>
@@ -61,24 +66,32 @@
 		<label for="plata">Plata</label>
 		<input type="text" name="plata" id="plata"><br>
 		<label for="posao">Posao</label>
-		<select name="posao" id="posao">
+		<select name="posaoID" id="posaoID">
 			<c:forEach var="pos" items="${lsp}">
 				<option value="${pos.posaoID}">${pos.naziv_posla}</option>
 			</c:forEach>
 		</select><br>
-		<label for="rukovodilac">Rukovodilac</label>
-		<select name="rukovodilac" id="rukovodilac">
+		<label for="rukovodilacID">Rukovodilac</label>
+		<select name="rukovodilacID" id="rukovodilacID">
+			<option value=""></option>
 			<c:forEach var="ruk" items="${lsruk}">
 				<option value="${ruk.rukovodilacID}">${ruk.ime} ${ruk.prezime}</option>
 			</c:forEach>
 		</select><br>
 		<input type="hidden" name="akcija" value="unosZaposlenog">
 		<input type="submit" value="Unesi">
-	</form>
-	
-	<% if(status!=null && status.equals("ok")){ %>
-		<h3>Uspešno brisanje zaposlenog</h3>
-	<%} %>
+	</form>	
+	<%
+		if(status!=null){
+			if(status.equals("okI")){
+				out.println("<h3>Uspešan unos zaposlenog</h3>");
+			}
+			
+			if(status.equals("okD")){
+				out.println("<h3>Uspešno brisanje zaposlenog</h3>");
+			}
+		}
+	%>
 </body>
 </html>
 <%}else { response.sendRedirect("prijava.jsp");}%>

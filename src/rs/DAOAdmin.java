@@ -32,8 +32,9 @@ public class DAOAdmin {
       private static String GETRUKOVODILACBYID = "SELECT ime as imeRuk,prezime as prezimeRuk FROM rukovodioci WHERE rukovodilacID=?";
       private static String GETPOSLOVI = "SELECT posaoID,naziv_posla FROM poslovi";
       private static String GETRUKOVODIOCI = "SELECT rukovodilacID,ime,prezime FROM rukovodioci"; 
-      
-      
+      private static String INSERTZAPOSLENI = "INSERT INTO zaposleni(ime,prezime,plata,hotelID,posaoID,rukovodilacID) VALUES (?,?,?,?,?,?)";
+      private static String INSERTZAPOSLENIWITHOUTRUK = "INSERT INTO zaposleni(ime,prezime,plata,hotelID,posaoID) VALUES (?,?,?,?,?)";
+      private static String DELETEZAPOSLENIBYID = "DELETE FROM zaposleni WHERE zaposleniID=?";
       
       public DAOAdmin(){
 	try {
@@ -459,4 +460,78 @@ public class DAOAdmin {
 		return ls;
 	}
 	
+	public void insertZaposleni(String ime,String prezime,float plata,int hotelID,int posaoID,int rukovodilacID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(INSERTZAPOSLENI);
+
+			pstm.setString(1, ime);
+			pstm.setString(2, prezime);
+			pstm.setFloat(3, plata);
+			pstm.setInt(4, hotelID);
+			pstm.setInt(5, posaoID);
+			pstm.setInt(6, rukovodilacID);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void insertZaposleniWithoutRuk(String ime,String prezime,float plata,int hotelID,int posaoID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(INSERTZAPOSLENIWITHOUTRUK);
+
+			pstm.setString(1, ime);
+			pstm.setString(2, prezime);
+			pstm.setFloat(3, plata);
+			pstm.setInt(4, hotelID);
+			pstm.setInt(5, posaoID);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteZaposleniByID(int zapID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(DELETEZAPOSLENIBYID);
+
+			pstm.setInt(1, zapID);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
