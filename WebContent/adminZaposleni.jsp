@@ -37,6 +37,7 @@
 			<th>Prezime</th>
 			<th>Plata</th>
 			<th>Posao</th>
+			<th>Rukovodilac</th>
 		<tr>
 		<c:forEach var="pom" items="${lszap}">
 			<tr>
@@ -45,6 +46,7 @@
 				<td>${pom.prezime}</td>
 				<td>${pom.plata}</td>
 				<td>${pom.naziv_posla}</td>
+				<td>${pom.imeRuk} ${pom.prezimeRuk}</td>
 			</tr>
 		</c:forEach>
 	</table>

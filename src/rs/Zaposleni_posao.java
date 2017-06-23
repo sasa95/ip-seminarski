@@ -2,7 +2,7 @@ package rs;
 
 public class Zaposleni_posao {
 	private int zaposleniID,hotelID,posaoID,rukovodilacID;
-	private String ime,prezime,naziv_posla;
+	private String ime,prezime,naziv_posla,imeRuk,prezimeRuk;
 	private float plata;
 	public int getZaposleniID() {
 		return zaposleniID;
@@ -52,15 +52,31 @@ public class Zaposleni_posao {
 	public void setPlata(float plata) {
 		this.plata = plata;
 	}
-	public Zaposleni_posao(int hotelID, int posaoID, int rukovodilacID, String naziv_posla, String ime, String prezime,
-			float plata) {
+	
+	public String getImeRuk() {
+		return imeRuk;
+	}
+	public void setImeRuk(String imeRuk) {
+		this.imeRuk = imeRuk;
+	}
+	public String getPrezimeRuk() {
+		return prezimeRuk;
+	}
+	public void setPrezimeRuk(String prezimeRuk) {
+		this.prezimeRuk = prezimeRuk;
+	}
+	
+	public Zaposleni_posao(int hotelID, int posaoID, int rukovodilacID, String ime, String prezime, String naziv_posla,
+			String imeRuk, String prezimeRuk, float plata) {
 		super();
 		this.hotelID = hotelID;
 		this.posaoID = posaoID;
 		this.rukovodilacID = rukovodilacID;
-		this.naziv_posla = naziv_posla;
 		this.ime = ime;
 		this.prezime = prezime;
+		this.naziv_posla = naziv_posla;
+		this.imeRuk = imeRuk;
+		this.prezimeRuk = prezimeRuk;
 		this.plata = plata;
 	}
 	public Zaposleni_posao() {

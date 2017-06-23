@@ -27,9 +27,9 @@ public class DAOAdmin {
       private static String DELETEKORISNIKBYUSERNAME = "DELETE FROM korisnici WHERE korisnicko_ime=?";
       private static String GETREZERVACIJEBYHOTELID = "SELECT r.rezervacijaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,r.sobaID,u.vrsta_usluge FROM rezervacije r JOIN usluge u ON r.uslugaID=u.uslugaID WHERE hotelID = ?";
       private static String DELETEREZERVACIJABYID = "DELETE FROM rezervacije WHERE rezervacijaID = ?";
-      private static String GETZAPOSLENIBYHOTELID = "SELECT zaposleniID,ime,prezime,plata,posaoID FROM zaposleni WHERE hotelID=?";
+      private static String GETZAPOSLENIBYHOTELID = "SELECT zaposleniID,ime,prezime,plata,posaoID,rukovodilacID FROM zaposleni WHERE hotelID=?";
       private static String GETPOSAOBYID = "SELECT naziv_posla FROM poslovi WHERE posaoID=?";
-      
+      private static String GETRUKOVODILACBYID = "SELECT ime as imeRuk,prezime as prezimeRuk FROM rukovodioci WHERE rukovodilacID=?";
       
       
       
@@ -300,6 +300,7 @@ public class DAOAdmin {
 				zaposleni.setPrezime(rs.getString("prezime"));
 				zaposleni.setPlata(rs.getFloat("plata"));
 				zaposleni.setPosaoID(rs.getInt("posaoID"));
+				zaposleni.setRukovodilacID(rs.getInt("rukovodilacID"));
 				ls.add(zaposleni);
 			}
 
@@ -348,4 +349,40 @@ public class DAOAdmin {
 
 		return posao.getNaziv_posla();
 	}
+	
+	public Rukovodilac getRukovodilacByID(int rukID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Rukovodilac ruk = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETRUKOVODILACBYID);
+
+			pstm.setInt(1, rukID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			if(rs.next()){ 
+				ruk = new Rukovodilac();
+				ruk.setIme(rs.getString("imeRuk"));
+				ruk.setPrezime(rs.getString("prezimeRuk"));
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ruk;
+	}
+	
 }

@@ -78,7 +78,8 @@ public class Servlet_admin extends HttpServlet {
 			ArrayList<Zaposleni_posao>lszap = daoAdmin.getZaposleniByHotelID(hot_id);
 			for(Zaposleni_posao z:lszap){
 				z.setNaziv_posla(daoAdmin.getPosaoByID(z.getPosaoID()));
-				
+				z.setImeRuk(daoAdmin.getRukovodilacByID(z.getRukovodilacID()).getIme());
+				z.setPrezimeRuk(daoAdmin.getRukovodilacByID(z.getRukovodilacID()).getPrezime());
 			}
 			
 			request.setAttribute("lszap", lszap);
