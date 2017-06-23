@@ -75,13 +75,19 @@ public class Servlet_admin extends HttpServlet {
 		
 		else if(akcija.equals("zaposleniTabela")){
 			Hotel hotel = daoAdmin.getHotelByID(hot_id);
+			ArrayList<Rukovodilac>lsruk = daoAdmin.getRukovodioci();
+			ArrayList<Posao>lsp = daoAdmin.getPoslovi();
 			ArrayList<Zaposleni_posao>lszap = daoAdmin.getZaposleniByHotelID(hot_id);
 			for(Zaposleni_posao z:lszap){
 				z.setNaziv_posla(daoAdmin.getPosaoByID(z.getPosaoID()));
-				z.setImeRuk(daoAdmin.getRukovodilacByID(z.getRukovodilacID()).getIme());
-				z.setPrezimeRuk(daoAdmin.getRukovodilacByID(z.getRukovodilacID()).getPrezime());
+				if(z.getRukovodilacID() !=0){
+					z.setImeRuk(daoAdmin.getRukovodilacByID(z.getRukovodilacID()).getIme());
+					z.setPrezimeRuk(daoAdmin.getRukovodilacByID(z.getRukovodilacID()).getPrezime());
+				}
 			}
 			
+			request.setAttribute("lsruk", lsruk);
+			request.setAttribute("lsp", lsp);
 			request.setAttribute("lszap", lszap);
 			request.setAttribute("hotel", hotel);
 			request.getRequestDispatcher("adminZaposleni.jsp").forward(request, response);
@@ -114,6 +120,10 @@ public class Servlet_admin extends HttpServlet {
 			catch(Exception e){
 				response.sendRedirect("error.jsp");
 			}
+		}
+		
+		else if(akcija.equals("unosZaposlenog")){
+			System.out.println("UNOOS");
 		}
 	}
 

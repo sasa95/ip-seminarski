@@ -30,8 +30,8 @@ public class DAOAdmin {
       private static String GETZAPOSLENIBYHOTELID = "SELECT zaposleniID,ime,prezime,plata,posaoID,rukovodilacID FROM zaposleni WHERE hotelID=?";
       private static String GETPOSAOBYID = "SELECT naziv_posla FROM poslovi WHERE posaoID=?";
       private static String GETRUKOVODILACBYID = "SELECT ime as imeRuk,prezime as prezimeRuk FROM rukovodioci WHERE rukovodilacID=?";
-      
-      
+      private static String GETPOSLOVI = "SELECT posaoID,naziv_posla FROM poslovi";
+      private static String GETRUKOVODIOCI = "SELECT rukovodilacID,ime,prezime FROM rukovodioci"; 
       
       
       
@@ -383,6 +383,80 @@ public class DAOAdmin {
 		}
 
 		return ruk;
+	}
+	
+	public ArrayList<Posao> getPoslovi(){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Posao posao = null;
+		ArrayList<Posao>ls=new ArrayList<Posao>();
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETPOSLOVI);
+
+			
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				posao = new Posao();
+				posao.setPosaoID(rs.getInt("posaoID"));
+				posao.setNaziv_posla(rs.getString("naziv_posla"));
+				
+				ls.add(posao);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
+	}
+	
+	public ArrayList<Rukovodilac> getRukovodioci(){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Rukovodilac ruk = null;
+		ArrayList<Rukovodilac>ls=new ArrayList<Rukovodilac>();
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETRUKOVODIOCI);
+
+			
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				ruk = new Rukovodilac();
+				ruk.setRukovodilacID(rs.getInt("rukovodilacID"));
+				ruk.setIme(rs.getString("ime"));
+				ruk.setPrezime(rs.getString("prezime"));
+				ls.add(ruk);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
 	}
 	
 }
