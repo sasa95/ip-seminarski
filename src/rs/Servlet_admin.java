@@ -149,18 +149,28 @@ public class Servlet_admin extends HttpServlet {
 			String opis = request.getParameter("opis");
 			String returnPath = request.getParameter("returnPath");
 			
-			try {
-				int hid = Integer.parseInt(hotelID);
-				int kat = Integer.parseInt(kategorija);
-				int br_lez = Integer.parseInt(broj_lezaja);
+			if(hotelID!=null && hotelID.trim().length()>0 && naziv!=null && naziv.trim().length()>0 &&
+				adresa!=null && adresa.trim().length()>0 && kategorija!=null && kategorija.trim().length()>0 &&
+				broj_lezaja!=null && broj_lezaja.trim().length()>0){
 				
-				daoAdmin.updateHotelByID(naziv, adresa, kat, br_lez, opis, hid);
-				response.sendRedirect(returnPath+"&status=ok");
+				try {
+					int hid = Integer.parseInt(hotelID);
+					int kat = Integer.parseInt(kategorija);
+					int br_lez = Integer.parseInt(broj_lezaja);
+					
+					daoAdmin.updateHotelByID(naziv, adresa, kat, br_lez, opis, hid);
+					response.sendRedirect(returnPath+"&status=ok");
+				}
+				
+				catch(Exception e){
+					response.sendRedirect("error.jsp");
+				}
 			}
 			
-			catch(Exception e){
-				response.sendRedirect("error.jsp");
+			else {
+				response.sendRedirect(returnPath+"&status=empty");
 			}
+		
 		}
 		
 		else if(akcija.equals("unosZaposlenog")){

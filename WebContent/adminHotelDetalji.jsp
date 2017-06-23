@@ -50,9 +50,17 @@
 		<input type="hidden" name="returnPath" value="Servlet_admin?akcija=hotelDetalji&hotelID=<%=hot_id%>">
 		<input type="submit" value="Izmeni">
 	</form>
-	<%if(status!=null && status.equals("ok")){ %>
-		<h3>Uspešna izmena</h3>
-	<%} %>
+	<%
+	if(status!=null){
+		if(status.equals("ok")){
+			out.println("<h3>Uspešna izmena</h3>");
+		}
+		
+		else if(status.equals("empty")){
+			out.println("<h3>Morate popuniti sva polja");
+		}
+	}
+	%>
 </body>
 </html>
 <%}else { response.sendRedirect("prijava.jsp");}%>
