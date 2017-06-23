@@ -72,6 +72,14 @@ public class Servlet_admin extends HttpServlet {
 				response.sendRedirect("error.jsp");
 			}
 		}
+		
+		else if(akcija.equals("zaposleniTabela")){
+			ArrayList<Zaposleni>lszap = daoAdmin.getZaposleniByHotelID(hot_id);
+			Hotel hotel = daoAdmin.getHotelByID(hot_id);
+			request.setAttribute("lszap", lszap);
+			request.setAttribute("hotel", hotel);
+			request.getRequestDispatcher("adminZaposleni.jsp").forward(request, response);
+		}
 	}
 
 	

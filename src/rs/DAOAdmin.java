@@ -25,7 +25,7 @@ public class DAOAdmin {
       private static String DELETEKORISNIKBYUSERNAME = "DELETE FROM korisnici WHERE korisnicko_ime=?";
       private static String GETREZERVACIJEBYHOTELID = "SELECT r.rezervacijaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,r.sobaID,u.vrsta_usluge FROM rezervacije r JOIN usluge u ON r.uslugaID=u.uslugaID WHERE hotelID = ?";
       private static String DELETEREZERVACIJABYID = "DELETE FROM rezervacije WHERE rezervacijaID = ?";
-      
+      private static String GETZAPOSLENIBYHOTELID = "SELECT zaposleniID,ime,prezime,plata FROM zaposleni WHERE hotelID=?";
       public DAOAdmin(){
 	try {
 		InitialContext cxt = new InitialContext();
@@ -265,5 +265,43 @@ public class DAOAdmin {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Zaposleni> getZaposleniByHotelID(int hotelID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Zaposleni zaposleni = null;
+		ArrayList<Zaposleni>ls=new ArrayList<Zaposleni>();
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETZAPOSLENIBYHOTELID);
+
+			pstm.setInt(1, hotelID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				zaposleni = new Zaposleni();
+				zaposleni.setZaposleniID(rs.getInt("zaposleniID"));
+				zaposleni.setIme(rs.getString("ime"));
+				zaposleni.setPrezime(rs.getString("prezime"));
+				zaposleni.setPlata(rs.getFloat("plata"));
+				ls.add(zaposleni);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
 	}
 }
