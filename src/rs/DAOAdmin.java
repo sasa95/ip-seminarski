@@ -14,6 +14,8 @@ import javax.sql.DataSource;
 
 import com.mysql.jdbc.Statement;
 
+import javafx.geometry.Pos;
+
 import java.util.ArrayList;
 public class DAOAdmin {
       private DataSource ds;
@@ -25,7 +27,14 @@ public class DAOAdmin {
       private static String DELETEKORISNIKBYUSERNAME = "DELETE FROM korisnici WHERE korisnicko_ime=?";
       private static String GETREZERVACIJEBYHOTELID = "SELECT r.rezervacijaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,r.sobaID,u.vrsta_usluge FROM rezervacije r JOIN usluge u ON r.uslugaID=u.uslugaID WHERE hotelID = ?";
       private static String DELETEREZERVACIJABYID = "DELETE FROM rezervacije WHERE rezervacijaID = ?";
-      private static String GETZAPOSLENIBYHOTELID = "SELECT zaposleniID,ime,prezime,plata FROM zaposleni WHERE hotelID=?";
+      private static String GETZAPOSLENIBYHOTELID = "SELECT zaposleniID,ime,prezime,plata,posaoID FROM zaposleni WHERE hotelID=?";
+      private static String GETPOSAOBYID = "SELECT naziv_posla FROM poslovi WHERE posaoID=?";
+      
+      
+      
+      
+      
+      
       public DAOAdmin(){
 	try {
 		InitialContext cxt = new InitialContext();
@@ -267,13 +276,13 @@ public class DAOAdmin {
 		}
 	}
 	
-	public ArrayList<Zaposleni> getZaposleniByHotelID(int hotelID){
+	public ArrayList<Zaposleni_posao> getZaposleniByHotelID(int hotelID){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		Zaposleni zaposleni = null;
-		ArrayList<Zaposleni>ls=new ArrayList<Zaposleni>();
+		Zaposleni_posao zaposleni = null;
+		ArrayList<Zaposleni_posao>ls=new ArrayList<Zaposleni_posao>();
 				
             try {
 			con = ds.getConnection();
@@ -285,11 +294,12 @@ public class DAOAdmin {
 			rs = pstm.getResultSet();
 
 			while(rs.next()){ 
-				zaposleni = new Zaposleni();
+				zaposleni = new Zaposleni_posao();
 				zaposleni.setZaposleniID(rs.getInt("zaposleniID"));
 				zaposleni.setIme(rs.getString("ime"));
 				zaposleni.setPrezime(rs.getString("prezime"));
 				zaposleni.setPlata(rs.getFloat("plata"));
+				zaposleni.setPosaoID(rs.getInt("posaoID"));
 				ls.add(zaposleni);
 			}
 
@@ -303,5 +313,39 @@ public class DAOAdmin {
 		}
 
 		return ls;
+	}
+	
+	public String getPosaoByID(int posaoID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Posao posao = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETPOSAOBYID);
+
+			pstm.setInt(1, posaoID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			if(rs.next()){ 
+				posao = new Posao();
+				posao.setNaziv_posla(rs.getString("naziv_posla"));
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return posao.getNaziv_posla();
 	}
 }

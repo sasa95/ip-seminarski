@@ -74,8 +74,13 @@ public class Servlet_admin extends HttpServlet {
 		}
 		
 		else if(akcija.equals("zaposleniTabela")){
-			ArrayList<Zaposleni>lszap = daoAdmin.getZaposleniByHotelID(hot_id);
 			Hotel hotel = daoAdmin.getHotelByID(hot_id);
+			ArrayList<Zaposleni_posao>lszap = daoAdmin.getZaposleniByHotelID(hot_id);
+			for(Zaposleni_posao z:lszap){
+				z.setNaziv_posla(daoAdmin.getPosaoByID(z.getPosaoID()));
+				
+			}
+			
 			request.setAttribute("lszap", lszap);
 			request.setAttribute("hotel", hotel);
 			request.getRequestDispatcher("adminZaposleni.jsp").forward(request, response);

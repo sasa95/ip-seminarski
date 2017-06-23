@@ -1,3 +1,5 @@
+<%@page import="rs.Zaposleni_posao"%>
+<%@page import="rs.Posao"%>
 <%@page import="rs.Zaposleni"%>
 <%@page import="rs.Hotel_Rezervacija_Usluga"%>
 <%@page import="rs.Hotel"%>
@@ -13,7 +15,8 @@
 	HttpSession adminSesija = request.getSession();
 	String adminUsername = (String)adminSesija.getAttribute("adminUsername");
 	Hotel hotel = (Hotel)request.getAttribute("hotel");
-	ArrayList<Zaposleni>lszap = (ArrayList<Zaposleni>)request.getAttribute("lszap");
+	ArrayList<Zaposleni_posao>lszap = (ArrayList<Zaposleni_posao>)request.getAttribute("lszap");
+	
 	String status = request.getParameter("status");
 	if(adminUsername!=null && !adminUsername.equals("")){
 		int hot_id = (Integer)adminSesija.getAttribute("hot_id");
@@ -33,6 +36,7 @@
 			<th>Ime</th>
 			<th>Prezime</th>
 			<th>Plata</th>
+			<th>Posao</th>
 		<tr>
 		<c:forEach var="pom" items="${lszap}">
 			<tr>
@@ -40,6 +44,7 @@
 				<td>${pom.ime}</td>
 				<td>${pom.prezime}</td>
 				<td>${pom.plata}</td>
+				<td>${pom.naziv_posla}</td>
 			</tr>
 		</c:forEach>
 	</table>
