@@ -35,6 +35,10 @@ public class DAOAdmin {
       private static String INSERTZAPOSLENI = "INSERT INTO zaposleni(ime,prezime,plata,hotelID,posaoID,rukovodilacID) VALUES (?,?,?,?,?,?)";
       private static String INSERTZAPOSLENIWITHOUTRUK = "INSERT INTO zaposleni(ime,prezime,plata,hotelID,posaoID) VALUES (?,?,?,?,?)";
       private static String DELETEZAPOSLENIBYID = "DELETE FROM zaposleni WHERE zaposleniID=?";
+      private static String GETZAPOSLENIBYID = "SELECT * FROM zaposleni WHERE zaposleniID=?";
+      private static String GETRUKOVODILACBYZAPOSLENIID = "SELECT r.rukovodilacID,r.ime as imeRuk,r.prezime as prezimeRuk FROM rukovodioci r JOIN zaposleni z ON r.rukovodilacID=z.rukovodilacID WHERE z.zaposleniID=?";
+      private static String UPDATEZAPOSLENIBYID = "UPDATE zaposleni SET ime=?,prezime=?,plata=?,posaoID=?,rukovodilacID=? WHERE zaposleniID=?";
+      private static String UPDATEZAPOSLENIBYIDWITHOUTRUK = "UPDATE zaposleni SET ime=?,prezime=?,plata=?,rukovodilacID=null,posaoID=? WHERE zaposleniID=?";
       
       public DAOAdmin(){
 	try {
@@ -522,6 +526,132 @@ public class DAOAdmin {
 			pstm = con.prepareStatement(DELETEZAPOSLENIBYID);
 
 			pstm.setInt(1, zapID);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Zaposleni getZaposleniByID(int idZap){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Zaposleni zaposleni = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETZAPOSLENIBYID);
+
+			pstm.setInt(1, idZap);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			if(rs.next()){ 
+				zaposleni = new Zaposleni();
+				zaposleni.setZaposleniID(rs.getInt("zaposleniID"));
+				zaposleni.setIme(rs.getString("ime"));
+				zaposleni.setPrezime(rs.getString("prezime"));
+				zaposleni.setPlata(rs.getFloat("plata"));
+				zaposleni.setPosaoID(rs.getInt("posaoID"));
+				zaposleni.setRukovodilacID(rs.getInt("rukovodilacID"));
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return zaposleni;
+	}
+	
+	public Rukovodilac getRukovodilacByZaposleniID(int zapID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Rukovodilac ruk = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETRUKOVODILACBYZAPOSLENIID);
+
+			pstm.setInt(1, zapID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			if(rs.next()){ 
+				ruk = new Rukovodilac();
+				ruk.setRukovodilacID(rs.getInt("rukovodilacID"));
+				ruk.setIme(rs.getString("imeRuk"));
+				ruk.setPrezime(rs.getString("prezimeRuk"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ruk;
+	}
+	
+	public void updateZaposleniByID(String ime,String prezime,float plata,int posaoID,int rukovodilacID,int zaposleniID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(UPDATEZAPOSLENIBYID);
+
+			pstm.setString(1, ime);
+			pstm.setString(2, prezime);
+			pstm.setFloat(3, plata);
+			pstm.setInt(4, posaoID);
+			pstm.setInt(5, rukovodilacID);
+			pstm.setInt(6, zaposleniID);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateZaposleniByIDwithoutRuk(String ime,String prezime,float plata,int posaoID,int zaposleniID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(UPDATEZAPOSLENIBYIDWITHOUTRUK);
+
+			pstm.setString(1, ime);
+			pstm.setString(2, prezime);
+			pstm.setFloat(3, plata);
+			pstm.setInt(4, posaoID);
+			pstm.setInt(5, zaposleniID);
 			pstm.execute();
 
 

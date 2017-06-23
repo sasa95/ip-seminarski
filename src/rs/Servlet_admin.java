@@ -109,6 +109,22 @@ public class Servlet_admin extends HttpServlet {
 				}
 			}
 			
+			else if(akcija.equals("izmeniZaposlenog")){
+				String zaposleniID = request.getParameter("zaposleniID");
+				try {
+					int z_id = Integer.parseInt(zaposleniID);
+					Zaposleni zaposleni = daoAdmin.getZaposleniByID(z_id);
+					Rukovodilac rukovodilac = daoAdmin.getRukovodilacByZaposleniID(z_id);
+					adminSesija.setAttribute("rukovodilac", rukovodilac);
+					adminSesija.setAttribute("zaposleni", zaposleni);
+					response.sendRedirect("Servlet_admin?akcija=zaposleniTabela&hotelID="+hot_id+"&zaposleniID="+z_id);
+				}
+				
+				catch(Exception e){
+					response.sendRedirect("error.jsp");
+				}
+			}
+			
 		}
 		
 		else {
@@ -180,6 +196,51 @@ public class Servlet_admin extends HttpServlet {
 			
 			else {
 				response.sendRedirect("Servlet_admin?akcija=zaposleniTabela&msg=Morate popuniti sva polja&hotelID="+hot_id);
+			}
+		}
+		
+		else if(akcija.equals("izmenaZaposlenog")){
+			String zaposleniID = request.getParameter("zaposleniID");
+			String ime = request.getParameter("ime");
+			String prezime = request.getParameter("prezime");
+			String plata = request.getParameter("plata");
+			String posaoID = request.getParameter("posaoID");
+			String rukovodilacID = request.getParameter("rukovodilacID");
+			System.out.println(zaposleniID);
+			System.out.println(ime);
+			System.out.println(prezime);
+			System.out.println(plata);
+			System.out.println(posaoID);
+			System.out.println(rukovodilacID);
+			
+			if(ime!=null && ime.trim().length()>0 && prezime!=null && prezime.trim().length()>0 && 
+				plata!=null && plata.trim().length()>0 && posaoID!=null && posaoID.trim().length()>0){
+				try {
+					int zap_id = Integer.parseInt(zaposleniID);
+					float plat = Float.parseFloat(plata);
+					int posID = Integer.parseInt(posaoID);
+					
+					if(!rukovodilacID.equals("")){
+						int rukID = Integer.parseInt(rukovodilacID);
+						daoAdmin.updateZaposleniByID(ime, prezime, plat, posID, rukID, zap_id);
+					}
+					
+					else {
+						daoAdmin.updateZaposleniByIDwithoutRuk(ime, prezime, plat, posID, zap_id);
+					}
+					
+					adminSesija.removeAttribute("rukovodilac");
+					adminSesija.removeAttribute("zaposleni");
+					response.sendRedirect("Servlet_admin?akcija=zaposleniTabela&status=okU&hotelID="+hot_id);
+				}
+				
+				catch(Exception e){
+					response.sendRedirect("Servlet_admin?akcija=zaposleniTabela&msg=Pogresan format unosa&hotelID="+hot_id);
+				}
+			}
+			
+			else {
+				response.sendRedirect("Servlet_admin?akcija=zaposleniTabela&msg=Morate popuniti obavezna polja&hotelID="+hot_id);
 			}
 		}
 	}
