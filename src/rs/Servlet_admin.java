@@ -59,6 +59,19 @@ public class Servlet_admin extends HttpServlet {
 			request.setAttribute("hotel", hotel);
 			request.getRequestDispatcher("adminRezervacije.jsp").forward(request, response);
 		}
+		
+		else if(akcija.equals("obrisiRezervaciju")){
+			String rezervacijaID = request.getParameter("rezervacijaID");
+			try {
+				int rid = Integer.parseInt(rezervacijaID);
+				daoAdmin.deleteRezervacijaByID(rid);
+				response.sendRedirect("Servlet_admin?akcija=rezervacijeTabela&hotelID="+hot_id+"&status=ok");
+			}
+			
+			catch(Exception e){
+				response.sendRedirect("error.jsp");
+			}
+		}
 	}
 
 	

@@ -24,6 +24,8 @@ public class DAOAdmin {
       private static String GETKORISNICIBYHOTELID = "SELECT ime,prezime,broj_licne_karte,adresa,email,korisnicko_ime,tip_korisnika FROM korisnici WHERE hotelID = ?";
       private static String DELETEKORISNIKBYUSERNAME = "DELETE FROM korisnici WHERE korisnicko_ime=?";
       private static String GETREZERVACIJEBYHOTELID = "SELECT r.rezervacijaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,r.sobaID,u.vrsta_usluge FROM rezervacije r JOIN usluge u ON r.uslugaID=u.uslugaID WHERE hotelID = ?";
+      private static String DELETEREZERVACIJABYID = "DELETE FROM rezervacije WHERE rezervacijaID = ?";
+      
       public DAOAdmin(){
 	try {
 		InitialContext cxt = new InitialContext();
@@ -242,5 +244,26 @@ public class DAOAdmin {
 
 		return ls;
 	}
-	
+
+	public void deleteRezervacijaByID(int idr){
+		Connection con = null;
+		PreparedStatement pstm = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(DELETEREZERVACIJABYID);
+
+			pstm.setInt(1, idr);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
