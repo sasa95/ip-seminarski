@@ -51,11 +51,27 @@ public class Servlet_super_admin extends HttpServlet {
 			}
 		}
 		
+		else if(akcija.equals("izmeniHotel")){
+			String hotelID = request.getParameter("hotelID");
+			try {
+				int hot_id = Integer.parseInt(hotelID);
+				Hotel hotel = daoSuperAdmin.getHotelByID(hot_id);
+				superAdminSesija.setAttribute("hotel", hotel);
+				response.sendRedirect("administrator?akcija=tabelaHoteli");
+			}
+			
+			catch(Exception e){
+				response.sendRedirect("error.jsp");
+			}
+		}
+		
 		
 }
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		HttpSession superAdminSesija = request.getSession();
 		String akcija = request.getParameter("akcija");
 		DAOSuperAdmin daoSuperAdmin = new DAOSuperAdmin();
 		if(akcija.equals("Prijava")){
@@ -64,7 +80,6 @@ public class Servlet_super_admin extends HttpServlet {
 			
 			if(username!=null && password!=null && username.trim().length()>0 && password.trim().length()>0){
 				if(daoSuperAdmin.superLogin(username, password)){
-					HttpSession superAdminSesija = request.getSession();
 					superAdminSesija.setMaxInactiveInterval(600);
 					
 					
@@ -92,6 +107,39 @@ public class Servlet_super_admin extends HttpServlet {
 					
 					daoSuperAdmin.insertHotel(naziv, adresa, kat, br_lez, opis);
 					response.sendRedirect("administrator?akcija=tabelaHoteli&status=okI");
+				}
+				
+				catch(Exception e){
+					response.sendRedirect("administrator?akcija=tabelaHoteli&status=format");
+				}
+			}
+			
+			else {
+				response.sendRedirect("administrator?akcija=tabelaHoteli&status=empty");
+			}
+		}
+		
+		else if(akcija.equals("izmenaHotela")){
+			String naziv = request.getParameter("naziv");
+			String adresa = request.getParameter("adresa");
+			String kategorija = request.getParameter("kategorija");
+			String broj_lezaja = request.getParameter("broj_lezaja");
+			String opis = request.getParameter("opis");
+			String hotelID = request.getParameter("hotelID");
+				
+			
+			if(naziv!=null && naziv.trim().length()>0 &&
+				adresa!=null && adresa.trim().length()>0 && kategorija!=null && kategorija.trim().length()>0 &&
+				broj_lezaja!=null && broj_lezaja.trim().length()>0){
+				
+				try {
+					int kat = Integer.parseInt(kategorija);
+					int br_lez = Integer.parseInt(broj_lezaja);
+					int hot_id = Integer.parseInt(hotelID);
+					
+					daoSuperAdmin.updateHotelByID(naziv, adresa, kat, br_lez, opis, hot_id);
+					superAdminSesija.removeAttribute("hotel");
+					response.sendRedirect("administrator?akcija=tabelaHoteli&status=okU");
 				}
 				
 				catch(Exception e){

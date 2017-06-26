@@ -23,6 +23,7 @@ public class DAOSuperAdmin {
       private static String LOGIN = "SELECT * FROM admini_sajta WHERE username=? AND password=?";
       
       private static String GETHOTELI = "SELECT hotelID,naziv,adresa,kategorija,broj_lezaja,CONCAT(SUBSTRING(opis,1,50),'...') as opis FROM hoteli";
+      private static String GETHOTELBYID = "SELECT * FROM hoteli WHERE hotelID=?";
       private static String INSERTHOTEL = "INSERT INTO hoteli(naziv, adresa, kategorija, broj_lezaja, opis) VALUES (?,?,?,?,?)";
       private static String UPDATEHOTELBYID = "UPDATE hoteli SET naziv=?,adresa=?,kategorija=?,broj_lezaja=?,opis=? WHERE hotelID=?";
       private static String DELETEHOTELBYID = "DELETE FROM hoteli WHERE hotelID=?";
@@ -128,6 +129,44 @@ public class DAOSuperAdmin {
   		return ls;
   	}  
       
+  public Hotel getHotelByID(int hotelID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		Hotel hotel = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETHOTELBYID);
+
+			pstm.setInt(1, hotelID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				hotel = new Hotel();
+				hotel.setHotelID(rs.getInt("hotelID"));
+				hotel.setNaziv(rs.getString("naziv"));
+				hotel.setAdresa(rs.getString("adresa"));
+				hotel.setKategorija(rs.getInt("kategorija"));
+				hotel.setBroj_lezaja(rs.getInt("broj_lezaja"));
+				hotel.setOpis(rs.getString("opis"));
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return hotel;
+	}  
+      
 	public void insertHotel(String naziv,String adresa,int kategorija,int br_lezaja,String opis){
 		Connection con = null;
 		PreparedStatement pstm = null;
@@ -167,7 +206,7 @@ public class DAOSuperAdmin {
 			pstm.setInt(3, kategorija);
 			pstm.setInt(4,br_lezaja);
 			pstm.setString(5, opis);
-			pstm.setInt(5,hotelID);
+			pstm.setInt(6,hotelID);
 			pstm.execute();
 
 

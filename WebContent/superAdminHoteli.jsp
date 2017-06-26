@@ -12,6 +12,7 @@
 	String adminUsername = (String)superAdminSesija.getAttribute("adminUsername");
 	ArrayList<Hotel>lshoteli = (ArrayList<Hotel>)request.getAttribute("lshoteli");
 	String msg = request.getParameter("msg");
+	Hotel hotel = (Hotel)superAdminSesija.getAttribute("hotel");
 	
 	String status = request.getParameter("status");
 	if(adminUsername!=null && !adminUsername.equals("")){
@@ -33,6 +34,7 @@
 			<th>Broj ležaja</th>
 			<th>Opis</th>
 			<th></th>
+			<th></th>
 		</tr>
 		<c:forEach var="hot" items="${lshoteli}">
 			<tr>
@@ -42,6 +44,7 @@
 				<td>${hot.kategorija}</td>
 				<td>${hot.broj_lezaja}</td>
 				<td>${hot.opis}</td>
+				<td><a href="administrator?akcija=izmeniHotel&hotelID=${hot.hotelID}">Izmeni</a></td>
 				<td><a href="administrator?akcija=obrisiHotel&hotelID=${hot.hotelID}">Obriši</a></td>
 			</tr>
 		</c:forEach>
@@ -54,6 +57,10 @@
 			
 			else if(status.equals("okD")){
 				out.println("<h3>Uspešno obrisan hotel!</h3>");
+			}
+			
+			else if(status.equals("okU")){
+				out.println("<h3>Uspešno izmenjen hotel!</h3>");
 			}
 			
 			else if(status.equals("empty")){
@@ -74,11 +81,11 @@
 		
 		<label for="kategorija">Kategorija:</label>
 		<select name="kategorija" id="kategorija">
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
+			<option value="1" <%if(hotel!=null && hotel.getKategorija()==1){out.println("selected");}%>>1</option>
+			<option value="2" <%if(hotel!=null && hotel.getKategorija()==2){out.println("selected");}%>>2</option>
+			<option value="3" <%if(hotel!=null && hotel.getKategorija()==3){out.println("selected");}%>>3</option>
+			<option value="4" <%if(hotel!=null && hotel.getKategorija()==4){out.println("selected");}%>>4</option>
+			<option value="5" <%if(hotel!=null && hotel.getKategorija()==5){out.println("selected");}%>>5</option>
 		</select><br>
 		
 		
@@ -88,8 +95,14 @@
 		<label for="opis">Opis:</label>
 		<textarea rows="5" cols="50" name="opis">${hotel.opis}</textarea><br>
 		
-		<input type="hidden" name="akcija" value="unosHotela">
-		<input type="submit" value="Unesi">
+		<%if(hotel==null){%>
+			<input type="hidden" name="akcija" value="unosHotela">
+			<input type="submit" value="Unesi">
+		<%} else {%>
+			<input type="hidden" name="akcija" value="izmenaHotela">
+			<input type="hidden" name="hotelID" value="${hotel.hotelID}">
+			<input type="submit" value="Izmeni">
+		<%} %>
 	</form>
 
 </body>
