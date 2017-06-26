@@ -78,7 +78,7 @@ public class Servlet_admin extends HttpServlet {
 			
 			else if(akcija.equals("zaposleniTabela")){
 				Hotel hotel = daoAdmin.getHotelByID(hot_id);
-				ArrayList<Rukovodilac>lsruk = daoAdmin.getRukovodioci();
+				ArrayList<Rukovodilac>lsruk = daoAdmin.getRukovodiociByHotelID(hot_id);
 				ArrayList<Posao>lsp = daoAdmin.getPoslovi();
 				ArrayList<Zaposleni_posao>lszap = daoAdmin.getZaposleniByHotelID(hot_id);
 				for(Zaposleni_posao z:lszap){
@@ -123,6 +123,12 @@ public class Servlet_admin extends HttpServlet {
 				catch(Exception e){
 					response.sendRedirect("error.jsp");
 				}
+			}
+			
+			else if(akcija.equals("rukovodiociTabela")){
+				Hotel hotel = daoAdmin.getHotelByID(hot_id);
+				request.setAttribute("hotel", hotel);
+				request.getRequestDispatcher("adminRezervacije.jsp").forward(request, response);
 			}
 			
 		}
@@ -216,12 +222,6 @@ public class Servlet_admin extends HttpServlet {
 			String plata = request.getParameter("plata");
 			String posaoID = request.getParameter("posaoID");
 			String rukovodilacID = request.getParameter("rukovodilacID");
-			System.out.println(zaposleniID);
-			System.out.println(ime);
-			System.out.println(prezime);
-			System.out.println(plata);
-			System.out.println(posaoID);
-			System.out.println(rukovodilacID);
 			
 			if(ime!=null && ime.trim().length()>0 && prezime!=null && prezime.trim().length()>0 && 
 				plata!=null && plata.trim().length()>0 && posaoID!=null && posaoID.trim().length()>0){

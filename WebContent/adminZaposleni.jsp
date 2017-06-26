@@ -96,7 +96,7 @@
 				if(zaposleni!=null){
 					for(Rukovodilac ruk:lsruk){
 			%>
-				<option value="<%=ruk.getRukovodilacID()%>"<%if(ruk.getRukovodilacID()==zaposleni.getRukovodilacID()){out.println("selected");}%>><%=ruk.getIme() +ruk.getPrezime()%></option>
+				<option value="<%=ruk.getRukovodilacID()%>"<%if(ruk.getRukovodilacID()==zaposleni.getRukovodilacID()){out.println("selected");}%>><%=ruk.getIme() +" "+ruk.getPrezime()%></option>
 			<%}} else {%>
 				
 			<c:forEach var="ruk" items="${lsruk}">

@@ -31,7 +31,7 @@ public class DAOAdmin {
       private static String GETPOSAOBYID = "SELECT naziv_posla FROM poslovi WHERE posaoID=?";
       private static String GETRUKOVODILACBYID = "SELECT ime as imeRuk,prezime as prezimeRuk FROM rukovodioci WHERE rukovodilacID=?";
       private static String GETPOSLOVI = "SELECT posaoID,naziv_posla FROM poslovi";
-      private static String GETRUKOVODIOCI = "SELECT rukovodilacID,ime,prezime FROM rukovodioci"; 
+      private static String GETRUKOVODIOCIBYHOTELID = "SELECT rukovodilacID,ime,prezime FROM rukovodioci WHERE hotelID = ?"; 
       private static String INSERTZAPOSLENI = "INSERT INTO zaposleni(ime,prezime,plata,hotelID,posaoID,rukovodilacID) VALUES (?,?,?,?,?,?)";
       private static String INSERTZAPOSLENIWITHOUTRUK = "INSERT INTO zaposleni(ime,prezime,plata,hotelID,posaoID) VALUES (?,?,?,?,?)";
       private static String DELETEZAPOSLENIBYID = "DELETE FROM zaposleni WHERE zaposleniID=?";
@@ -39,7 +39,6 @@ public class DAOAdmin {
       private static String GETRUKOVODILACBYZAPOSLENIID = "SELECT r.rukovodilacID,r.ime as imeRuk,r.prezime as prezimeRuk FROM rukovodioci r JOIN zaposleni z ON r.rukovodilacID=z.rukovodilacID WHERE z.zaposleniID=?";
       private static String UPDATEZAPOSLENIBYID = "UPDATE zaposleni SET ime=?,prezime=?,plata=?,posaoID=?,rukovodilacID=? WHERE zaposleniID=?";
       private static String UPDATEZAPOSLENIBYIDWITHOUTRUK = "UPDATE zaposleni SET ime=?,prezime=?,plata=?,rukovodilacID=null,posaoID=? WHERE zaposleniID=?";
-      
       public DAOAdmin(){
 	try {
 		InitialContext cxt = new InitialContext();
@@ -427,7 +426,7 @@ public class DAOAdmin {
 		return ls;
 	}
 	
-	public ArrayList<Rukovodilac> getRukovodioci(){
+	public ArrayList<Rukovodilac> getRukovodiociByHotelID(int hotelID){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -437,10 +436,12 @@ public class DAOAdmin {
 				
             try {
 			con = ds.getConnection();
-			pstm = con.prepareStatement(GETRUKOVODIOCI);
-
+			pstm = con.prepareStatement(GETRUKOVODIOCIBYHOTELID);
 			
+			pstm.setInt(1, hotelID);
 			pstm.execute();
+			
+			
 
 			rs = pstm.getResultSet();
 
