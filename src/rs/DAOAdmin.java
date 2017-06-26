@@ -29,9 +29,9 @@ public class DAOAdmin {
       private static String DELETEREZERVACIJABYID = "DELETE FROM rezervacije WHERE rezervacijaID = ?";
       private static String GETZAPOSLENIBYHOTELID = "SELECT zaposleniID,ime,prezime,plata,posaoID,rukovodilacID FROM zaposleni WHERE hotelID=?";
       private static String GETPOSAOBYID = "SELECT naziv_posla FROM poslovi WHERE posaoID=?";
-      private static String GETRUKOVODILACBYID = "SELECT ime as imeRuk,prezime as prezimeRuk FROM rukovodioci WHERE rukovodilacID=?";
+      private static String GETRUKOVODILACBYID = "SELECT rukovodilacID,plata,ime as imeRuk,prezime as prezimeRuk FROM rukovodioci WHERE rukovodilacID=?";
       private static String GETPOSLOVI = "SELECT posaoID,naziv_posla FROM poslovi";
-      private static String GETRUKOVODIOCIBYHOTELID = "SELECT rukovodilacID,ime,prezime FROM rukovodioci WHERE hotelID = ?"; 
+      private static String GETRUKOVODIOCIBYHOTELID = "SELECT rukovodilacID,ime,prezime,plata FROM rukovodioci WHERE hotelID = ?"; 
       private static String INSERTZAPOSLENI = "INSERT INTO zaposleni(ime,prezime,plata,hotelID,posaoID,rukovodilacID) VALUES (?,?,?,?,?,?)";
       private static String INSERTZAPOSLENIWITHOUTRUK = "INSERT INTO zaposleni(ime,prezime,plata,hotelID,posaoID) VALUES (?,?,?,?,?)";
       private static String DELETEZAPOSLENIBYID = "DELETE FROM zaposleni WHERE zaposleniID=?";
@@ -39,6 +39,11 @@ public class DAOAdmin {
       private static String GETRUKOVODILACBYZAPOSLENIID = "SELECT r.rukovodilacID,r.ime as imeRuk,r.prezime as prezimeRuk FROM rukovodioci r JOIN zaposleni z ON r.rukovodilacID=z.rukovodilacID WHERE z.zaposleniID=?";
       private static String UPDATEZAPOSLENIBYID = "UPDATE zaposleni SET ime=?,prezime=?,plata=?,posaoID=?,rukovodilacID=? WHERE zaposleniID=?";
       private static String UPDATEZAPOSLENIBYIDWITHOUTRUK = "UPDATE zaposleni SET ime=?,prezime=?,plata=?,rukovodilacID=null,posaoID=? WHERE zaposleniID=?";
+      private static String DELETERUKOVODILACBYID = "DELETE FROM rukovodioci WHERE rukovodilacID=?";
+      private static String UPDATERUKOVODILACBYID = "UPDATE rukovodioci SET ime=?,prezime=?,plata=? WHERE rukovodilacID = ?";
+      private static String INSERTRUKOVODILAC = "INSERT INTO rukovodioci(ime, prezime, plata, hotelID) VALUES (?,?,?,?)";
+      
+      
       public DAOAdmin(){
 	try {
 		InitialContext cxt = new InitialContext();
@@ -372,8 +377,10 @@ public class DAOAdmin {
 
 			if(rs.next()){ 
 				ruk = new Rukovodilac();
+				ruk.setRukovodilacID(rs.getInt("rukovodilacID"));
 				ruk.setIme(rs.getString("imeRuk"));
 				ruk.setPrezime(rs.getString("prezimeRuk"));
+				ruk.setPlata(rs.getFloat("plata"));
 			}
 			
 
@@ -450,6 +457,7 @@ public class DAOAdmin {
 				ruk.setRukovodilacID(rs.getInt("rukovodilacID"));
 				ruk.setIme(rs.getString("ime"));
 				ruk.setPrezime(rs.getString("prezime"));
+				ruk.setPlata(rs.getFloat("plata"));
 				ls.add(ruk);
 			}
 
@@ -653,6 +661,78 @@ public class DAOAdmin {
 			pstm.setFloat(3, plata);
 			pstm.setInt(4, posaoID);
 			pstm.setInt(5, zaposleniID);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteRukovodilacByID(int rukID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(DELETERUKOVODILACBYID);
+
+			pstm.setInt(1, rukID);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateRukovodilacByID(String ime,String prezime,float plata, int rukID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(UPDATERUKOVODILACBYID);
+
+			pstm.setString(1, ime);
+			pstm.setString(2, prezime);
+			pstm.setFloat(3, plata);
+			pstm.setInt(4, rukID);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void insertRukovodilac(String ime,String prezime,float plata,int hotelID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(INSERTRUKOVODILAC);
+
+			pstm.setString(1, ime);
+			pstm.setString(2, prezime);
+			pstm.setFloat(3, plata);
+			pstm.setInt(4, hotelID);
 			pstm.execute();
 
 

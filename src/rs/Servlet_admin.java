@@ -127,8 +127,37 @@ public class Servlet_admin extends HttpServlet {
 			
 			else if(akcija.equals("rukovodiociTabela")){
 				Hotel hotel = daoAdmin.getHotelByID(hot_id);
+				ArrayList<Rukovodilac>lsruk = daoAdmin.getRukovodiociByHotelID(hot_id);
+				request.setAttribute("lsruk", lsruk);
 				request.setAttribute("hotel", hotel);
-				request.getRequestDispatcher("adminRezervacije.jsp").forward(request, response);
+				request.getRequestDispatcher("adminRukovodioci.jsp").forward(request, response);
+			}
+			
+			else if(akcija.equals("obrisiRukovodioca")){
+				String rukovodilacID = request.getParameter("rukID");
+				try {
+					int ruk_id = Integer.parseInt(rukovodilacID);
+					daoAdmin.deleteRukovodilacByID(ruk_id);
+					response.sendRedirect("Servlet_admin?akcija=rukovodiociTabela&hotelID="+hot_id+"&status=okD");
+				}
+				
+				catch(Exception e){
+					response.sendRedirect("error.jsp");
+				}
+			}
+			
+			else if(akcija.equals("izmeniRukovodioca")){
+				String rukovodilacID = request.getParameter("rukID");
+				try {
+					int ruk_id = Integer.parseInt(rukovodilacID);
+					Rukovodilac rukovodilac = daoAdmin.getRukovodilacByID(ruk_id);
+					adminSesija.setAttribute("rukovodilac", rukovodilac);
+					response.sendRedirect("Servlet_admin?akcija=rukovodiociTabela&hotelID="+hot_id+"&zaposleniID="+ruk_id);
+				}
+				
+				catch(Exception e){
+					response.sendRedirect("error.jsp");
+				}
 			}
 			
 		}
@@ -215,6 +244,30 @@ public class Servlet_admin extends HttpServlet {
 			}
 		}
 		
+		else if(akcija.equals("unosRukovodioca")){
+			String ime = request.getParameter("ime");
+			String prezime = request.getParameter("prezime");
+			String plata = request.getParameter("plata");
+			
+			if(ime!=null && ime.trim().length()>0 && prezime!=null && prezime.trim().length()>0 && 
+				plata!=null && plata.trim().length()>0){
+				
+				try {
+					Float plat = Float.parseFloat(plata);
+					daoAdmin.insertRukovodilac(ime, prezime, plat, hot_id);
+					response.sendRedirect("Servlet_admin?akcija=rukovodiociTabela&status=okI&hotelID="+hot_id);
+				}
+				
+				catch(Exception e){
+					response.sendRedirect("Servlet_admin?akcija=rukovodiociTabela&msg=Pogresan format unosa&hotelID="+hot_id);
+				}
+			}
+			
+			else {
+				response.sendRedirect("Servlet_admin?akcija=rukovodiociTabela&msg=Morate popuniti sva polja&hotelID="+hot_id);
+			}
+		}
+		
 		else if(akcija.equals("izmenaZaposlenog")){
 			String zaposleniID = request.getParameter("zaposleniID");
 			String ime = request.getParameter("ime");
@@ -251,6 +304,33 @@ public class Servlet_admin extends HttpServlet {
 			
 			else {
 				response.sendRedirect("Servlet_admin?akcija=zaposleniTabela&msg=Morate popuniti obavezna polja&hotelID="+hot_id);
+			}
+		}
+		
+		else if(akcija.equals("izmenaRukovodioca")){
+			String rukovodilacID = request.getParameter("rukovodilacID");
+			String ime = request.getParameter("ime");
+			String prezime = request.getParameter("prezime");
+			String plata = request.getParameter("plata");
+			
+			if(ime!=null && ime.trim().length()>0 && prezime!=null && prezime.trim().length()>0 && 
+				plata!=null && plata.trim().length()>0){
+				try {
+					int ruk_id = Integer.parseInt(rukovodilacID);
+					float plat = Float.parseFloat(plata);
+					daoAdmin.updateRukovodilacByID(ime, prezime, plat,ruk_id);
+					
+					adminSesija.removeAttribute("rukovodilac");
+					response.sendRedirect("Servlet_admin?akcija=rukovodiociTabela&status=okU&hotelID="+hot_id);
+				}
+				
+				catch(Exception e){
+					response.sendRedirect("Servlet_admin?akcija=rukovodiociTabela&msg=Pogresan format unosa&hotelID="+hot_id);
+				}
+			}
+			
+			else {
+				response.sendRedirect("Servlet_admin?akcija=rukovodiociTabela&msg=Morate popuniti sva polja&hotelID="+hot_id);
 			}
 		}
 	}
