@@ -12,6 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.catalina.User;
+
 import com.mysql.jdbc.Statement;
 
 import javafx.geometry.Pos;
@@ -24,14 +26,16 @@ public class DAOSuperAdmin {
       
       private static String GETHOTELI = "SELECT hotelID,naziv,adresa,kategorija,broj_lezaja,CONCAT(SUBSTRING(opis,1,50),'...') as opis FROM hoteli";
       private static String GETHOTELBYID = "SELECT * FROM hoteli WHERE hotelID=?";
+      private static String GETHOTELID = "SELECT hotelID,naziv FROM hoteli";
       private static String INSERTHOTEL = "INSERT INTO hoteli(naziv, adresa, kategorija, broj_lezaja, opis) VALUES (?,?,?,?,?)";
       private static String UPDATEHOTELBYID = "UPDATE hoteli SET naziv=?,adresa=?,kategorija=?,broj_lezaja=?,opis=? WHERE hotelID=?";
       private static String DELETEHOTELBYID = "DELETE FROM hoteli WHERE hotelID=?";
       
-      private static String GETKORISNICI = "SELECT * FROM korisnici";
-      private static String INSERTKORISNIK = "INSERT INTO korisnici(broj_licne_karte,ime,prezime,adresa,email,korisnicko_ime,lozinka,tip_korisnika, hotelID) VALUES (?,?,?,?,?,?,?,?,?)";
-      private static String UPDATEKORISNIKBYID = "UPDATE korisnici SET broj_licne_karte=?,ime=?,prezime=?,adresa=?,email=?,korisnicko_ime=?,lozinka=?,tip_korisnika='admin_hotela',hotelID=? WHERE broj_licne_karte=?";
-      private static String DELETEKORISNIKBYID = "DELETE FROM korisnici WHERE broj_licne_karte=?";
+      private static String GETKORISNICI = "SELECT * FROM korisnici ORDER BY tip_korisnika";
+      private static String GETKORISNIKBYUSERNAME = "SELECT * FROM korisnici WHERE korisnicko_ime=?";
+      private static String INSERTKORISNIK = "INSERT INTO korisnici(broj_licne_karte,ime,prezime,adresa,email,korisnicko_ime,lozinka,tip_korisnika, hotelID) VALUES (?,?,?,?,?,?,?,'admin_hotela',?)";
+      private static String UPDATEKORISNIKBYUSERNAME = "UPDATE korisnici SET broj_licne_karte=?,ime=?,prezime=?,adresa=?,email=?,korisnicko_ime=?,lozinka=?,tip_korisnika='admin_hotela',hotelID=? WHERE korisnicko_ime=?";
+      private static String DELETEKORISNIKBYUSERNAME = "DELETE FROM korisnici WHERE korisnicko_ime=?";
       
       private static String GETREZERVACIJE = "SELECT * FROM rezervacije ORDER BY hotelID";
       private static String GETREZERVACIJEBYHOTELID = "SELECT * FROM rezervacije WHERE hotelID=?";
@@ -165,6 +169,42 @@ public class DAOSuperAdmin {
 		}
 
 		return hotel;
+	}
+  
+  public ArrayList<Hotel> getHotelID(){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		ArrayList<Hotel>ls=new ArrayList<Hotel>();
+		Hotel hotel = null;
+				
+          try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETHOTELID);
+
+			
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				hotel = new Hotel();
+				hotel.setHotelID(rs.getInt("hotelID"));
+				hotel.setNaziv(rs.getString("naziv"));
+				ls.add(hotel);
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
 	}  
       
 	public void insertHotel(String naziv,String adresa,int kategorija,int br_lezaja,String opis){
@@ -267,7 +307,7 @@ public class DAOSuperAdmin {
 				korisnik.setEmail(rs.getString("email"));
 				korisnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
 				korisnik.setTip_korisnika(rs.getString("tip_korisnika"));
-				korisnik.setLozinka(rs.getString("loznika"));
+				korisnik.setLozinka(rs.getString("lozinka"));
 				korisnik.setHotelID(rs.getInt("hotelID"));
 				
 				ls.add(korisnik);
@@ -285,7 +325,49 @@ public class DAOSuperAdmin {
 		return ls;
 	}
 	
-	public void insertKorisnik(String br_lk,String ime,String prezime,String adresa,String email,String korisnicko_ime,String lozinka){
+	public Korisnik getKorisnikByUsername(String username){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Korisnik korisnik = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETKORISNIKBYUSERNAME);
+			
+			pstm.setString(1, username);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				korisnik = new Korisnik();
+				korisnik.setIme(rs.getString("ime"));
+				korisnik.setPrezime(rs.getString("prezime"));
+				korisnik.setBroj_licne_karte(rs.getString("broj_licne_karte"));
+				korisnik.setAdresa(rs.getString("adresa"));
+				korisnik.setEmail(rs.getString("email"));
+				korisnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
+				korisnik.setTip_korisnika(rs.getString("tip_korisnika"));
+				korisnik.setLozinka(rs.getString("lozinka"));
+				korisnik.setHotelID(rs.getInt("hotelID"));
+				
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return korisnik;
+	}
+	
+	public void insertKorisnik(String br_lk,String ime,String prezime,String adresa,String email,String korisnicko_ime,String lozinka,String hotelID){
 		Connection con = null;
 		PreparedStatement pstm = null;
 				
@@ -300,6 +382,7 @@ public class DAOSuperAdmin {
 			pstm.setString(5, email);
 			pstm.setString(6, korisnicko_ime);
 			pstm.setString(7, lozinka);
+			pstm.setString(8, hotelID);
 			pstm.execute();
 
 
@@ -313,13 +396,13 @@ public class DAOSuperAdmin {
 		}
 	}
 	
-	public void updateKorisnikByBrLK(String br_lk,String ime,String prezime,String adresa,String email,String korisnicko_ime,String lozinka){
+	public void updateKorisnikByUsername(String br_lk,String ime,String prezime,String adresa,String email,String korisnicko_ime,String lozinka,int hotelID){
 		Connection con = null;
 		PreparedStatement pstm = null;
 				
             try {
 			con = ds.getConnection();
-			pstm = con.prepareStatement(UPDATEKORISNIKBYID);
+			pstm = con.prepareStatement(UPDATEKORISNIKBYUSERNAME);
 
 			pstm.setString(1, br_lk);
 			pstm.setString(2, ime);
@@ -328,7 +411,8 @@ public class DAOSuperAdmin {
 			pstm.setString(5, email);
 			pstm.setString(6, korisnicko_ime);
 			pstm.setString(7, lozinka);
-			pstm.setString(8, br_lk);
+			pstm.setInt(8, hotelID);
+			pstm.setString(9, korisnicko_ime);
 			pstm.execute();
 
 
@@ -342,15 +426,15 @@ public class DAOSuperAdmin {
 		}
 	}
 	
-	public void deleteKorisnikByBrLK(String br_lk){
+	public void deleteKorisnikByUsername(String username){
 		Connection con = null;
 		PreparedStatement pstm = null;
 				
             try {
 			con = ds.getConnection();
-			pstm = con.prepareStatement(DELETEKORISNIKBYID);
+			pstm = con.prepareStatement(DELETEKORISNIKBYUSERNAME);
 
-			pstm.setString(1,br_lk);
+			pstm.setString(1,username);
 			pstm.execute();
 
 

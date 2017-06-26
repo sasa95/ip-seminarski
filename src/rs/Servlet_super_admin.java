@@ -65,9 +65,29 @@ public class Servlet_super_admin extends HttpServlet {
 			}
 		}
 		
+		else if(akcija.equals("tabelaKorisnici")){
+			ArrayList<Korisnik>lskor = daoSuperAdmin.getKorisnici();
+			ArrayList<Hotel>lshotid = daoSuperAdmin.getHotelID();
+			request.setAttribute("lshotid", lshotid);
+			request.setAttribute("lskor", lskor);
+			request.getRequestDispatcher("superAdminKorisnici.jsp").forward(request, response);
+		}
 		
+		else if(akcija.equals("obrisiKorisnika")){
+			String korisnicko_ime = request.getParameter("user");
+			daoSuperAdmin.deleteKorisnikByUsername(korisnicko_ime);
+			response.sendRedirect("administrator?akcija=tabelaKorisnici&status=okD");
+		}
+		
+		else if(akcija.equals("izmeniKorisnika")){
+			String korisnicko_ime = request.getParameter("user");
+			Korisnik korisnik = daoSuperAdmin.getKorisnikByUsername(korisnicko_ime);
+			superAdminSesija.setAttribute("korisnik", korisnik);
+			response.sendRedirect("administrator?akcija=tabelaKorisnici");
+			
+			
+		}
 }
-
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -85,6 +105,11 @@ public class Servlet_super_admin extends HttpServlet {
 					
 					superAdminSesija.setAttribute("adminUsername", username);
 					request.getRequestDispatcher("indexSuperAdmin.jsp").forward(request, response);	
+				}
+				
+				else {
+					request.setAttribute("msg", "Pogrešni parametri za logovanje");
+					request.getRequestDispatcher("prijavaSuperAdmin.jsp").forward(request, response);
 				}
 			}
 			
@@ -149,6 +174,72 @@ public class Servlet_super_admin extends HttpServlet {
 			
 			else {
 				response.sendRedirect("administrator?akcija=tabelaHoteli&status=empty");
+			}
+		}
+		
+		else if(akcija.equals("unosKorisnika")){
+			String broj_licne_karte = request.getParameter("broj_licne_karte");
+			String ime = request.getParameter("ime");
+			String prezime = request.getParameter("prezime");
+			String adresa = request.getParameter("adresa");
+			String email = request.getParameter("email");
+			String korisnicko_ime = request.getParameter("korisnicko_ime");
+			String lozinka = request.getParameter("lozinka");
+			String hotelID = request.getParameter("hotelID");
+			
+			if (broj_licne_karte != null && broj_licne_karte.trim().length()>0 &&
+				ime != null && ime.trim().length()>0 &&
+				prezime != null && prezime.trim().length()>0 &&
+				adresa != null && adresa.trim().length()>0 &&
+				email != null && email.trim().length()>0 &&
+				korisnicko_ime != null && korisnicko_ime.trim().length()>0 &&
+				lozinka!= null && lozinka.trim().length()>0
+				&& hotelID!=null && hotelID.trim().length()>0){
+				
+				daoSuperAdmin.insertKorisnik(broj_licne_karte, ime, prezime, adresa, email, korisnicko_ime, lozinka,hotelID);
+				response.sendRedirect("administrator?akcija=tabelaKorisnici&status=okI");
+				
+			}
+			
+			else {
+				response.sendRedirect("administrator?akcija=tabelaKorisnici&status=empty");
+			}
+		}
+		
+		else if(akcija.equals("izmenaKorisnika")){
+			String broj_licne_karte = request.getParameter("broj_licne_karte");
+			String ime = request.getParameter("ime");
+			String prezime = request.getParameter("prezime");
+			String adresa = request.getParameter("adresa");
+			String email = request.getParameter("email");
+			String korisnicko_ime = request.getParameter("korisnicko_ime");
+			String lozinka = request.getParameter("lozinka");
+			String hotelID = request.getParameter("hotelID");
+			
+			if (broj_licne_karte != null && broj_licne_karte.trim().length()>0 &&
+				ime != null && ime.trim().length()>0 &&
+				prezime != null && prezime.trim().length()>0 &&
+				adresa != null && adresa.trim().length()>0 &&
+				email != null && email.trim().length()>0 &&
+				korisnicko_ime != null && korisnicko_ime.trim().length()>0 &&
+				lozinka!= null && lozinka.trim().length()>0){
+				
+				try {
+					int hot_id = Integer.parseInt(hotelID);
+					daoSuperAdmin.updateKorisnikByUsername(broj_licne_karte, ime, prezime, adresa, email, korisnicko_ime, lozinka,hot_id);
+					superAdminSesija.removeAttribute("korisnik");
+					response.sendRedirect("administrator?akcija=tabelaKorisnici&status=okU");
+				}
+				
+				catch(Exception e){
+					response.sendRedirect("administrator?akcija=tabelaKorisnici&status=format");
+				}
+				
+				
+			}
+			
+			else {
+				response.sendRedirect("administrator?akcija=tabelaKorisnici&status=empty");
 			}
 		}
 	}
