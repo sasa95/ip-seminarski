@@ -10,7 +10,6 @@
 	String adminUsername = (String)adminSesija.getAttribute("adminUsername");
 	
 	if(adminUsername!=null && !adminUsername.equals("")){
-		int hot_id = (Integer)adminSesija.getAttribute("hot_id");
 %>    
      
 <!DOCTYPE html>
@@ -23,10 +22,10 @@
 	<h1>Dobrodošli, ${adminUsername}</h1>
 	
 	<ul>
-		<li><a href="Servlet_admin?akcija=hotelDetalji&hotelID=<%=hot_id%>">Detalji hotela</a></li>
+		
 	</ul>
 	
-	<a href="Servlet_admin?akcija=logout">Odjava</a><br>
+	<a href="administrator?akcija=logout">Odjava</a><br>
 </body>
 </html>
-<%}else { response.sendRedirect("prijava.jsp");}%>
+<%}else { response.sendRedirect("prijavaSuperAdmin.jsp");}%>

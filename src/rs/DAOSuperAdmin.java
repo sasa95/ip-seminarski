@@ -20,6 +20,8 @@ import java.util.ArrayList;
 public class DAOSuperAdmin {
       private DataSource ds;
       
+      private static String LOGIN = "SELECT * FROM admini_sajta WHERE username=? AND password=?";
+      
       private static String GETHOTELI = "SELECT * FROM hoteli";
       private static String INSERTHOTEL = "INSERT INTO hoteli(naziv, adresa, kategorija, broj_lezaja, opis) VALUES (?,?,?,?,?)";
       private static String UPDATEHOTELBYID = "UPDATE hoteli SET naziv=?,adresa=?,kategorija=?,broj_lezaja=?,opis=? WHERE hotelID=?";
@@ -45,6 +47,46 @@ public class DAOSuperAdmin {
 		}
 	} 
 	// DEFINICIJA METODE 
+      
+      public boolean superLogin(String username,String password){
+  		Connection con = null;
+  		PreparedStatement pstm = null;
+  		ResultSet rs = null;
+  		ArrayList<Admin_sajta>ls=new ArrayList<Admin_sajta>();
+  		Admin_sajta admin = new Admin_sajta();
+  				
+              try {
+  			con = ds.getConnection();
+  			pstm = con.prepareStatement(LOGIN);
+
+  			pstm.setString(1, username);
+  			pstm.setString(2, password);
+
+  			pstm.execute();
+  			
+  			rs = pstm.getResultSet();
+
+  			while(rs.next()){
+  				admin.setUsername(rs.getString("username"));
+  				admin.setPassword(rs.getString("password"));
+  				admin.setAdminID(rs.getInt("adminID"));
+  				ls.add(admin);
+  			}
+
+
+  		} catch (SQLException e) {
+  			e.printStackTrace();
+  		}
+  		try {
+  			con.close();
+  		} catch (SQLException e) {
+  			e.printStackTrace();
+  		}
+  		if(ls.size()>0)
+  			return true;
+  		else
+  			return false;
+  	}
 	
       public ArrayList<Hotel> getHoteli(){
   		Connection con = null;
