@@ -32,6 +32,7 @@
 			<th>Kategorija</th>
 			<th>Broj ležaja</th>
 			<th>Opis</th>
+			<th></th>
 		</tr>
 		<c:forEach var="hot" items="${lshoteli}">
 			<tr>
@@ -41,6 +42,7 @@
 				<td>${hot.kategorija}</td>
 				<td>${hot.broj_lezaja}</td>
 				<td>${hot.opis}</td>
+				<td><a href="administrator?akcija=obrisiHotel&hotelID=${hot.hotelID}">Obriši</a></td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -48,6 +50,10 @@
 		if(status!=null){
 			if(status.equals("okI")){
 				out.println("<h3>Uspešan unos hotela!</h3>");
+			}
+			
+			else if(status.equals("okD")){
+				out.println("<h3>Uspešno obrisan hotel!</h3>");
 			}
 			
 			else if(status.equals("empty")){

@@ -38,7 +38,18 @@ public class Servlet_super_admin extends HttpServlet {
 			request.getRequestDispatcher("superAdminHoteli.jsp").forward(request, response);
 		}
 		
-		
+		else if(akcija.equals("obrisiHotel")){
+			String hotelID = request.getParameter("hotelID");
+			try {
+				int hot_id = Integer.parseInt(hotelID);
+				daoSuperAdmin.deleteHotelByID(hot_id);
+				response.sendRedirect("administrator?akcija=tabelaHoteli&status=okD");
+			}
+			
+			catch(Exception e){
+				response.sendRedirect("error.jsp");
+			}
+		}
 		
 		
 }
