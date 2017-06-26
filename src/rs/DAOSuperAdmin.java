@@ -22,7 +22,7 @@ public class DAOSuperAdmin {
       
       private static String LOGIN = "SELECT * FROM admini_sajta WHERE username=? AND password=?";
       
-      private static String GETHOTELI = "SELECT * FROM hoteli";
+      private static String GETHOTELI = "SELECT hotelID,naziv,adresa,kategorija,broj_lezaja,CONCAT(SUBSTRING(opis,1,50),'...') as opis FROM hoteli";
       private static String INSERTHOTEL = "INSERT INTO hoteli(naziv, adresa, kategorija, broj_lezaja, opis) VALUES (?,?,?,?,?)";
       private static String UPDATEHOTELBYID = "UPDATE hoteli SET naziv=?,adresa=?,kategorija=?,broj_lezaja=?,opis=? WHERE hotelID=?";
       private static String DELETEHOTELBYID = "DELETE FROM hoteli WHERE hotelID=?";

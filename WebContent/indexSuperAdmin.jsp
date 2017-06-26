@@ -6,8 +6,8 @@
     pageEncoding="UTF-8"%>  
      
 <%
-	HttpSession adminSesija = request.getSession();
-	String adminUsername = (String)adminSesija.getAttribute("adminUsername");
+	HttpSession superAdminSesija = request.getSession();
+	String adminUsername = (String)superAdminSesija.getAttribute("adminUsername");
 	
 	if(adminUsername!=null && !adminUsername.equals("")){
 %>    
@@ -22,7 +22,7 @@
 	<h1>Dobrodošli, ${adminUsername}</h1>
 	
 	<ul>
-		
+		<li><a href="administrator?akcija=tabelaHoteli">Hoteli</a></li>
 	</ul>
 	
 	<a href="administrator?akcija=logout">Odjava</a><br>
