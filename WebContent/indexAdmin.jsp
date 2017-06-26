@@ -20,7 +20,7 @@
 <title>Index</title>
 </head>
 <body>
-	<h1>Dobrodošli, admineee</h1>
+	<h1>Dobrodošli, ${adminUsername}</h1>
 	
 	<ul>
 		<li><a href="Servlet_admin?akcija=hotelDetalji&hotelID=<%=hot_id%>">Detalji hotela</a></li>
