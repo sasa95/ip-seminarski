@@ -42,6 +42,7 @@
 	<%} %>
 		<c:forEach var="pom" items="${hotel}">	
 			<ul>
+				<li><img src="img/hoteli/${pom.hotelID}.jpg"/></li>
 				<li>Naziv: ${pom.naziv}</li>
 				<li>Adresa: ${pom.adresa}</li>
 				<li>Kategorija: ${pom.kategorija}</li>

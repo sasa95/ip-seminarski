@@ -41,6 +41,7 @@
 %>
 
 	<h1>${h.naziv}</h1>
+	<img src="img/hoteli/${h.hotelID}.jpg"/>
 	<p>${h.opis}</p>
 
 	<ul>
