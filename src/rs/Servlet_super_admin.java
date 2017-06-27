@@ -87,9 +87,36 @@ public class Servlet_super_admin extends HttpServlet {
 		}
 		
 		else if(akcija.equals("tabelaRezervacije")){
-			ArrayList<Rezervacija>lsrez = daoSuperAdmin.getRezervacije();
+			ArrayList<Hotel_Rezervacija_UslugaDATE>lsrez = daoSuperAdmin.getRezervacije();
+			ArrayList<Hotel>lsh = daoSuperAdmin.getHoteli();
+			request.setAttribute("lsh", lsh);
 			request.setAttribute("lsrez", lsrez);
 			request.getRequestDispatcher("superAdminRezervacije.jsp").forward(request, response);
+		}
+		
+		else if(akcija.equals("rezervacijeByHotelID")){
+			String hotelID = request.getParameter("hotelID");
+			ArrayList<Hotel>lsh = daoSuperAdmin.getHoteli();
+			request.setAttribute("lsh", lsh);
+			try {
+				int hot_id = Integer.parseInt(hotelID);
+				if(hot_id!=0){
+					ArrayList<Hotel_Rezervacija_UslugaDATE>lsrez = daoSuperAdmin.getRezervacijeByHotelID(hot_id);
+					request.setAttribute("lsrez", lsrez);
+				}
+				
+				else {
+					ArrayList<Hotel_Rezervacija_UslugaDATE>lsrez = daoSuperAdmin.getRezervacije();
+					request.setAttribute("lsrez", lsrez);
+				}
+				request.getRequestDispatcher("superAdminRezervacije.jsp").forward(request, response);
+				
+			}
+			
+			catch(Exception e){
+				response.sendRedirect("error.jsp");
+			}
+			
 		}
 }
 	

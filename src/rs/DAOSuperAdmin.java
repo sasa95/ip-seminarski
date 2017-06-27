@@ -37,8 +37,8 @@ public class DAOSuperAdmin {
       private static String UPDATEKORISNIKBYUSERNAME = "UPDATE korisnici SET broj_licne_karte=?,ime=?,prezime=?,adresa=?,email=?,korisnicko_ime=?,lozinka=?,tip_korisnika='admin_hotela',hotelID=? WHERE korisnicko_ime=?";
       private static String DELETEKORISNIKBYUSERNAME = "DELETE FROM korisnici WHERE korisnicko_ime=?";
       
-      private static String GETREZERVACIJE = "SELECT * FROM rezervacije ORDER BY hotelID";
-      private static String GETREZERVACIJEBYHOTELID = "SELECT * FROM rezervacije WHERE hotelID=?";
+      private static String GETREZERVACIJE = "SELECT r.rezervacijaID, h.naziv, r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,r.sobaID,u.vrsta_usluge FROM rezervacije r JOIN sobe s ON r.sobaID=s.sobaID JOIN hoteli h ON s.hotelID=h.hotelID JOIN usluge u ON r.uslugaID=u.uslugaID";
+      private static String GETREZERVACIJEBYHOTELID = "SELECT r.rezervacijaID, h.naziv, r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,r.sobaID,u.vrsta_usluge FROM rezervacije r JOIN sobe s ON r.sobaID=s.sobaID JOIN hoteli h ON s.hotelID=h.hotelID JOIN usluge u ON r.uslugaID=u.uslugaID WHERE h.hotelID=?";
       
       public DAOSuperAdmin(){
 	try {
@@ -448,13 +448,13 @@ public class DAOSuperAdmin {
 		}
 	}
 	
-	public ArrayList<Rezervacija> getRezervacije(){
+	public ArrayList<Hotel_Rezervacija_UslugaDATE> getRezervacije(){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		Rezervacija rezervacije = null;
-		ArrayList<Rezervacija>ls=new ArrayList<Rezervacija>();
+		Hotel_Rezervacija_UslugaDATE rezervacije = null;
+		ArrayList<Hotel_Rezervacija_UslugaDATE>ls=new ArrayList<Hotel_Rezervacija_UslugaDATE>();
 				
             try {
 			con = ds.getConnection();
@@ -465,12 +465,14 @@ public class DAOSuperAdmin {
 			rs = pstm.getResultSet();
 
 			while(rs.next()){ 
-				rezervacije = new Rezervacija();
+				rezervacije = new Hotel_Rezervacija_UslugaDATE();
 				rezervacije.setRezervacijaID(rs.getInt("rezervacijaID"));
-				rezervacije.setDatum_prijavljivanja(rs.getTimestamp("datum_prijavljivanja"));
-				rezervacije.setDatum_odlaska(rs.getTimestamp("datum_odlaska"));
+				rezervacije.setDatum_prijavljivanja(rs.getDate("datum_prijavljivanja"));
+				rezervacije.setDatum_odlaska(rs.getDate("datum_odlaska"));
 				rezervacije.setBroj_licne_karte(rs.getString("broj_licne_karte"));
 				rezervacije.setSobaID(rs.getInt("sobaID"));
+				rezervacije.setNaziv(rs.getString("naziv"));
+				rezervacije.setVrsta_usluge(rs.getString("vrsta_usluge"));
 	
 				
 				ls.add(rezervacije);
@@ -488,13 +490,13 @@ public class DAOSuperAdmin {
 		return ls;
 	}
 	
-	public ArrayList<Rezervacija> getRezervacijeByHotelID(int hotelID){
+	public ArrayList<Hotel_Rezervacija_UslugaDATE> getRezervacijeByHotelID(int hotelID){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		Rezervacija rezervacije = null;
-		ArrayList<Rezervacija>ls=new ArrayList<Rezervacija>();
+		Hotel_Rezervacija_UslugaDATE rezervacije = null;
+		ArrayList<Hotel_Rezervacija_UslugaDATE>ls=new ArrayList<Hotel_Rezervacija_UslugaDATE>();
 				
             try {
 			con = ds.getConnection();
@@ -506,13 +508,14 @@ public class DAOSuperAdmin {
 			rs = pstm.getResultSet();
 
 			while(rs.next()){ 
-				rezervacije = new Rezervacija();
+				rezervacije = new Hotel_Rezervacija_UslugaDATE();
 				rezervacije.setRezervacijaID(rs.getInt("rezervacijaID"));
-				rezervacije.setDatum_prijavljivanja(rs.getTimestamp("datum_prijavljivanja"));
-				rezervacije.setDatum_odlaska(rs.getTimestamp("datum_odlaska"));
+				rezervacije.setDatum_prijavljivanja(rs.getDate("datum_prijavljivanja"));
+				rezervacije.setDatum_odlaska(rs.getDate("datum_odlaska"));
 				rezervacije.setBroj_licne_karte(rs.getString("broj_licne_karte"));
 				rezervacije.setSobaID(rs.getInt("sobaID"));
-	
+				rezervacije.setNaziv(rs.getString("naziv"));
+				rezervacije.setVrsta_usluge(rs.getString("vrsta_usluge"));	
 				
 				ls.add(rezervacije);
 			}
