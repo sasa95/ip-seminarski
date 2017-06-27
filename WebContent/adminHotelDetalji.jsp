@@ -24,6 +24,7 @@
 </head>
 <body>
 	<h1>Izmenite detalje hotela ${hotel.naziv}</h1>
+	<img src="img/hoteli/${hot_id}.jpg"/>
 	<form action="Servlet_admin?akcija=izmeniHotel" method="post">
 		<label for="naziv">Naziv:</label>
 		<input type="text" id="naziv" name="naziv" value="${hotel.naziv}"><br>
