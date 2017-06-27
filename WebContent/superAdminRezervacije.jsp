@@ -21,10 +21,6 @@
 		hot_id = Integer.parseInt(hotelID);
 	}
 	
-	String msg = request.getParameter("msg");
-	Hotel hotel = (Hotel)superAdminSesija.getAttribute("hotel");
-	
-	String status = request.getParameter("status");
 	if(adminUsername!=null && !adminUsername.equals("")){
 %>
 <!DOCTYPE html>
@@ -38,7 +34,7 @@
 	<form action="administrator" method="get">
 		<label for="hotelID">Hotel</label>
 		<select name="hotelID" id="hotelID">
-			<option value="0"></option>
+			<option value="0">Svi</option>
 			<%for(Hotel hot:lsh){ %>
 				<option value="<%=hot.getHotelID()%>" <%if(hot.getHotelID()==hot_id){out.println("selected");}%>><%=hot.getNaziv()%></option>
 			<%} %>
@@ -68,29 +64,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-		<%
-		if(status!=null){
-			if(status.equals("okI")){
-				out.println("<h3>Uspešan unos hotela!</h3>");
-			}
-			
-			else if(status.equals("okD")){
-				out.println("<h3>Uspešno obrisan hotel!</h3>");
-			}
-			
-			else if(status.equals("okU")){
-				out.println("<h3>Uspešno izmenjen hotel!</h3>");
-			}
-			
-			else if(status.equals("empty")){
-				out.println("<h3>Morate popuniti sva polja</h3>");
-			}
-			
-			else if(status.equals("format")){
-				out.println("<h3>Neispravan format unosa!</h3>");
-			}
-		}
-		%>
 </body>
 </html>
 <%}else { response.sendRedirect("prijava.jsp");}%>
