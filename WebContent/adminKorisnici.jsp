@@ -35,7 +35,6 @@
 			<th>Korisnicko ime</th>
 			<th>Tip korisnika</th>
 			<th></th>
-			<th></th>
 		<tr>
 		<c:forEach var="pom" items="${korisnici}">
 			<tr>

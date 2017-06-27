@@ -24,6 +24,7 @@
 	<ul>
 		<li><a href="administrator?akcija=tabelaHoteli">Hoteli</a></li>
 		<li><a href="administrator?akcija=tabelaKorisnici">Korisnici</a></li>
+		<li><a href="administrator?akcija=tabelaRezervacije">Rezervacije</a></li>
 	</ul>
 	
 	<a href="administrator?akcija=logout">Odjava</a><br>

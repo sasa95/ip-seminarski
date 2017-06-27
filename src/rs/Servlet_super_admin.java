@@ -84,8 +84,12 @@ public class Servlet_super_admin extends HttpServlet {
 			Korisnik korisnik = daoSuperAdmin.getKorisnikByUsername(korisnicko_ime);
 			superAdminSesija.setAttribute("korisnik", korisnik);
 			response.sendRedirect("administrator?akcija=tabelaKorisnici");
-			
-			
+		}
+		
+		else if(akcija.equals("tabelaRezervacije")){
+			ArrayList<Rezervacija>lsrez = daoSuperAdmin.getRezervacije();
+			request.setAttribute("lsrez", lsrez);
+			request.getRequestDispatcher("superAdminRezervacije.jsp").forward(request, response);
 		}
 }
 	
