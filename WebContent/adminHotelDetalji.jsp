@@ -21,10 +21,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Index</title>
+<script type="text/javascript">history.forward();</script>
 </head>
 <body>
 	<h1>Izmenite detalje hotela ${hotel.naziv}</h1>
 	<img src="img/hoteli/${hot_id}.jpg"/>
+	<form action="FileUpload?akcija=addHotelPic" method="post" enctype="multipart/form-data">
+		<label for="hotelPic">Izmenite fotografiju:</label>
+		<input type="file" name="hotelPic" id="hotelPic">
+		<input type="submit" value="Izmeni"> <br><br>
+	</form>
+	
+	
 	<form action="Servlet_admin?akcija=izmeniHotel" method="post">
 		<label for="naziv">Naziv:</label>
 		<input type="text" id="naziv" name="naziv" value="${hotel.naziv}"><br>
