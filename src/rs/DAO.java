@@ -31,8 +31,8 @@ public class DAO {
       private static String GETAKTIVNOSTBYID = "SELECT a.aktivnostID,a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
       private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
       private static String GETVRSTEAKTIVNOSTI = "SELECT naziv_vrste_aktivnosti FROM vrste_aktivnosti";
-      private static String INSERTKORISNIK = "INSERT INTO korisnici (broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka) VALUES (?,?,?,?,?,?)";
-      private static String GETKORISNIKBYUSERNAME = "SELECT broj_licne_karte,ime,prezime,adresa,email,korisnicko_ime FROM korisnici WHERE korisnicko_ime=?";
+      private static String INSERTKORISNIK = "INSERT INTO korisnici (broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka,email) VALUES (?,?,?,?,?,?,?)";
+      private static String GETKORISNIKBYUSERNAME = "SELECT broj_licne_karte,ime,prezime,adresa,email,korisnicko_ime,lozinka FROM korisnici WHERE korisnicko_ime=?";
       
       private static String GETSOBEBYHOTELIDANDTIPSOBE = "SELECT s.sobaID FROM sobe s JOIN hoteli h ON h.hotelID=s.hotelID JOIN tipovi_soba ts ON ts.tip_sobeID = s.tip_sobeID WHERE s.hotelID=? AND ts.naziv=? AND s.dostupna='da' LIMIT 1";
       private static String LOGIN = "SELECT korisnicko_ime FROM korisnici WHERE korisnicko_ime=? AND lozinka=?";
@@ -46,6 +46,7 @@ public class DAO {
       private static String GETDODATAAKTIVNOST = "SELECT a.naziv,ha.datum_odrzavanja,ha.mesto_odrzavanja,ha.vreme_odrzavanja FROM korisnici k join korisnici_aktivnosti ka ON k.broj_licne_karte=ka.broj_licne_karte JOIN aktivnosti a ON ka.aktivnostiID=a.aktivnostID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE k.broj_licne_karte=?";
       private static String GETREZERVACIJABYKORISNICKOIME = "SELECT h.naziv,r.sobaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,U.vrsta_usluge FROM rezervacije r JOIN korisnici k ON r.broj_licne_karte=k.broj_licne_karte JOIN hoteli h ON r.hotelID=h.hotelID LEFT JOIN usluge u ON r.uslugaID=u.uslugaID WHERE k.korisnicko_ime=?";  
       private static String ADMINHOTELA_BOOL = "SELECT korisnicko_ime,broj_licne_karte FROM korisnici WHERE korisnicko_ime=? AND lozinka=? AND tip_korisnika='admin_hotela'";
+      private static String UPDATEKORISNIKBYUSERNAME = "UPDATE korisnici SET broj_licne_karte=?,ime=?,prezime=?,adresa=?,lozinka=?,email=? WHERE korisnicko_ime=?";
       
       public DAO(){
 	try {
@@ -563,7 +564,7 @@ public class DAO {
 		return lo; 
 	}
 
-	public void insertKorisnik(String broj_licne_karte,String ime,String prezime,String adresa,String korisnicko_ime,String lozinka1){
+	public void insertKorisnik(String broj_licne_karte,String ime,String prezime,String adresa,String korisnicko_ime,String lozinka1,String email){
 		Connection con = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -579,6 +580,7 @@ public class DAO {
 			pstm.setString(4, adresa);
 			pstm.setString(5, korisnicko_ime);
 			pstm.setString(6, lozinka1);
+			pstm.setString(7, email);
 
 			pstm.execute();
 
@@ -662,10 +664,7 @@ public class DAO {
 				korisnik.setAdresa(rs.getString("adresa"));
 				korisnik.setEmail(rs.getString("email"));
 				korisnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
-
-
-
-
+				korisnik.setLozinka(rs.getString("lozinka"));
 			
 				// DODAVANJE INSTANCE U LISTU AKO METODA VRACA LISTU, AKO NE VRACA ONDA NE TREBA 
 				
@@ -1079,6 +1078,35 @@ public class DAO {
 			return true;
 		else
 			return false;
+	}
+	
+	public void updateKorisnikByUsername(String broj_l_k,String ime,String prezime,String adresa,String lozinka,String email,String username){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
 		
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(UPDATEKORISNIKBYUSERNAME);
+
+			pstm.setString(1, broj_l_k);
+			pstm.setString(2, ime);
+			pstm.setString(3, prezime);
+			pstm.setString(4, adresa);
+			pstm.setString(5, lozinka);
+			pstm.setString(6, email);
+			pstm.setString(7,username);
+			pstm.execute();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

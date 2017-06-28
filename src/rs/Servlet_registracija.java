@@ -47,7 +47,6 @@ public class Servlet_registracija extends HttpServlet {
 									if (lozinka1.trim().length()>7) {
 										if (lozinka1.equals(lozinka2)){
 											if (!korisnicko_ime.contains(" ")) {
-												if ((lozinka1.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$"))) {
 													if (broj_licne_karte.matches("[0-9]+"))	{
 														if(email.contains("@") && email.trim().length()>5) {
 															try {
@@ -65,7 +64,7 @@ public class Servlet_registracija extends HttpServlet {
 																				
 																				if(part3.trim().length()>1) {
 																					DAO dao = new DAO();
-																					dao.insertKorisnik(broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka1);
+																					dao.insertKorisnik(broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka1,email);
 																					request.setAttribute("msg", "Uspešna registracija. Sada se možete prijaviti.");
 																					request.getRequestDispatcher("prijava.jsp").forward(request, response);
 																				}
@@ -111,11 +110,6 @@ public class Servlet_registracija extends HttpServlet {
 														request.setAttribute("msg", "Broj lične karte mora sadržati samo numeričke vrednosti.");
 														request.getRequestDispatcher("registracija.jsp").forward(request, response);
 													}
-												}
-												else {
-													request.setAttribute("msg", "Lozinka mora sadržati najmanje jedno malo i veliko slovo, broj i bar jedan od navedenih alfanumeričkih karaktera - @#%$^");
-													request.getRequestDispatcher("registracija.jsp").forward(request, response);
-												}
 											}
 											else {
 												request.setAttribute("msg", "Korisničko ime ne sme imati razmak.");
