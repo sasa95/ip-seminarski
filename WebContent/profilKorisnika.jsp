@@ -28,7 +28,13 @@
 <title>Profil korisnika</title>
 </head>
 <body>
-	<img src="img/korisnici/${korisnik.korisnicko_ime}.jpg"/>
+	<img src="img/korisnici/${korisnik.korisnicko_ime}.jpg"/>	
+	
+	<form action="UserPicUpload" method="post" enctype="multipart/form-data">
+		<label for="userPic">Izmenite fotografiju:</label>
+		<input type="file" name="userPic" id="userPic">
+		<input type="submit" value="Izmeni"> <br><br>
+	</form>
 	<%
 		if(lsrez.size()>0){
 	%>	

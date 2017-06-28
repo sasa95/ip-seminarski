@@ -26,7 +26,7 @@
 <body>
 	<h1>Izmenite detalje hotela ${hotel.naziv}</h1>
 	<img src="img/hoteli/${hot_id}.jpg"/>
-	<form action="FileUpload?akcija=addHotelPic" method="post" enctype="multipart/form-data">
+	<form action="HotelPicUpload" method="post" enctype="multipart/form-data">
 		<label for="hotelPic">Izmenite fotografiju:</label>
 		<input type="file" name="hotelPic" id="hotelPic">
 		<input type="submit" value="Izmeni"> <br><br>
