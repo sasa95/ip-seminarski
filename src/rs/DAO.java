@@ -32,7 +32,7 @@ public class DAO {
       private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
       private static String GETVRSTEAKTIVNOSTI = "SELECT naziv_vrste_aktivnosti FROM vrste_aktivnosti";
       private static String INSERTKORISNIK = "INSERT INTO korisnici (broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka) VALUES (?,?,?,?,?,?)";
-      private static String GETKORISNIKBYUSERNAME = "SELECT broj_licne_karte,ime,prezime,adresa,email FROM korisnici WHERE korisnicko_ime=?";
+      private static String GETKORISNIKBYUSERNAME = "SELECT broj_licne_karte,ime,prezime,adresa,email,korisnicko_ime FROM korisnici WHERE korisnicko_ime=?";
       
       private static String GETSOBEBYHOTELIDANDTIPSOBE = "SELECT s.sobaID FROM sobe s JOIN hoteli h ON h.hotelID=s.hotelID JOIN tipovi_soba ts ON ts.tip_sobeID = s.tip_sobeID WHERE s.hotelID=? AND ts.naziv=? AND s.dostupna='da' LIMIT 1";
       private static String LOGIN = "SELECT korisnicko_ime FROM korisnici WHERE korisnicko_ime=? AND lozinka=?";
@@ -661,6 +661,7 @@ public class DAO {
 				korisnik.setPrezime(rs.getString("prezime"));
 				korisnik.setAdresa(rs.getString("adresa"));
 				korisnik.setEmail(rs.getString("email"));
+				korisnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
 
 
 

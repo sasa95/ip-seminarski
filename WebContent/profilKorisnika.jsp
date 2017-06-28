@@ -1,3 +1,4 @@
+<%@page import="rs.Korisnik"%>
 <%@page import="rs.Hotel_Rezervacija_Usluga"%>
 <%@page import="rs.Hotel_aktivnost"%>
 <%@page import="rs.Rezervacija"%>
@@ -11,6 +12,7 @@
 <%
 	HttpSession loginSesija = request.getSession();
 	String username = (String)loginSesija.getAttribute("username");
+	Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
 	ArrayList<Hotel_Rezervacija_Usluga> lsrez = (ArrayList<Hotel_Rezervacija_Usluga>)loginSesija.getAttribute("lsrez");
 	ArrayList<Hotel_aktivnost> lsakt = (ArrayList<Hotel_aktivnost>)loginSesija.getAttribute("lsakt");
 	
@@ -24,6 +26,7 @@
 <title>Profil korisnika</title>
 </head>
 <body>
+	<img src="img/korisnici/<%out.println(kor.getKorisnicko_ime());%>.jpg"/>
 	<%
 		if(lsrez.size()>0){
 	%>	
