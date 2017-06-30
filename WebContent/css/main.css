@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @media (max-width: 575px) { .container { margin: 0; } }
 
 .navbar-toggleable-md .navbar-nav { margin-left: auto; }
@@ -85,6 +86,46 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 .btn--home-submit:hover { background-color: #1976D2; cursor: pointer; }
 
+.pic-submit { margin-top: 8px; position: relative; right: 4px; height: 40px; border-top-left-radius: 0; border-bottom-left-radius: 0; background-color: #F44336; color: #fff; }
+
+.pic-submit:focus { outline: none !important; -webkit-box-shadow: none !important; box-shadow: none !important; }
+
+.pic-submit:hover { background-color: #D32F2F; cursor: pointer; }
+
+.custom-file-control:before { content: "Traži"; background: #2196F3; color: #fff; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+
+.custom-file-control:after { content: "Dodajte sliku..."; }
+
+.btn-submit { background-color: #2196F3; color: #fff; display: block; margin: auto; }
+
+.btn-submit:hover { background-color: #1976D2; cursor: pointer; }
+
 .home-form-container { width: 90%; max-width: 600px; margin: auto; }
 
 .main-input { border: 2px solid #2196F3; border-right: none; }
+
+.reservation-profile-card-container { margin-top: 50px; border: 2px solid #2196F3; border-radius: 8px; padding: 10px 20px; }
+
+.card-title { text-align: center; color: #2196F3; font-weight: normal; }
+
+.card-list li { padding-left: 30px; margin-bottom: 15px; background-size: 20px; background-repeat: no-repeat; }
+
+.card-list li.hotel { background-image: url("../img/icons/hotel-naziv.png"); }
+
+.card-list li.service { background-image: url("../img/icons/usluga.png"); }
+
+.card-list li.room { background-image: url("../img/icons/soba.png"); }
+
+.card-list li.date { background-image: url("../img/icons/calendar.png"); }
+
+.card-list li.activity { background-image: url("../img/icons/aktivnost.png"); }
+
+.card-list li.date { background-image: url("../img/icons/calendar.png"); }
+
+.card-list li.time { background-image: url("../img/icons/clock.png"); }
+
+.card-list li.location { background-image: url("../img/icons/placeholder.png"); }
+
+.user-details-container { margin-top: 50px; }
+
+.user-details-container .profile-pic { width: 50%; margin: auto; display: block; border-radius: 8px; }

@@ -45,7 +45,7 @@
 						<button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 						</button>
-						<a class="navbar-brand" href="#">Logo</a>
+						<a class="navbar-brand" href="index.jsp">Logo</a>
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav float-lg-right text-center">
 								<li class="nav-item dropdown">
@@ -67,7 +67,7 @@
 				</nav>
   			</div><!-- #header -->
 
-  			<section id="content">
+  			<div id="content">
 			    <div class="jumbotron jumbotron-fluid hero-main">
 			        <h1 class="hero-main__heading text-center">Pronađite hotel po vašoj meri</h1>
 			       	<div class="call-to-action">
@@ -150,7 +150,7 @@
 							</div>
 						</form>	
 				    </div>
-  			</section><!-- #content -->
+  			</div><!-- #content -->
 
   			<div id="footer">
   				<footer class="footer-main container text-center">
