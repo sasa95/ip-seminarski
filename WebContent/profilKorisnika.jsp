@@ -158,14 +158,14 @@
 								<div class="form-group row">
 								  <label for="lozinka1" class="col-4 col-form-label">Trenutna Lozinka</label>
 								  <div class="col-8">
-								    <input required="required" class="form-control" type="password" value="${korisnik.lozinka}" id="lozinka1" name="lozinka1">
+								    <input class="form-control" type="password" id="lozinka1" name="lozinka1">
 								  </div>
 								</div>
 
 								<div class="form-group row">
 								  <label for="lozinka2" class="col-4 col-form-label">Nova Lozinka</label>
 								  <div class="col-8">
-								    <input class="form-control" type="password" value="${korisnik.lozinka}" id="lozinka2" name="lozinka2">
+								    <input class="form-control" type="password" id="lozinka2" name="lozinka2">
 								  </div>
 								</div>
 

@@ -1,6 +1,7 @@
 package rs;
 
 import java.io.IOException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -74,9 +75,11 @@ public class Servlet_profil extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		DAO dao = new DAO();
 		String akcija = request.getParameter("akcija"); 
 		HttpSession loginSesija = request.getSession();
-		Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
+		String username = (String)loginSesija.getAttribute("username");
+		Korisnik korisnik = dao.getKorisnikByUsername(username);
 		if(akcija.equals("izmeniKorisnickeDetalje")){
 			String broj_licne_karte = request.getParameter("broj_licne_karte");
 			String ime = request.getParameter("ime");
@@ -93,13 +96,12 @@ public class Servlet_profil extends HttpServlet {
 					adresa != null && adresa.trim().length()>0 &&
 					email != null && email.trim().length()>0 &&
 					korisnicko_ime != null && korisnicko_ime.trim().length()>0 &&
-					lozinka1 != null && lozinka1.trim().length()>0 &&
-					lozinka2 != null && lozinka2.trim().length()>0) {
-					if(lozinka1.equals(kor.getLozinka())){
+					lozinka1 != null && lozinka1.trim().length()>0) {
+					if(lozinka1.equals(korisnik.getLozinka())){
 						if (broj_licne_karte.trim().length()==9) {
 							if (ime.trim().length()>=3 && prezime.trim().length()>=3) {
 								if (adresa.trim().length()>8) {
-									if (lozinka2.length()>7) {
+									if (lozinka2.equals("") || lozinka2.length()>7) {
 										if (broj_licne_karte.matches("[0-9]+"))	{
 											if(email.contains("@") && email.trim().length()>5) {
 												try {
@@ -116,69 +118,75 @@ public class Servlet_profil extends HttpServlet {
 																	String part3 = splitDot[1];
 																	
 																	if(part3.trim().length()>1) {
-																		DAO dao = new DAO();
-																		dao.updateKorisnikByUsername(broj_licne_karte, ime, prezime, adresa, lozinka2, email, kor.getKorisnicko_ime());
-																		response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Uspešna izmena podataka.","UTF-8"));
+																		if(lozinka2!=null && !lozinka2.equals("")){
+																			dao.updateKorisnikByUsername(broj_licne_karte, ime, prezime, adresa, lozinka2, email, korisnik.getKorisnicko_ime());
+																		}
+																		else {
+																			dao.updateKorisnikByUsername(broj_licne_karte, ime, prezime, adresa, lozinka1, email, korisnik.getKorisnicko_ime());
+																		}
+																		
+																		response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Uspešna izmena podataka.","UTF-8"));
 																	}
 																	else {
-																		response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a nakon tačke mora imati bar 2 karaktera!","UTF-8"));
+																		response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a nakon tacke mora imati bar 2 karaktera!","UTF-8"));
 																	}
 																	
 																	
 																} catch (Exception e1) {
-																	response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a nakon tačke ne sme ostati prazan!","UTF-8"));
+																	response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a nakon tacke ne sme ostati prazan!","UTF-8"));
 																}
 															}
 															else {
-																response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a desno od znaka '@' mora sadržati tačku!","UTF-8"));
+																response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a desno od znaka '@' mora sadrzati tacku!","UTF-8"));
 															}
 														}
 														else {
-															response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a desno od znaka '@' mora sadržati bar 3 karaktera!","UTF-8"));
+															response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a desno od znaka '@' mora sadrzati bar 3 karaktera!","UTF-8"));
 														}
 													}
 													else {
-														response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a levo od znaka '@' mora sadržati bar 3 karaktera!","UTF-8"));
+														response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a levo od znaka '@' mora sadrzati bar 3 karaktera!","UTF-8"));
 													}
 												
 												} catch (Exception e1) {
-													response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a nakon znaka @ ne sme ostati prazan!","UTF-8"));
+													response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a nakon znaka @ ne sme ostati prazan!","UTF-8"));
 												}
 													
 
 											}
 											else {
-												response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Email mora sadržati znak '@' i mora imati bar 6 karaktera!","UTF-8"));
+												response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Email mora sadrzati znak '@' i mora imati bar 6 karaktera!","UTF-8"));
 											}
 										}
 										else {
-											response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Broj lične karte mora sadržati samo numeričke vrednosti.","UTF-8"));
+											response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Broj lične karte mora sadržati samo numeričke vrednosti.","UTF-8"));
 										}
 									}
 									else {
-										response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Nova lozinka mora sadržati najmanje 8 karaktera","UTF-8"));
+										response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Nova lozinka mora sadržati najmanje 8 karaktera","UTF-8"));
 									}
 								}
 								else {
-									response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Adresa ne sme biti kraća od 8 karaktera.","UTF-8"));
+									response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Adresa ne sme biti kraća od 8 karaktera.","UTF-8"));
 								}
 							}
 							else {
-								response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Ime i prezime ne smeju biti kraći od 3 karaktera.","UTF-8"));
+								response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Ime i prezime ne smeju biti kraći od 3 karaktera.","UTF-8"));
+								
 							}
 						}
 					
 						else {
-							response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Broj lične karte mora imati 9 karaktera.","UTF-8"));
+							response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Broj lične karte mora imati 9 karaktera.","UTF-8"));
 						}
 					}
 					else {
-						response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Pogrešna lozinka","UTF-8"));
+						response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Pogrešna lozinka.","UTF-8"));
 					}
 				
 				}
 				else {
-					response.sendRedirect("Servlet_profil?akcija=profil&username="+kor.getKorisnicko_ime()+"&msg=Morate popuniti sva polja.");
+					response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg=Morate popuniti sva polja.");
 				}
 		}
 	}
