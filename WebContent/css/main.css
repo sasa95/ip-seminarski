@@ -1,0 +1,90 @@
+@media (max-width: 575px) { .container { margin: 0; } }
+
+.navbar-toggleable-md .navbar-nav { margin-left: auto; }
+
+button, input { outline: none !important; border: none; }
+
+ul { list-style: none; padding: 0; }
+
+a:hover { text-decoration: none; }
+
+html, body { margin: 0; padding: 0; height: 100%; background-color: #f9f9f9; }
+
+#wrapper { min-height: 100%; position: relative; }
+
+#header { background: #ededed; }
+
+#content { padding-bottom: 130px; /* Height of the footer element */ }
+
+#footer { background: #ffab62; width: 100%; position: absolute; bottom: 0; left: 0; }
+
+html, body, h1, h2, h3, h4, h5, h6, p, a { font-family: 'Roboto', sans-serif; }
+
+h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+
+.hero-main { background: url("../img/hero-main-2.jpg"); background-size: cover; height: 400px; position: relative; }
+
+@media (min-width: 768px) { .hero-main { height: 580px; } }
+
+.hero-main .hero-main__heading { position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); top: 40%; color: #fff; letter-spacing: 1px; width: 100%; font-size: 2.3em; }
+
+@media (min-width: 768px) { .hero-main .hero-main__heading { font-size: 2.7em; } }
+
+.footer-main { width: 100%; background-color: #1976D2; color: #fff; padding-top: 15px; padding-bottom: 15px; }
+
+.footer-main .col-md-4 { max-height: 28px; }
+
+.footer-main p { display: inline-block; }
+
+.footer-main__contact { background: url("../img/phone.png") no-repeat; background-size: 20px; padding-left: 35px; }
+
+.footer-main__developers { background: url("../img/code.png") no-repeat; background-size: 20px; padding-left: 35px; }
+
+@media (max-width: 767px) { .footer-main__project { padding-left: 35px; } }
+
+#nav--main { min-height: 60px; text-align: left; background-color: #2196F3; border-bottom: 4px solid #1976D2; padding: 8px 0 0 12px; }
+
+@media (min-width: 992px) { #nav--main { padding: 0; } }
+
+.navbar-light .navbar-brand { color: #fff; }
+
+.navbar-light .navbar-nav .nav-link { color: #fff; -webkit-transition: color .4s; -o-transition: color .4s; transition: color .4s; }
+
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover { color: #fff; }
+
+.navbar-light .navbar-toggler { border-color: #f9f9f9; }
+
+@media (min-width: 992px) { .nav-item:not(:first-child) { padding-left: 15px; } }
+
+@media (max-width: 991px) { .navbar-toggleable-md .navbar-nav .dropdown-menu { max-width: 50px; margin: auto; background-color: #2196F3; border: none; text-align: center; } }
+
+@media (max-width: 991px) { .dropdown-item, .dropdown-item { color: #fff; }
+  .dropdown-item:hover, .dropdown-item:focus, .dropdown-item:hover, .dropdown-item:focus { background-color: #2196F3; color: #fff; } }
+
+.call-to-action { position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); width: 100%; text-align: center; margin-top: 70px; }
+
+@media (min-width: 768px) { .call-to-action { margin-top: 20px; } }
+
+.btn-hero { color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 1.4em; width: 180px; text-align: center; display: inline-block; -webkit-transition: .3s background-color; -o-transition: .3s background-color; transition: .3s background-color; }
+
+@media (min-width: 768px) { .btn-hero { padding: 3px 35px; font-size: 1.7em; width: 220px; } }
+
+.btn-hero:hover { color: #fff; }
+
+.btn-hero--search { background-color: #2196F3; margin-bottom: 15px; }
+
+@media (min-width: 401px) { .btn-hero--search { margin: 0 20px 0 0; } }
+
+.btn-hero--search:hover { background-color: #1976D2; }
+
+.btn-hero--register { background-color: #F44336; }
+
+.btn-hero--register:hover { background-color: #D32F2F; }
+
+.btn--home-submit { background-color: #2196F3; color: #fff; font-weight: bold; padding-left: 20px; padding-right: 20px; width: 100%; border: 2px solid #2196F3; border-left: none; }
+
+.btn--home-submit:hover { background-color: #1976D2; cursor: pointer; }
+
+.home-form-container { width: 90%; max-width: 600px; margin: auto; }
+
+.main-input { border: 2px solid #2196F3; border-right: none; }
