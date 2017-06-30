@@ -23,6 +23,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <!-- Custom styles -->
     <link href="css/main.css" rel="stylesheet">
+    
+    <style type="text/css">
+    	<%if(username!=null){%>
+    	
+	    	#navbarSupportedContent > ul > li > a > img {
+	    		margin-right: 10px;
+	    		width: 35px;
+	    		height: 35px;
+	    		border-radius: 100%;
+	    	}
+    	
+    	<%}%>
+    </style>
 </head>
 <body>	
 	<div id="wrapper">
@@ -36,7 +49,7 @@
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav float-lg-right text-center">
 								<li class="nav-item dropdown">
-								    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Profil</a>
+								    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%if(username!=null){%><img src="img/korisnici/<%=username%>.jpg"><%} %>Profil</a>
 								    <div class="dropdown-menu">
 									<%if(username==null){ %>
 										<a href="prijava.jsp" class="dropdown-item">Prijava</a>
