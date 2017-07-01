@@ -26,7 +26,6 @@
 		String vrsta_usluge = request.getParameter("vrsta_usluge");
 		HttpSession loginSesija = request.getSession();
 		String username = (String)loginSesija.getAttribute("username");
-		if(hotel.size()>0 && hotel!=null){
 	%>
 <body>
 
@@ -65,28 +64,31 @@
   				<section class="hotels-list container">
   				<div class="tags-container">
   					<h2>Rezultati pretrage za:</h2>
-					<%if(!nazivHotela.equals("")){ %>
+					<%if(nazivHotela!=null && !nazivHotela.equals("")){ %>
 						<span>Naziv: <span class="tag"><%=nazivHotela%></span></span>
 					<%} %>
-					<span class="categories">Kategorije: 
 						<%
-							for(int i=0;i<kat.length;i++)
-								out.println("<span class=\"cat-tag\">"+kat[i]+"</span>");
+							if(kat!=null){
+								out.println("<span class=\"categories\">Kategorije: ");
+								for(int i=0;i<kat.length;i++)
+									out.println("<span class=\"cat-tag\">"+kat[i]+"</span>");
+								out.println("</span>");
+							}
 						%>
-					</span>
-					<%if(!grad.equals("")){ %>
+					<%if(grad!=null && !grad.equals("")){ %>
 						<span>Mesto: <span class="tag"><%=grad %></span></span>
 					<%} %>
-					<%if(!naziv_vrste_aktivnosti.equals("")){ %>
+					<%if(naziv_vrste_aktivnosti!=null && !naziv_vrste_aktivnosti.equals("")){ %>
 						<span>Vrsta aktivnosti: <span class="tag"><%=naziv_vrste_aktivnosti %></span></span>
 					<%} %>
-					<%if(!vrsta_usluge.equals("")){ %>
+					<%if(vrsta_usluge!=null && !vrsta_usluge.equals("")){ %>
 						<span>Vrsta usluge: <span class="tag"><%=vrsta_usluge %></span></span>
 					<%} %>
 					</div>
   					<div class="row">
 	  					<div class="col-lg-5">
-	  					<%for(Hotel pom:hotel){%>
+	  					<%if(hotel!=null && hotel.size()>0){
+	  					for(Hotel pom:hotel){%>
 	  						<div class="hotel-card">
 	  							<div class="row">
 	  								<div class="col-5">
@@ -106,6 +108,8 @@
 	  								</div>
 	  							</div>
 	  						</div>
+	  					<%}} else{%>
+	  					<h2 class="msg msg--error">Nema rezultata koji odgovaraju unosu.</h2>	
 	  					<%} %>
 	  					</div>
 	  					<div class="col-lg-7">
@@ -212,9 +216,5 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 	<script src="js/main.js"></script>
 </body>
-	<% }else {
-			request.setAttribute("msg", "Nema rezultata koji odgovaraju unosu.");
-			request.getRequestDispatcher("index.jsp").forward(request, response);
-		}
-	%>
+	
 </html>
