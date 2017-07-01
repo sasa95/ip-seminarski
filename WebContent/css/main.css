@@ -37,6 +37,18 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 @media (min-width: 768px) { .hero-main .hero-main__heading { font-size: 2.7em; } }
 
+.hotel-card { border: 2px solid #2196F3; border-radius: 8px; padding: 10px 20px; background-color: #fff; margin-bottom: 20px; }
+
+.hotel-card__details { margin-bottom: 0; }
+
+.hotel-card .hotel-card__img { padding: 5px; }
+
+.hotel-card .capacity { background: url("../img/icons/soba.png") no-repeat; padding-left: 42px; padding-top: 4px; }
+
+.hotel-card .btn-submit--details { width: 62px; padding: 4px 8px; margin: 5px 5px 5px auto; }
+
+.hotel-card .btn-submit--details:hover, .hotel-card .btn-submit--details:focus { background-color: #1976D2; color: #fff; }
+
 .footer-main { width: 100%; background-color: #1976D2; color: #fff; padding-top: 15px; padding-bottom: 15px; }
 
 .footer-main .col-md-4 { max-height: 28px; }
@@ -112,7 +124,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 .main-input { border: 2px solid #2196F3; border-right: none; }
 
-.reservation-profile-card-container { margin-top: 50px; border: 2px solid #2196F3; border-radius: 8px; padding: 10px 20px; }
+.reservation-profile-card-container { margin-top: 50px; border: 2px solid #2196F3; border-radius: 8px; padding: 10px 20px; background-color: #fff; }
 
 .card-title { text-align: center; color: #2196F3; font-weight: normal; }
 
@@ -147,3 +159,13 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 .h-404 { font-size: 8rem; color: #f2f2f2; }
 
 .p-404 { color: #f2f2f2; font-size: 2rem; }
+
+.tags-container { margin: 30px 0; }
+
+.tags-container > span { margin-bottom: 10px; display: inline-block; }
+
+.tags-container span span { background-color: #F44336; color: #fff; }
+
+.tag { border-radius: 15px; padding: 3px 8px; }
+
+.cat-tag { background-color: #d8d8d8; border-radius: 10px; padding-bottom: 3px; width: 25px; height: 25px; display: inline-block; text-align: center; }
