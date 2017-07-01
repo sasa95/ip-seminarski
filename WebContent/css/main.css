@@ -23,6 +23,12 @@ html, body, h1, h2, h3, h4, h5, h6, p, a { font-family: 'Roboto', sans-serif; }
 
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
+.msg { margin: 20px 0; }
+
+.msg--error { color: #F44336; }
+
+.msg--success { color: #2196F3; }
+
 .hero-main { background: url("../img/hero-main-2.jpg"); background-size: cover; height: 400px; position: relative; }
 
 @media (min-width: 768px) { .hero-main { height: 580px; } }
@@ -61,6 +67,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 @media (max-width: 991px) { .dropdown-item, .dropdown-item { color: #fff; }
   .dropdown-item:hover, .dropdown-item:focus, .dropdown-item:hover, .dropdown-item:focus { background-color: #2196F3; color: #fff; } }
+
+#navbarSupportedContent > ul > li > a > img { margin-right: 10px; width: 35px; height: 35px; border-radius: 100%; }
 
 .call-to-action { position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); width: 100%; text-align: center; margin-top: 70px; }
 
@@ -129,3 +137,5 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 .user-details-container { margin-top: 50px; }
 
 .user-details-container .profile-pic { width: 50%; margin: auto; display: block; border-radius: 8px; }
+
+.login-form-container { width: 400px; max-width: 70%; margin: 50px auto; }

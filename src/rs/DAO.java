@@ -1021,8 +1021,8 @@ public class DAO {
 				hru = new Hotel_Rezervacija_Usluga();
 				hru.setNaziv(rs.getString("naziv"));
 				hru.setSobaID(rs.getInt("sobaID"));
-				hru.setDatum_prijavljivanja(rs.getTimestamp("datum_prijavljivanja"));
-				hru.setDatum_odlaska(rs.getTimestamp("datum_odlaska"));
+				hru.setDatum_prijavljivanja(rs.getDate("datum_prijavljivanja"));
+				hru.setDatum_odlaska(rs.getDate("datum_odlaska"));
 				hru.setBroj_licne_karte(rs.getString("broj_licne_karte"));
 				hru.setVrsta_usluge(rs.getString("vrsta_usluge"));
 

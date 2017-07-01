@@ -34,3 +34,28 @@ $('a[href*="#"]')
       }
     }
   });
+
+$('.change-date').each(function () {
+    if ($(this).text() == '') {
+      $(this).text('-');
+    }
+
+    else {
+      $dd = $(this).text().substring(8,10);
+      $mm = $(this).text().substring(5,7);
+      $y = $(this).text().substring(0,4);
+      $(this).text($dd+'/'+$mm+'/'+$y);
+    }
+  });
+
+$('.change-time').each(function () {
+    if ($(this).text() == '') {
+      $(this).text('-');
+    }
+
+    else {
+      $time = $(this).text().substring(11,16);
+      
+      $(this).text($time);
+    }
+  });

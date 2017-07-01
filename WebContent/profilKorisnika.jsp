@@ -18,7 +18,7 @@
 	ArrayList<Hotel_Rezervacija_Usluga> lsrez = (ArrayList<Hotel_Rezervacija_Usluga>)loginSesija.getAttribute("lsrez");
 	ArrayList<Hotel_aktivnost> lsakt = (ArrayList<Hotel_aktivnost>)loginSesija.getAttribute("lsakt");
 	String msg = request.getParameter("msg");
-	
+	String status = request.getParameter("status");
 	if(username!=null){
 %>    
 <!DOCTYPE html>
@@ -46,10 +46,11 @@
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav float-lg-right text-center">
 								<li class="nav-item dropdown">
-								    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Profil</a>
+								    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="img/korisnici/<%=username%>.jpg">Profil</a>
 								    <div class="dropdown-menu">
-										<a href="#" class="dropdown-item">Prijava</a>
-										<a href="#" class="dropdown-item">Registracija</a>
+										<a href="Servlet_profil?akcija=profil&username=<%=username%>" class="dropdown-item">Profil korisnika</a>
+										<div class="dropdown-divider"></div>	
+										<a href="Servlet_sesija?akcija=logout" class="dropdown-item">Odjava</a>
 								    </div>
 								</li>
 							</ul>
@@ -61,7 +62,7 @@
 			<div id="content">
 			   <div class="container">
 			   	<div class="row">
-			   		<div class="col-lg-7">
+			   		<div class="col-lg-6">
 			   		<%if(lsrez.size()>0){%>	
 			   		
 			   		<c:forEach var="rez" items="${lsrez}">	
@@ -71,8 +72,8 @@
 			   					<li class="hotel">Hotel <span>${rez.naziv}</span></li>
 			   					<li class="service">Usluga <span>${rez.vrsta_usluge}</span></li>
 			   					<li class="room">Soba <span>${rez.sobaID}</span></li>
-			   					<li class="date">Dolazak <span>${rez.datum_prijavljivanja}</span></li>
-			   					<li class="date">Odlazak <span>${rez.datum_odlaska}</span></li>
+			   					<li class="date">Dolazak <span class="change-date">${rez.datum_prijavljivanja}</span></li>
+			   					<li class="date">Odlazak <span class="change-date">${rez.datum_odlaska}</span></li>
 			   				</ul>
 			   			</div>
 			   		</c:forEach>
@@ -88,8 +89,8 @@
 			   				<h2 class="card-title">Aktivnost</h2>
 			   				<ul class="card-list">
 			   					<li class="activity">Naziv <span>${akt.naziv}</span></li>
-			   					<li class="date">Datum <span>${akt.datum_odrzavanja}</span></li>
-			   					<li class="time">Vreme <span>${akt.vreme_odrzavanja}</span></li>
+			   					<li class="date">Datum <span class="change-date">${akt.datum_odrzavanja}</span></li>
+			   					<li class="time">Vreme <span class="change-time">${akt.vreme_odrzavanja}</span></li>
 			   					<li class="location">Grad <span>${akt.mesto_odrzavanja}</span></li>
 			   				</ul>
 			   			</div>
@@ -99,7 +100,7 @@
 					<%}%>
 			   			
 			   		</div>
-			   		<div class="col-lg-5">
+			   		<div class="col-lg-6">
 			   			<div class="user-details-container">
 			   				<h2 class="card-title">Korisnički detalji</h2>
 			   				<img src="img/korisnici/${korisnik.korisnicko_ime}.jpg" class="profile-pic">
@@ -110,7 +111,17 @@
 								</label>
 								<input type="submit" name="" class="btn pic-submit" value="Potvrdi">
 							</form>
-							<h2><%if(msg!=null){out.println(msg);}%></h2>
+							<h2 class="text-center msg <%if(msg!=null){if(status!=null && status.equals("ok")){out.println("msg--success");}else{out.println("msg--error");}}%>"><%if(msg!=null){out.println(msg);}%></h2>
+							
+							<% 
+							
+							
+							
+							
+							
+							%>
+							
+							
 			   				<form action="Servlet_profil" method="post">
 								<div class="form-group row">
 								  <label for="broj_licne_karte" class="col-4 col-form-label">Lična karta</label>
@@ -198,7 +209,10 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<script src="js/main.js"></script>
 <%}else {
 	String url = request.getRequestURL().toString();
 	response.sendRedirect("prijava.jsp"); 

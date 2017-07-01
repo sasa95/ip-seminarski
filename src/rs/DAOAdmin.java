@@ -242,8 +242,8 @@ public class DAOAdmin {
 			while(rs.next()){ 
 				rezervacije = new Hotel_Rezervacija_Usluga();
 				rezervacije.setRezervacijaID(rs.getInt("rezervacijaID"));
-				rezervacije.setDatum_prijavljivanja(rs.getTimestamp("datum_prijavljivanja"));
-				rezervacije.setDatum_odlaska(rs.getTimestamp("datum_odlaska"));
+				rezervacije.setDatum_prijavljivanja(rs.getDate("datum_prijavljivanja"));
+				rezervacije.setDatum_odlaska(rs.getDate("datum_odlaska"));
 				rezervacije.setBroj_licne_karte(rs.getString("broj_licne_karte"));
 				rezervacije.setSobaID(rs.getInt("sobaID"));
 				rezervacije.setVrsta_usluge(rs.getString("vrsta_usluge"));

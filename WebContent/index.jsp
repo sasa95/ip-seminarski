@@ -23,19 +23,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <!-- Custom styles -->
     <link href="css/main.css" rel="stylesheet">
-    
-    <style type="text/css">
-    	<%if(username!=null){%>
-    	
-	    	#navbarSupportedContent > ul > li > a > img {
-	    		margin-right: 10px;
-	    		width: 35px;
-	    		height: 35px;
-	    		border-radius: 100%;
-	    	}
-    	
-    	<%}%>
-    </style>
 </head>
 <body>	
 	<div id="wrapper">

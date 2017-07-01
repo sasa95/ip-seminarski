@@ -1,11 +1,12 @@
 package rs;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Hotel_Rezervacija_Usluga {
 	private String naziv,broj_licne_karte,vrsta_usluge;
 	private int sobaID,rezervacijaID;
-	private Timestamp datum_prijavljivanja,datum_odlaska;
+	private Date datum_prijavljivanja,datum_odlaska;
 	public String getNaziv() {
 		return naziv;
 	}
@@ -30,16 +31,16 @@ public class Hotel_Rezervacija_Usluga {
 	public void setSobaID(int sobaID) {
 		this.sobaID = sobaID;
 	}
-	public Timestamp getDatum_prijavljivanja() {
+	public Date getDatum_prijavljivanja() {
 		return datum_prijavljivanja;
 	}
-	public void setDatum_prijavljivanja(Timestamp datum_prijavljivanja) {
+	public void setDatum_prijavljivanja(Date datum_prijavljivanja) {
 		this.datum_prijavljivanja = datum_prijavljivanja;
 	}
-	public Timestamp getDatum_odlaska() {
+	public Date getDatum_odlaska() {
 		return datum_odlaska;
 	}
-	public void setDatum_odlaska(Timestamp datum_odlaska) {
+	public void setDatum_odlaska(Date datum_odlaska) {
 		this.datum_odlaska = datum_odlaska;
 	}
 	
@@ -50,7 +51,7 @@ public class Hotel_Rezervacija_Usluga {
 		this.rezervacijaID = rezervacijaID;
 	}
 	public Hotel_Rezervacija_Usluga(String naziv, String broj_licne_karte, String vrsta_usluge, int sobaID,int rezervacijaID,
-			Timestamp datum_prijavljivanja, Timestamp datum_odlaska) {
+			Date datum_prijavljivanja, Date datum_odlaska) {
 		super();
 		this.naziv = naziv;
 		this.broj_licne_karte = broj_licne_karte;

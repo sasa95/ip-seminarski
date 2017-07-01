@@ -125,7 +125,7 @@ public class Servlet_profil extends HttpServlet {
 																			dao.updateKorisnikByUsername(broj_licne_karte, ime, prezime, adresa, lozinka1, email, korisnik.getKorisnicko_ime());
 																		}
 																		
-																		response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Uspešna izmena podataka.","UTF-8"));
+																		response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Uspešna izmena podataka.","UTF-8")+"&status=ok");
 																	}
 																	else {
 																		response.sendRedirect("Servlet_profil?akcija=profil&username="+korisnik.getKorisnicko_ime()+"&msg="+URLEncoder.encode("Deo email-a nakon tacke mora imati bar 2 karaktera!","UTF-8"));
