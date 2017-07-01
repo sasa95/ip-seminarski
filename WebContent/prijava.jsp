@@ -8,7 +8,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Početna</title>
+    <title>Prijava</title>
 	<!-- Font -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
     <!-- Bootstrap core CSS -->
@@ -36,8 +36,8 @@
 								<li class="nav-item dropdown">
 								    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Profil</a>
 								    <div class="dropdown-menu">
-										<a href="#" class="dropdown-item">Prijava</a>
-										<a href="#" class="dropdown-item">Registracija</a>
+										<a href="prijava.jsp" class="dropdown-item">Prijava</a>
+										<a href="registracija.jsp" class="dropdown-item">Registracija</a>
 								    </div>
 								</li>
 							</ul>
@@ -47,8 +47,9 @@
   			</div><!-- #header -->
 
   			<section id="content">
+  				<h2 class="msg msg--error text-center">${msg}</h2>
+				<h2 class="msg msg--success text-center">${msgSuccess}</h2>
 				<div class="login-form-container">
-				<h2 class="msg msg--error">${msg}</h2>
 					  <form action="Servlet_sesija" method="post">
 					  	<h1 class="text-center mb-4">Prijavite se</h1>
 					    <div class="form-group row">

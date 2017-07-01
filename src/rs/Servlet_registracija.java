@@ -65,32 +65,32 @@ public class Servlet_registracija extends HttpServlet {
 																				if(part3.trim().length()>1) {
 																					DAO dao = new DAO();
 																					dao.insertKorisnik(broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka1,email);
-																					request.setAttribute("msg", "Uspešna registracija. Sada se možete prijaviti.");
+																					request.setAttribute("msgSuccess", "Uspešna registracija. Sada se možete prijaviti.");
 																					request.getRequestDispatcher("prijava.jsp").forward(request, response);
 																				}
 																				else {
-																					request.setAttribute("msg", "Deo email-a nakon tacke mora imati bar 2 karaktera!");
+																					request.setAttribute("msg", "Deo email-a nakon tačke mora imati bar 2 karaktera!");
 																					request.getRequestDispatcher("index.jsp").forward(request, response);
 																				}
 																				
 																				
 																			} catch (Exception e1) {
-																				request.setAttribute("msg", "Deo email-a nakon tacke ne sme ostati prazan!");
+																				request.setAttribute("msg", "Deo email-a nakon tačke ne sme ostati prazan!");
 																				request.getRequestDispatcher("index.jsp").forward(request, response);
 																			}
 																		}
 																		else {
-																			request.setAttribute("msg", "Deo email-a desno od znaka '@' mora sadrzati tacku!");
+																			request.setAttribute("msg", "Deo email-a desno od znaka '@' mora sadržati tačku!");
 																			request.getRequestDispatcher("index.jsp").forward(request, response);
 																		}
 																	}
 																	else {
-																		request.setAttribute("msg", "Deo email-a desno od znaka '@' mora sadrzati bar 3 karaktera!");
+																		request.setAttribute("msg", "Deo email-a desno od znaka '@' mora sadržati bar 3 karaktera!");
 																		request.getRequestDispatcher("index.jsp").forward(request, response);
 																	}
 																}
 																else {
-																	request.setAttribute("msg", "Deo email-a levo od znaka '@' mora sadrzati bar 3 karaktera!");
+																	request.setAttribute("msg", "Deo email-a levo od znaka '@' mora sadržati bar 3 karaktera!");
 																	request.getRequestDispatcher("index.jsp").forward(request, response);
 																}
 															
@@ -102,7 +102,7 @@ public class Servlet_registracija extends HttpServlet {
 		
 														}
 														else {
-															request.setAttribute("msg", "Email mora sadrzati znak '@' i mora imati bar 6 karaktera!");
+															request.setAttribute("msg", "Email mora sadržati znak '@' i mora imati bar 6 karaktera!");
 															request.getRequestDispatcher("index.jsp").forward(request, response);
 														}
 													}
@@ -122,7 +122,7 @@ public class Servlet_registracija extends HttpServlet {
 										}
 									}
 									else {
-										request.setAttribute("msg", "Lozinke ne sme biti kraća od 8 karaktera.");
+										request.setAttribute("msg", "Lozinka ne sme biti kraća od 8 karaktera.");
 										request.getRequestDispatcher("registracija.jsp").forward(request, response);
 									}
 									

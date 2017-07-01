@@ -79,7 +79,7 @@
 			   		</c:forEach>
 			   			
 			   		<%} else { %>
-					<h2>Nemate rezervacije</h2>
+					<h2 class="msg msg--error">Nemate rezervacije</h2>
 					<%}%>
 					
 					<%if(lsakt.size()>0){%>
@@ -96,7 +96,7 @@
 			   			</div>
 			   		</c:forEach>
 		   			<%} else { %>
-					<h2>Nemate aktivnosti</h2>
+					<h2 class="msg msg--error">Nemate aktivnosti</h2>
 					<%}%>
 			   			
 			   		</div>
@@ -112,15 +112,6 @@
 								<input type="submit" name="" class="btn pic-submit" value="Potvrdi">
 							</form>
 							<h2 class="text-center msg <%if(msg!=null){if(status!=null && status.equals("ok")){out.println("msg--success");}else{out.println("msg--error");}}%>"><%if(msg!=null){out.println(msg);}%></h2>
-							
-							<% 
-							
-							
-							
-							
-							
-							%>
-							
 							
 			   				<form action="Servlet_profil" method="post">
 								<div class="form-group row">
