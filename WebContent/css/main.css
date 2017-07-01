@@ -141,3 +141,9 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 .login-form-container { width: 400px; max-width: 70%; margin: 50px auto; }
 
 .user-registration-container { margin-top: 50px; width: 500px; max-width: 90%; margin: auto; }
+
+.body--404 { background-color: #2196F3; }
+
+.h-404 { font-size: 8rem; color: #f2f2f2; }
+
+.p-404 { color: #f2f2f2; font-size: 2rem; }
