@@ -102,8 +102,8 @@ public class Servlet extends HttpServlet {
 				int idh = Integer.parseInt(id);
 				int idc = Integer.parseInt(centarID);
 				
-				Trzni_centar nazivCentra = dao.getCentarNazivByCentarID(idc);
-				request.setAttribute("nazivCentra", nazivCentra);
+				Trzni_centar trznicentar = dao.getCentarByID(idc);
+				request.setAttribute("trznicentar", trznicentar);
 				
 				ArrayList<Trzni_centar_prodavnica> lsprodavnica = dao.selectProdavniceByCentarId(idh, idc);
 				request.setAttribute("lsprodavnica", lsprodavnica);

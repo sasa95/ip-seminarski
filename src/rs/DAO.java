@@ -26,6 +26,7 @@ public class DAO {
       private static String SELECTTRZNICENTRI = "SELECT tc.naziv,tc.lokacija,tc.trzni_centarID FROM trzni_centri tc WHERE tc.hotelID=?";
       private static String SELECTPRODAVNICEBYCENTARID = "SELECT p.naziv AS nazivP,p.lokacija FROM trzni_centri tc JOIN prodavnice p ON tc.trzni_centarID=p.trzni_centarID WHERE tc.hotelID=? AND tc.trzni_centarID=?";
       private static String GETCENTARNAZIVBYCENTARID = "SELECT tc.naziv,tc.opis FROM trzni_centri tc WHERE tc.trzni_centarID=?";
+      private static String GETCENTARBYID = "SELECT * FROM trzni_centri tc WHERE tc.trzni_centarID=?";
       private static String SELECTVRSTEAKTIVNOSTI = "SELECT va.naziv_vrste_aktivnosti AS vrstaAktivnosti,a.aktivnostID, va.vrsta_aktivnostiID FROM vrste_aktivnosti va JOIN aktivnosti a ON va.vrsta_aktivnostiID=a.vrsta_aktivnostiID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE ha.hotelID=?";
       private static String GETNAZIVVRSTEAKTIVNOSTIBYID="SELECT va.naziv_vrste_aktivnosti FROM vrste_aktivnosti va WHERE va.vrsta_aktivnostiID=?";
       private static String GETAKTIVNOSTBYID = "SELECT a.aktivnostID,a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
@@ -318,6 +319,43 @@ public class DAO {
 				tc = new Trzni_centar();
 				tc.setNaziv(rs.getString("naziv"));
 				tc.setOpis(rs.getString("opis"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return tc; 
+	}
+	
+	public Trzni_centar getCentarByID(int centarID){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+
+		Trzni_centar tc = null;
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETCENTARBYID);
+
+			pstm.setInt(1, centarID);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){
+				tc = new Trzni_centar();
+				tc.setTrzni_centarID(rs.getInt("trzni_centarID"));
+				tc.setHotelID(rs.getInt("hotelID"));
+				tc.setNaziv(rs.getString("naziv"));
+				tc.setOpis(rs.getString("opis"));
+				tc.setLokacija(rs.getString("lokacija"));
 			}
 
 		} catch (SQLException e) {
