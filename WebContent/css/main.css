@@ -9,7 +9,7 @@ ul { list-style: none; padding: 0; }
 
 a:hover { text-decoration: none; }
 
-html, body { margin: 0; padding: 0; height: 100%; background-color: #f9f9f9; }
+html, body { margin: 0; padding: 0; height: 100%; background-color: #f9f9f9; overflow-x: hidden; }
 
 #wrapper { min-height: 100%; position: relative; }
 
@@ -48,6 +48,28 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 .hotel-card .btn-submit--details { width: 62px; padding: 4px 8px; margin: 5px 5px 5px auto; }
 
 .hotel-card .btn-submit--details:hover, .hotel-card .btn-submit--details:focus { background-color: #1976D2; color: #fff; }
+
+.single-hotel { margin: 50px auto; }
+
+.single-hotel__details { text-align: center; }
+
+.single-hotel__details li { display: inline-block; margin: 3px auto; }
+
+.single-hotel .hotel-description { max-width: 700px; margin: 20px auto; }
+
+.single-hotel .hotel-img { max-width: 100%; text-align: center; display: block; margin: 30px auto; border: 2px solid #1976D2; border-radius: 20px; }
+
+.single-hotel .capacity { background: url("../img/icons/soba.png") no-repeat; padding-left: 40px; padding-top: 5px; }
+
+.single-hotel .location { background: url("../img/icons/placeholder.png") no-repeat; background-size: 30px; padding-left: 40px; padding-top: 5px; }
+
+.single-hotel .table-col { overflow-x: auto; }
+
+.single-hotel table { background-color: #fff; color: #1976D2; width: 280px; margin: auto; }
+
+.single-hotel table caption { font-size: 1.6em; font-weight: bold; text-align: center; margin-top: 20px; }
+
+.single-hotel table td, .single-hotel table th { border: 1px solid #2196F3; padding: 3px 15px; }
 
 .footer-main { width: 100%; background-color: #1976D2; color: #fff; padding-top: 15px; padding-bottom: 15px; }
 
@@ -119,6 +141,14 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 .btn-submit { background-color: #2196F3; color: #fff; display: block; margin: auto; }
 
 .btn-submit:hover { background-color: #1976D2; cursor: pointer; }
+
+.btn-submit--red { background-color: #F44336; }
+
+.btn-submit--red:hover { background-color: #D32F2F; cursor: pointer; color: #fff; }
+
+.btn-submit--reserve { width: 150px; }
+
+.btn-submit--details { width: 60px; }
 
 .home-form-container { width: 90%; max-width: 600px; margin: auto; }
 

@@ -35,7 +35,9 @@ $('a[href*="#"]')
     }
   });
 
-$('.change-date').each(function () {
+  //Date format
+
+  $('.change-date').each(function () {
     if ($(this).text() == '') {
       $(this).text('-');
     }
@@ -48,14 +50,29 @@ $('.change-date').each(function () {
     }
   });
 
-$('.change-time').each(function () {
+    $('.change-time').each(function () {
     if ($(this).text() == '') {
       $(this).text('-');
     }
 
     else {
-      $time = $(this).text().substring(11,16);
-      
+      $time = $(this).text().substring(12,20);
       $(this).text($time);
     }
   });
+
+
+  $('.cut-address').each(function () {
+    $addrr = $(this).text().substring(0,$(this).text().indexOf(','));
+    console.log($addrr);
+    $(this).text($addrr);
+  });
+
+    $('.cut-city').each(function () {
+      $addrr = $(this).text().substring($(this).text().indexOf(',')+2);
+      console.log($addrr);
+    $(this).text($addrr);
+  });
+
+
+
