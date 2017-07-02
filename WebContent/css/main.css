@@ -9,7 +9,7 @@ ul { list-style: none; padding: 0; }
 
 a:hover { text-decoration: none; }
 
-html, body { margin: 0; padding: 0; height: 100%; background-color: #f9f9f9; overflow-x: hidden; }
+html, body { margin: 0; padding: 0; height: 100%; background-color: #f9f9f9; }
 
 #wrapper { min-height: 100%; position: relative; }
 

@@ -27,10 +27,10 @@ public class DAO {
       private static String SELECTPRODAVNICEBYCENTARID = "SELECT p.naziv AS nazivP,p.lokacija FROM trzni_centri tc JOIN prodavnice p ON tc.trzni_centarID=p.trzni_centarID WHERE tc.hotelID=? AND tc.trzni_centarID=?";
       private static String GETCENTARNAZIVBYCENTARID = "SELECT tc.naziv,tc.opis FROM trzni_centri tc WHERE tc.trzni_centarID=?";
       private static String GETCENTARBYID = "SELECT * FROM trzni_centri tc WHERE tc.trzni_centarID=?";
-      private static String SELECTVRSTEAKTIVNOSTI = "SELECT va.naziv_vrste_aktivnosti AS vrstaAktivnosti,a.aktivnostID, va.vrsta_aktivnostiID FROM vrste_aktivnosti va JOIN aktivnosti a ON va.vrsta_aktivnostiID=a.vrsta_aktivnostiID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE ha.hotelID=?";
+      private static String SELECTVRSTEAKTIVNOSTI = "SELECT DISTINCT(va.naziv_vrste_aktivnosti) AS vrstaAktivnosti, va.vrsta_aktivnostiID FROM vrste_aktivnosti va JOIN aktivnosti a ON va.vrsta_aktivnostiID=a.vrsta_aktivnostiID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE ha.hotelID=?";
       private static String GETNAZIVVRSTEAKTIVNOSTIBYID="SELECT va.naziv_vrste_aktivnosti FROM vrste_aktivnosti va WHERE va.vrsta_aktivnostiID=?";
       private static String GETAKTIVNOSTBYID = "SELECT a.aktivnostID,a.naziv,a.opis FROM aktivnosti a JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID  WHERE a.vrsta_aktivnostiID=? AND ha.hotelID=?";
-      private static String GETDETALJIAKTIVNOSTI = "SELECT ha.vreme_odrzavanja,ha.mesto_odrzavanja FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
+      private static String GETDETALJIAKTIVNOSTI = "SELECT ha.datum_odrzavanja, ha.vreme_odrzavanja,ha.mesto_odrzavanja, a.naziv,a.opis,a.aktivnostID FROM hoteli_aktivnosti ha JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE ha.hotelID=? AND a.vrsta_aktivnostiID=?";
       private static String GETVRSTEAKTIVNOSTI = "SELECT naziv_vrste_aktivnosti FROM vrste_aktivnosti";
       private static String INSERTKORISNIK = "INSERT INTO korisnici (broj_licne_karte, ime, prezime, adresa, korisnicko_ime, lozinka,email) VALUES (?,?,?,?,?,?,?)";
       private static String GETKORISNIKBYUSERNAME = "SELECT broj_licne_karte,ime,prezime,adresa,email,korisnicko_ime,lozinka FROM korisnici WHERE korisnicko_ime=?";
@@ -44,6 +44,7 @@ public class DAO {
       private static String INSERTKORISNICIAKTIVNOSTI = "INSERT INTO korisnici_aktivnosti VALUES (?, ?)";
       private static String GETAKTIVNOSTIBYHOTELID = "SELECT a.* from hoteli h JOIN hoteli_aktivnosti ha ON h.hotelID=ha.hotelID JOIN aktivnosti a ON ha.aktivnostID=a.aktivnostID WHERE h.hotelID=?";
       private static String KORISNIKAKTIVNOST_BOOL = "SELECT * FROM korisnici_aktivnosti WHERE broj_licne_karte = ? AND aktivnostiID=?";
+      private static String GETKORISNIKAKTIVNOSTIBYLK = "SELECT * FROM korisnici_aktivnosti WHERE broj_licne_karte = ?"; 
       private static String GETDODATAAKTIVNOST = "SELECT a.naziv,ha.datum_odrzavanja,ha.mesto_odrzavanja,ha.vreme_odrzavanja FROM korisnici k join korisnici_aktivnosti ka ON k.broj_licne_karte=ka.broj_licne_karte JOIN aktivnosti a ON ka.aktivnostiID=a.aktivnostID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE k.broj_licne_karte=?";
       private static String GETREZERVACIJABYKORISNICKOIME = "SELECT h.naziv,r.sobaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,U.vrsta_usluge FROM rezervacije r JOIN korisnici k ON r.broj_licne_karte=k.broj_licne_karte JOIN hoteli h ON r.hotelID=h.hotelID LEFT JOIN usluge u ON r.uslugaID=u.uslugaID WHERE k.korisnicko_ime=?";  
       private static String ADMINHOTELA_BOOL = "SELECT korisnicko_ime,broj_licne_karte FROM korisnici WHERE korisnicko_ime=? AND lozinka=? AND tip_korisnika='admin_hotela'";
@@ -390,7 +391,6 @@ public class DAO {
 
 			while(rs.next()){
 				va = new Vrsta_aktivnostiAktivnost();
-				va.setAktivnostID(rs.getInt("aktivnostID"));
 				va.setVrsta_aktivnostiID(rs.getInt("vrsta_aktivnostiID"));
 				va.setVrstaAktivnosti(rs.getString("vrstaAktivnosti"));
 			
@@ -506,8 +506,10 @@ public class DAO {
 				ha = new Hotel_aktivnost();
 				ha.setVreme_odrzavanja(rs.getTimestamp("vreme_odrzavanja"));
 				ha.setMesto_odrzavanja(rs.getString("mesto_odrzavanja"));
-				//ha.setHotelID(rs.getInt("hotelID"));
-				//ha.setAktivnostID(rs.getInt("vrsta_aktivnostiID"));
+				ha.setDatum_odrzavanja(rs.getDate("datum_odrzavanja"));
+				ha.setNaziv(rs.getString("naziv"));
+				ha.setOpis(rs.getString("opis"));
+				ha.setAktivnostID(rs.getInt("aktivnostID"));
 				lo.add(ha);
 			}
 
@@ -997,6 +999,44 @@ public class DAO {
 			return true;
 		else
 			return false;
+	}
+	
+	public ArrayList<Korisnici_aktivnosti> getKorisnikAktivnostiByLK(String brlk){
+		Connection con = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		Korisnici_aktivnosti ka = null;
+		ArrayList<Korisnici_aktivnosti>ls=new ArrayList<Korisnici_aktivnosti>();
+				
+            try {
+			con = ds.getConnection();
+			pstm = con.prepareStatement(GETKORISNIKAKTIVNOSTIBYLK);
+
+			pstm.setString(1, brlk);
+			pstm.execute();
+
+			rs = pstm.getResultSet();
+
+			while(rs.next()){ 
+				ka = new Korisnici_aktivnosti();
+				ka.setBroj_licne_karte(rs.getString("broj_licne_karte"));
+				ka.setAktivnostiID(rs.getInt("aktivnostiID"));
+				
+				ls.add(ka);
+			}
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
 	}
 	
 	public ArrayList<Hotel_aktivnost> getDodataAktivnost(String lk){

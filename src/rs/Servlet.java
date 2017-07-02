@@ -122,13 +122,11 @@ public class Servlet extends HttpServlet {
 			
 			String aktivnostID = request.getParameter("aktivnostID");
 			String id = request.getParameter("hotelID");
-			String akt_ID = request.getParameter("akt");
 			
 			
 			try {
 				int aktID = Integer.parseInt(aktivnostID);
 				int idh = Integer.parseInt(id);
-				int a_id = Integer.parseInt(akt_ID);
 				
 				Vrsta_aktivnosti nazivAktivnosti = dao.getVrstaAktivnostiByID(aktID);
 				request.setAttribute("nazivAktivnosti", nazivAktivnosti);
@@ -146,13 +144,8 @@ public class Servlet extends HttpServlet {
 				Korisnik kor = (Korisnik)loginSesija.getAttribute("kor");
 				if(kor!=null){
 					String lk = kor.getBroj_licne_karte();
-					if(dao.korisnikAktivnost_bool(lk, a_id)==true){
-						request.setAttribute("akt_bool", true);
-					}
-					
-					else {
-						request.setAttribute("akt_bool", false);
-					}
+					ArrayList<Korisnici_aktivnosti>ka = dao.getKorisnikAktivnostiByLK(lk);
+					request.setAttribute("ka", ka);
 				}
 				
 				request.getRequestDispatcher("/aktivnostiDetalji.jsp").forward(request, response);

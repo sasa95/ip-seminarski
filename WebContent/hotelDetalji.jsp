@@ -152,7 +152,7 @@
 									</c:forEach>
 					    		</table>
 				    		</div>
-				    		<%} %>
+				    		<%}j=1; %>
 				    		<%if(lscentar!=null && lscentar.size()>0){ %>
 							<div class="col-md-6 table-col">
 								<table>
@@ -175,7 +175,7 @@
 									</c:forEach>
 					    		</table>
 							</div>
-							<%} %>
+							<%} j=1; %>
 							<%if(lsaktivnost!=null && lsaktivnost.size()>0){ %>
 							<div class="col-md-6 table-col">
 								<table>
@@ -189,7 +189,7 @@
 										<tr>
 							    			<td><%=j++%></td>
 							    			<td>${pom.vrstaAktivnosti}</td>
-							    			<td><a href="Servlet?akcija=AktivnostDetalji&aktivnostID=${pom.vrsta_aktivnostiID}&hotelID=${h.hotelID}&akt=${pom.aktivnostID}" class="btn btn-sm btn-submit btn-submit--red btn-submit--details btn-submit--details">Detalji</a></td>
+							    			<td><a href="Servlet?akcija=AktivnostDetalji&aktivnostID=${pom.vrsta_aktivnostiID}&hotelID=${h.hotelID}" class="btn btn-sm btn-submit btn-submit--red btn-submit--details btn-submit--details">Detalji</a></td>
 						    			</tr>
 									</c:forEach>
 					    		</table>
