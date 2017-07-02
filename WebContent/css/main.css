@@ -154,6 +154,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 .main-input { border: 2px solid #2196F3; border-right: none; }
 
+.custom-select { width: 100%; }
+
 .reservation-profile-card-container { margin-top: 50px; border: 2px solid #2196F3; border-radius: 8px; padding: 10px 20px; background-color: #fff; }
 
 .card-title { text-align: center; color: #2196F3; font-weight: normal; }
@@ -183,6 +185,10 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 .login-form-container { width: 400px; max-width: 70%; margin: 50px auto; }
 
 .user-registration-container { margin-top: 50px; width: 500px; max-width: 90%; margin: auto; }
+
+.reservation-form-container { width: 90%; max-width: 600px; margin: 50px auto; }
+
+.reservation-form-container > h2 { margin-bottom: 40px; }
 
 .body--404 { background-color: #2196F3; }
 
