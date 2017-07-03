@@ -1,0 +1,27 @@
+.tags-container {
+	margin:30px 0;
+	&>span {
+		margin-bottom: 10px;
+		display: inline-block;
+	}
+	& span span {
+		background-color: $color-secondary;
+		color: #fff;
+	}
+}
+
+.tag {
+	border-radius: 15px;
+	padding: 3px 8px;
+}
+
+.cat-tag {
+	background-color: #d8d8d8;
+	border-radius: 10px;
+	padding-bottom: 3px;
+	width: 25px;
+	height: 25px;
+	display: inline-block;
+	text-align: center;
+
+}

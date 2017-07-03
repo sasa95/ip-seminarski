@@ -104,7 +104,7 @@
 				    	
 				    	<div class="row">
 				    		<div class="col-md-6 table-col">
-				    			<table>
+				    			<table class="my-table">
 					    			<caption style="caption-side: top">Usluge</caption>
 						    		<tr>
 						    			<th>Naziv</th>
@@ -119,7 +119,7 @@
 					    		</table>
 				    		</div>
 							<div class="col-md-6 table-col">
-								<table>
+								<table class="my-table">
 					    			<caption style="caption-side: top">Sobe</caption>
 						    		<tr>
 						    			<th>Tip</th>
@@ -138,7 +138,7 @@
 				    	<div class="row">
 				    	<%if(lstretman!=null && lstretman.size()>0){ %>
 				    		<div class="col-md-6 table-col">
-				    			<table>
+				    			<table class="my-table">
 					    			<caption style="caption-side: top">Tretmani</caption>
 						    		<tr>
 						    			<th>RB</th>
@@ -155,7 +155,7 @@
 				    		<%}j=1; %>
 				    		<%if(lscentar!=null && lscentar.size()>0){ %>
 							<div class="col-md-6 table-col">
-								<table>
+								<table class="my-table">
 					    			<caption style="caption-side: top">Tržni centri</caption>
 						    		<tr>
 						    			<th>RB</th>
@@ -178,7 +178,7 @@
 							<%} j=1; %>
 							<%if(lsaktivnost!=null && lsaktivnost.size()>0){ %>
 							<div class="col-md-6 table-col">
-								<table>
+								<table class="my-table">
 					    			<caption style="caption-side: top">Vrste aktivnosti</caption>
 						    		<tr>
 						    			<th>RB</th>

@@ -1,0 +1,47 @@
+.reservation-profile-card-container {
+	margin-top: 50px;
+	border: 2px solid $color-primary;
+	border-radius: 8px;
+	padding:10px 20px;
+}
+
+.card-title {
+	text-align: center;
+	color: $color-primary;
+	font-weight: normal;
+}
+
+.card-list {
+	li {
+		padding-left: 30px;
+		margin-bottom: 15px;
+		background-size: 20px;
+		background-repeat: no-repeat;
+		&.hotel {
+			background-image: url('../img/icons/hotel-naziv.png');
+		}
+		&.service {
+			background-image: url('../img/icons/usluga.png');
+		}
+		&.room {
+			background-image: url('../../img/icons/soba.png');
+		}
+		&.date {
+			background-image: url('../../img/icons/calendar.png');
+		}
+		&.activity {
+			background-image: url('../../img/icons/aktivnost.png');
+		}
+		&.date {
+			background-image: url('../../img/icons/calendar.png');
+		}
+		&.time {
+			background-image: url('../../img/icons/clock.png');
+		}
+		&.location {
+			background-image: url('../../img/icons/placeholder.png');
+		}
+	}
+	
+}
+

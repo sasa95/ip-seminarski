@@ -1,0 +1,17 @@
+html,body,h1,h2,h3,h4,h5,h6,p,a {
+	font-family: 'Roboto', sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-weight: bold;
+}
+
+.msg {
+	margin: 20px 0;
+	&--error {
+		color: $color-secondary;
+	}
+	&--success {
+		color: $color-primary;
+	}
+}

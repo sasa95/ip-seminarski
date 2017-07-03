@@ -1,0 +1,141 @@
+.hero-main {
+	background: url('../img/hero-main-2.jpg');
+	background-size: cover;
+	height: 400px;
+	position: relative;
+	@media(min-width: $screen-md){
+		height:580px;
+	}
+	.hero-main__heading {
+		@include abs-centered($pos:both)
+		top: 40%;
+		color: #fff;
+		letter-spacing: 1px;
+		width: 100%;
+		font-size: 2.3em;
+		@media(min-width: $screen-md){
+			font-size:2.7em;
+		}
+	}
+}
+
+.hotel-card {
+	border: 2px solid $color-primary;
+	border-radius: 8px;
+	padding:10px 20px;
+	background-color: #fff;
+	margin-bottom: 20px;
+	&__details {
+		margin-bottom: 0;
+	}
+	.hotel-card__img {
+		padding: 5px;
+	}
+	.capacity {
+		background: url('../img/icons/soba.png') no-repeat;
+		padding-left: 42px;
+		padding-top: 4px;
+	}
+	.btn-submit--details {
+		width: 62px;
+		padding: 4px 8px;
+		margin: 5px 5px 5px auto;
+		&:hover,&:focus{
+			background-color: $color-primary-darker;
+			color: #fff;
+		}
+	}
+}
+
+// Single hotel page
+
+.single-hotel {
+	margin: 50px auto;
+	&__details {
+		text-align: center;
+		li {
+			display: inline-block;
+			margin: 3px auto;
+		}
+	}
+	.hotel-description {
+		max-width: 700px;
+		margin: 20px auto;
+	}
+	.hotel-img {
+		max-width: 100%;
+		text-align: center;
+		display: block;
+		margin:30px auto;
+		border:2px solid $color-primary-darker;
+		border-radius: 20px;
+	}
+	.capacity {
+		background: url('../img/icons/soba.png') no-repeat;
+		padding-left: 40px;
+		padding-top: 5px;
+	}
+	.location {
+		background: url('../img/icons/placeholder.png') no-repeat;
+		background-size: 30px;
+		padding-left: 40px;
+		padding-top: 5px;
+	}
+	.table-col {
+		overflow-x:auto;
+	}
+	.my-table {
+		background-color:#fff;
+		color: $color-primary-darker; 
+		width: 280px;
+		margin: auto;
+		caption {
+			font-size: 1.6em;
+			font-weight: bold;
+			text-align: center;
+			margin-top: 20px;
+		}
+		td,th {
+			border:1px solid $color-primary;
+			padding: 3px 15px;
+		}
+	}
+}
+
+.shopping-mall-container {
+	.shopping-mall-img {
+		max-width: 100%;
+		max-height: 400px;
+		display:block;
+		margin: 20px auto;
+		border:2px solid $color-primary-darker;
+		border-radius: 20px;
+	}
+	.shopping-mall__description {
+		max-width: 800px;
+		margin:auto;
+	}
+	.shopping-mall__details {
+		margin:20px auto;
+		max-width: 200px;
+		.heading {
+			margin: 20px 0;
+		}
+	}
+	.mall-name {
+		color:$color-primary-darker;
+		padding-left: 20px;
+	}
+}
+
+.activity-heading-container {
+	text-align: center;
+}
+
+.activity-type-heading {
+	background-repeat: no-repeat;
+	background-size: 30px;
+	background-position: 0px 6px;
+	display: inline-block;
+	padding-left: 45px;
+}

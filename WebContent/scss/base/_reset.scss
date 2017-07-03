@@ -1,0 +1,27 @@
+// Container reset
+@media(max-width: $screen-sm - 1) {
+	.container {
+		margin: 0;
+	}
+}
+
+// Nav reset right
+.navbar-toggleable-md .navbar-nav {
+	margin-left: auto;
+}
+
+// Button reset
+button,
+input {
+	outline: none!important;
+	border:none;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+a:hover {
+	text-decoration: none;
+}

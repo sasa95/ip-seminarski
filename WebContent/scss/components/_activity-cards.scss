@@ -1,0 +1,17 @@
+.activity-card-container {
+	.star {
+		background: url('../../img/icons/star.png') no-repeat;
+		a {
+			position: relative;
+			bottom: 2px;
+		}
+	}
+	.btn-submit {
+		display: inline-block;
+		padding: 3px 7px;
+	}
+
+	.bookmark {
+		margin-right: 10px;
+	}
+}

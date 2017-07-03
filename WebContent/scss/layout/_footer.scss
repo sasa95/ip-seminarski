@@ -1,0 +1,31 @@
+.footer-main {
+	width: 100%;
+	background-color: $color-primary-darker;
+	color:#fff;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	.col-md-4 {
+		max-height: 28px;
+	}
+	p {
+		display:inline-block;
+	}
+}
+
+.footer-main__contact {
+	background: url('../img/phone.png') no-repeat;
+	background-size: 20px;
+	padding-left: 35px;
+}
+
+.footer-main__developers {
+	background: url('../img/code.png') no-repeat;
+	background-size: 20px;
+	padding-left: 35px;
+}
+
+.footer-main__project {
+	@media(max-width: $screen-md - 1){
+		padding-left: 35px;
+	}
+}

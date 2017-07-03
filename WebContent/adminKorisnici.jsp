@@ -20,12 +20,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Index</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Korisnici</title>
+	
+	<!-- Font -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <!-- Custom styles -->
+    <link href="css/main.css" rel="stylesheet">
 </head>
 <body>
 	<h1>Korisnici hotela ${hotel.naziv}</h1>
-	<table border=1>
+	<table class="admin-table" border=1>
 		<tr>
 			<th>Ime</th>
 			<th>Prezme</th>

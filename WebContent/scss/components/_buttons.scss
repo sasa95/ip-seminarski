@@ -1,0 +1,116 @@
+.call-to-action {
+	@include abs-centered($pos:both);
+	width: 100%;
+	text-align: center;
+	margin-top: 70px;
+	@media (min-width: $screen-md) {
+		margin-top: 20px;
+	}
+}
+.btn-hero {
+	color: #fff;
+	padding:3px 10px;
+	border-radius: 10px;
+	font-size: 1.4em;
+	width: 180px;
+	text-align: center;
+	display: inline-block;
+	transition:.3s background-color;
+	@media (min-width: $screen-md) {
+		padding: 3px 35px;
+		font-size: 1.7em;
+		width: 220px;
+	}
+	&:hover {
+		color: #fff;
+	}
+	&--search {
+		background-color: $color-primary;
+		margin-bottom: 15px;
+		@media(min-width: 401px){
+			margin: 0 20px 0 0;
+		}
+		
+		&:hover {
+			background-color: $color-primary-darker;
+		}
+	}
+	&--register {
+		background-color: $color-secondary;
+		&:hover {
+			background-color: $color-secondary-darker;
+		}
+	}
+}
+
+.btn--home-submit {
+	background-color: $color-primary;
+	color: #fff;
+	font-weight: bold;
+	padding-left: 20px;
+	padding-right: 20px;
+	width: 100%;
+	border:2px solid $color-primary;
+	border-left: none;
+	&:hover {
+		background-color: $color-primary-darker;
+		cursor: pointer;
+	}
+}
+
+.pic-submit {
+	margin-top: 8px;
+	position: relative;
+	right: 4px;
+	height: 40px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	background-color: $color-secondary;
+	color: #fff;
+	&:focus {
+		outline: none!important;
+		box-shadow: none!important;
+	}
+	&:hover {
+		background-color: $color-secondary-darker;
+		cursor: pointer;
+	}
+}
+
+.custom-file-control:before{
+  content: "Traži";
+  background: $color-primary;
+  color: #fff;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.custom-file-control:after{
+  content: "Dodajte sliku...";
+}
+
+.btn-submit {
+	background-color: $color-primary;
+	color: #fff;
+	display: block;
+	margin:auto;
+	&:hover {
+		background-color: $color-primary-darker;
+		cursor: pointer;
+	}
+	&--red {
+		background-color: $color-secondary;
+		&:hover {
+			background-color: $color-secondary-darker;
+			cursor: pointer;
+			color:#fff;
+		}
+	}
+	&--reserve {
+		width: 150px;
+	}
+
+	&--details {
+		width: 60px;
+	}
+}
