@@ -75,11 +75,15 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 .shopping-mall-container .shopping-mall__description { max-width: 800px; margin: auto; }
 
-.shopping-mall-container .shopping-mall__details { margin: 20px auto; max-width: 300px; }
+.shopping-mall-container .shopping-mall__details { margin: 20px auto; max-width: 200px; }
 
 .shopping-mall-container .shopping-mall__details .heading { margin: 20px 0; }
 
 .shopping-mall-container .mall-name { color: #1976D2; padding-left: 20px; }
+
+.activity-heading-container { text-align: center; }
+
+.activity-type-heading { background-image: url("../img/activities/open-book.png"); background-repeat: no-repeat; background-size: 30px; background-position: 0px 6px; display: inline-block; padding-left: 45px; }
 
 .footer-main { width: 100%; background-color: #1976D2; color: #fff; padding-top: 15px; padding-bottom: 15px; }
 
@@ -166,7 +170,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 .custom-select { width: 100%; }
 
-.reservation-profile-card-container { margin-top: 50px; border: 2px solid #2196F3; border-radius: 8px; padding: 10px 20px; background-color: #fff; }
+.reservation-profile-card-container, .activity-card-container { margin-top: 50px; border: 2px solid #2196F3; border-radius: 8px; padding: 10px 20px; background-color: #fff; }
 
 .card-title { text-align: center; color: #2196F3; font-weight: normal; }
 
@@ -215,3 +219,11 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 .tag { border-radius: 15px; padding: 3px 8px; }
 
 .cat-tag { background-color: #d8d8d8; border-radius: 10px; padding-bottom: 3px; width: 25px; height: 25px; display: inline-block; text-align: center; }
+
+.activity-card-container .star { background: url("../../img/icons/star.png") no-repeat; }
+
+.activity-card-container .star a { position: relative; bottom: 2px; }
+
+.activity-card-container .btn-submit { display: inline-block; padding: 3px 7px; }
+
+.activity-card-container .bookmark { margin-right: 10px; }

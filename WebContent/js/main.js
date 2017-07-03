@@ -56,7 +56,7 @@ $('a[href*="#"]')
     }
 
     else {
-      $time = $(this).text().substring(12,20);
+      $time = $(this).text().substring(11,16);
       $(this).text($time);
     }
   });
