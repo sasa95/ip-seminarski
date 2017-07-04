@@ -240,9 +240,15 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 .activity-card-container .bookmark { margin-right: 10px; }
 
-.admin-table caption { font-size: 1.6em; font-weight: bold; text-align: center; margin-top: 20px; }
+.admin-table { background-color: #fff; color: #1976D2; margin: auto; overflow: auto; }
+
+.admin-table caption { font-size: 1.6em; font-weight: bold; text-align: center; margin-top: 20px; caption-side: top; }
 
 .admin-table td, .admin-table th { border: 1px solid #2196F3; padding: 3px 15px; }
+
+.admin-table .delete-record { background: url("../img/admin/actions/delete.png") no-repeat; background-position-y: 3px; background-size: 16px; display: inline-block; padding-left: 20px; }
+
+.admin-table-container { overflow: auto; }
 
 @media (min-width: 992px) { .admin-body #nav--main .nav-item:not(:last-child) { margin-top: 5px; } }
 
