@@ -44,7 +44,7 @@
 					<button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 					</button>
-					<a class="navbar-brand" href="index.jsp">Logo</a>
+					<a class="navbar-brand" href="index.jsp"><img class="img-fluid" src="img/logo.png" alt=""></a>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav float-lg-right text-center">
 						<li class="nav-item"><a class="nav-link" href="administrator?akcija=tabelaHoteli">Hoteli</a></li>
@@ -69,12 +69,12 @@
 							<div class="form-group row" style="justify-content: center">
 								<label for="hotelID" class="col-2 col-md-1 col-form-label">Hotel</label>
 								<div class="col-9 col-md-4" style="display: inline-block;">
-								<select class="custom-select" name="hotelID" id="hotelID" style="width: auto;">
-									<option value="0">Svi</option>
-									<%for(Hotel hot:lsh){ %>
-										<option value="<%=hot.getHotelID()%>" <%if(hot.getHotelID()==hot_id){out.println("selected");}%>><%=hot.getNaziv()%></option>
-									<%} %>
-								</select><input type="hidden" name="akcija" value="rezervacijeByHotelID">
+									<select class="custom-select" name="hotelID" id="hotelID" style="width: auto;">
+										<option value="0">Svi</option>
+										<%for(Hotel hot:lsh){ %>
+											<option value="<%=hot.getHotelID()%>" <%if(hot.getHotelID()==hot_id){out.println("selected");}%>><%=hot.getNaziv()%></option>
+										<%} %>
+									</select><input type="hidden" name="akcija" value="rezervacijeByHotelID">
 									<input type="submit" value="Traži" class="btn btn-submit" style="display: inline-block;">
 								</div>
 							</div>
@@ -105,9 +105,8 @@
 					</c:forEach>
 				</table>
 				</div>
-			</form>
-		</div>		    
-	</div><!-- #content -->
+			</div>		    
+		</div><!-- #content -->
 
 			<div id="footer">
 				<footer class="footer-main container text-center">
