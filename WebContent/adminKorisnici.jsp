@@ -65,7 +65,7 @@
 				<h3 class="msg msg--success text-center">Uspešno brisanje korisnika</h3>
 			<%} %>
 				<table class="admin-table" border=1>
-				<caption>Korisnici hotela ${hotel.naziv}</caption>
+					<caption>Korisnici hotela ${hotel.naziv}</caption>
 					<tr>
 						<th>RB</th>
 						<th>Ime</th>
