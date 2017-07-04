@@ -85,6 +85,18 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 .activity-type-heading { background-repeat: no-repeat; background-size: 30px; background-position: 0px 6px; display: inline-block; padding-left: 45px; }
 
+.admin-hotel-details-container { max-width: 600px; margin: auto; }
+
+.admin-hotel-details-container .hotel-pic { margin: auto; display: block; }
+
+.admin-hotel-details-container .admin-pic-upload { max-width: 320px; margin: 10px auto; }
+
+@media (min-width: 576px) { .admin-hotel-details-container .admin-pic-upload { max-width: 389px; } }
+
+.admin-hotel-details-container .pic-submit { display: block; margin: 10px auto; }
+
+@media (min-width: 576px) { .admin-hotel-details-container .pic-submit { display: inline; margin: 0; vertical-align: bottom; } }
+
 .footer-main { width: 100%; background-color: #1976D2; color: #fff; padding-top: 15px; padding-bottom: 15px; }
 
 .footer-main .col-md-4 { max-height: 28px; }

@@ -139,3 +139,28 @@
 	display: inline-block;
 	padding-left: 45px;
 }
+
+.admin-hotel-details-container {
+	max-width: 600px;
+	margin:auto;
+	.hotel-pic {
+		margin: auto;
+		display: block;
+	}
+	.admin-pic-upload {
+		max-width: 320px;
+		margin: 10px auto;
+		@media(min-width: $screen-sm){
+			max-width: 389px;
+		}
+	}
+	.pic-submit {
+		display: block;
+		margin: 10px auto;
+		@media(min-width: $screen-sm){
+			display: inline;
+			margin: 0;
+			vertical-align: bottom;
+		}
+	}
+}
