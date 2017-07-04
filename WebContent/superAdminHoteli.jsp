@@ -34,30 +34,30 @@
 	<div id="wrapper">
 		<div id="header">
 			<nav class="navbar navbar-toggleable-md navbar-light bg-faded" id="nav--main">
-					<div class="container">
-						<button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-						</button>
-						<a class="navbar-brand" href="index.jsp">Logo</a>
-						<div class="collapse navbar-collapse" id="navbarSupportedContent">
-							<ul class="navbar-nav float-lg-right text-center">
-							<li class="nav-item"><a class="nav-link" href="administrator?akcija=tabelaHoteli">Hoteli</a></li>
-							<li class="nav-item"><a class="nav-link" href="administrator?akcija=tabelaKorisnici">Korisnici</a></li>
-							<li class="nav-item"><a class="nav-link" href="administrator?akcija=tabelaRezervacije">Rezervacije</a></li>
-								<li class="nav-item dropdown">
-								    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="img/korisnici/superAdmin.jpg">Profil</a>
-								    <div class="dropdown-menu">
-										<a href="administrator?akcija=logout" class="dropdown-item">Odjava</a>
-								    </div>
-								</li>
-							</ul>
-						</div>		
-					</div>
-				</nav>
-			</div><!-- #header -->
+				<div class="container">
+					<button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+					</button>
+					<a class="navbar-brand" href="index.jsp">Logo</a>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav float-lg-right text-center">
+						<li class="nav-item"><a class="nav-link" href="administrator?akcija=tabelaHoteli">Hoteli</a></li>
+						<li class="nav-item"><a class="nav-link" href="administrator?akcija=tabelaKorisnici">Korisnici</a></li>
+						<li class="nav-item"><a class="nav-link" href="administrator?akcija=tabelaRezervacije">Rezervacije</a></li>
+							<li class="nav-item dropdown">
+							    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="img/korisnici/superAdmin.jpg">Profil</a>
+							    <div class="dropdown-menu">
+									<a href="administrator?akcija=logout" class="dropdown-item">Odjava</a>
+							    </div>
+							</li>
+						</ul>
+					</div>		
+				</div>
+			</nav>
+		</div><!-- #header -->
 
 			<div id="content">
-				<div class="container">
+				<div class="container mt-5">
 					<table class="admin-table" border=1>
 						<caption>Pregled svih hotela</caption>
 						<tr>
