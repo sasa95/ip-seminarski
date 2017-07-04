@@ -246,7 +246,11 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
 .admin-table td, .admin-table th { border: 1px solid #2196F3; padding: 3px 15px; }
 
-.admin-table .delete-record { background: url("../img/admin/actions/delete.png") no-repeat; background-position-y: 3px; background-size: 16px; display: inline-block; padding-left: 20px; }
+.admin-table td a { display: inline-block; padding-left: 20px; }
+
+.admin-table td a.delete-record { background-image: url("../img/admin/actions/delete.png"); background-repeat: no-repeat; background-position-y: 3px; background-size: 16px; }
+
+.admin-table td a.edit-record { background: url("../img/admin/actions/edit.png"); background-repeat: no-repeat; background-position-y: 3px; background-size: 16px; }
 
 .admin-table-container { overflow: auto; }
 
@@ -273,3 +277,5 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 .admin-card-nav li a.leaders { background-image: url("../img/admin/card-nav/leader.png"); }
 
 .admin-card-nav li a.reservations { background-image: url("../img/admin/card-nav/booking.png"); }
+
+.admin-form-container { width: 90%; max-width: 600px; margin: 30px auto; }

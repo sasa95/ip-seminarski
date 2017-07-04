@@ -33,102 +33,196 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Index</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Zaposleni</title>
+	<!-- Font -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <!-- Custom styles -->
+    <link href="css/main.css" rel="stylesheet">
 </head>
-<body>
-	<h1>Zaposleni hotela ${hotel.naziv}</h1>
-	<table border=1>
-		<tr>
-			<th>ID</th>
-			<th>Ime</th>
-			<th>Prezime</th>
-			<th>Plata</th>
-			<th>Posao</th>
-			<th>Rukovodilac</th>
-			<th></th>
-			<th></th>
-		<tr>
-		<c:forEach var="pom" items="${lszap}">
-			<tr>
-				<td>${pom.zaposleniID}</td>
-				<td>${pom.ime}</td>
-				<td>${pom.prezime}</td>
-				<td>${pom.plata}</td>
-				<td>${pom.naziv_posla}</td>
-				<td>${pom.imeRuk} ${pom.prezimeRuk}</td>
-				<td><a href="Servlet_admin?akcija=obrisiZaposlenog&zaposleniID=${pom.zaposleniID}">Izbriši</a></td>
-				<td><a href="Servlet_admin?akcija=izmeniZaposlenog&zaposleniID=${pom.zaposleniID}">Izmeni</a></td>
-			</tr>
-		</c:forEach>
-	</table>
-	
-	<h2><%if(msg!=null){out.println(msg);}%></h2>
-	
-	<form action="Servlet_admin" method="POST">
-		<label for="ime">Ime</label>
-		<input type="text" name="ime" id="ime" value="${zaposleni.ime}"><br>
-		<label for="prezime">Prezime</label>
-		<input type="text" name="prezime" id="prezime" value="${zaposleni.prezime}"><br>
-		<label for="plata">Plata</label>
-		<input type="text" name="plata" id="plata" value="${zaposleni.plata}"><br>
-		<label for="posao">Posao</label>
-		<select name="posaoID" id="posaoID">
-			<option value=""></option>
-		<%
-			if(zaposleni!=null){
-				for(Posao pos:lsp){
-		%>
-			<option value="<%=pos.getPosaoID()%>"<%if(pos.getPosaoID()==zaposleni.getPosaoID()){out.println("selected");}%>><%=pos.getNaziv_posla()%></option>
-		<%}} else {%>
-			
-			<c:forEach var="pos" items="${lsp}">
-				<option value="${pos.posaoID}">${pos.naziv_posla}</option>
-			</c:forEach>
-		<%} %>
-		</select><br>
-		
-		
-		<label for="rukovodilacID">Rukovodilac</label>
-		<select name="rukovodilacID" id="rukovodilacID">
-			<option value=""></option>
+<body class="admin-body">
+
+	<div id="wrapper">
+		<div id="header">
+			<nav class="navbar navbar-toggleable-md navbar-light bg-faded" id="nav--main">
+				<div class="container">
+					<button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+					</button>
+					<a class="navbar-brand" href="indexAdmin.jsp">Logo</a>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav float-lg-right text-center">
+						<li class="nav-item"><a class="nav-link" href="Servlet_admin?akcija=hotelDetalji&hotelID=<%=hot_id%>">Detalji hotela</a></li>
+						<li class="nav-item"><a class="nav-link" href="Servlet_admin?akcija=korisniciTabela&hotelID=<%=hot_id%>">Korisnici</a></li>
+				  		<li class="nav-item"><a class="nav-link" href="Servlet_admin?akcija=rezervacijeTabela&hotelID=<%=hot_id%>">Rezervacije</a></li>
+				  		<li class="nav-item"><a class="nav-link" href="Servlet_admin?akcija=zaposleniTabela&hotelID=<%=hot_id%>">Zaposleni</a></li>
+				 		<li class="nav-item"><a class="nav-link" href="Servlet_admin?akcija=rukovodiociTabela&hotelID=<%=hot_id%>">Rukovodioci</a></li>
+							<li class="nav-item dropdown">
+							    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%if(adminUsername!=null){%><img src="img/korisnici/<%=adminUsername%>.jpg"><%} %>Profil</a>
+							    <div class="dropdown-menu">
+									<a href="Servlet_admin?akcija=logout" class="dropdown-item">Odjava</a>
+							    </div>
+							</li>
+						</ul>
+					</div>		
+				</div>
+			</nav>
+		</div><!-- #header -->
+
+		<div id="content">
+			<div class="container admin-table-container">
+			<h3 class="msg msg--error text-center"><%if(msg!=null){out.println(msg);}%></h3>
 			<%
-				if(zaposleni!=null){
-					for(Rukovodilac ruk:lsruk){
+				if(status!=null){
+					if(status.equals("okI")){
+						out.println("<h3 class=\"msg msg--success text-center\">Uspešan unos zaposlenog</h3>");
+					}
+					
+					else if(status.equals("okD")){
+						out.println("<h3 class=\"msg msg--success text-center\">Uspešno brisanje zaposlenog</h3>");
+					}
+					
+					if(status.equals("okU")){
+						out.println("<h3 class=\"msg msg--success text-center\">Uspešno ažuriranje zaposlenog</h3>");
+					}
+				}
 			%>
-				<option value="<%=ruk.getRukovodilacID()%>"<%if(ruk.getRukovodilacID()==zaposleni.getRukovodilacID()){out.println("selected");}%>><%=ruk.getIme() +" "+ruk.getPrezime()%></option>
-			<%}} else {%>
-				
-			<c:forEach var="ruk" items="${lsruk}">
-				<option value="${ruk.rukovodilacID}">${ruk.ime} ${ruk.prezime}</option>
-			</c:forEach>
-			<%} %>
-		</select><br>
+				<table class="admin-table" border=1>
+				<caption>Zaposleni hotela ${hotel.naziv}</caption>
+					<tr>
+						<th>ID</th>
+						<th>Ime</th>
+						<th>Prezime</th>
+						<th>Plata</th>
+						<th>Posao</th>
+						<th>Rukovodilac</th>
+						<th></th>
+						<th></th>
+					</tr>
+					<c:forEach var="pom" items="${lszap}">
+						<tr>
+							<td>${pom.zaposleniID}</td>
+							<td>${pom.ime}</td>
+							<td>${pom.prezime}</td>
+							<td>${pom.plata}</td>
+							<td>${pom.naziv_posla}</td>
+							<td>${pom.imeRuk} ${pom.prezimeRuk}</td>
+							<td><a class="delete-record" href="Servlet_admin?akcija=obrisiZaposlenog&zaposleniID=${pom.zaposleniID}">Obriši</a></td>
+							<td><a class="edit-record" href="Servlet_admin?akcija=izmeniZaposlenog&zaposleniID=${pom.zaposleniID}">Izmeni</a></td>
+						</tr>
+					</c:forEach>
+				</table>
 		
-		<%if(zaposleni==null){ %>
-			<input type="hidden" name="akcija" value="unosZaposlenog">
-			<input type="submit" value="Unesi">
-		<%} else{ %>
-			<input type="hidden" name="akcija" value="izmenaZaposlenog">
-			<input type="hidden" name="zaposleniID" value="<%=zaposleniEdit%>">
-			<input type="submit" value="Izmeni">
-		<%} %>
-	</form>	
-	<%
-		if(status!=null){
-			if(status.equals("okI")){
-				out.println("<h3>Uspešan unos zaposlenog</h3>");
-			}
-			
-			else if(status.equals("okD")){
-				out.println("<h3>Uspešno brisanje zaposlenog</h3>");
-			}
-			
-			if(status.equals("okU")){
-				out.println("<h3>Uspešno ažuriranje zaposlenog</h3>");
-			}
-		}
-	%>
+			</div>
+			<div class="admin-form-container">
+				<form action="Servlet_admin" method="post">
+					<div class="form-group row">
+					  <label for="ime" class="col-4 col-form-label">Ime</label>
+					  <div class="col-8">
+					    <input required="required" class="form-control" type="text" value="${zaposleni.ime}" id="ime" name="ime" placeholder="Npr. Petar">
+					  </div>
+					</div>
+						
+					<div class="form-group row">
+					  <label for="prezime" class="col-4 col-form-label">Prezime</label>
+					  <div class="col-8">
+					    <input required="required" class="form-control" type="text" value="${zaposleni.prezime}" id="prezime" name="prezime" placeholder="Npr. Petrović">
+					  </div>
+					</div>
+
+					<div class="form-group row">
+					  <label for="plata" class="col-4 col-form-label">Plata</label>
+					  <div class="col-8">
+					    <input required="required" class="form-control" type="number" value="${zaposleni.plata}" id="plata" name="plata" placeholder="Npr. 55000">
+					  </div>
+					</div>
+		
+					<div class="form-group row">
+					  <label for="posao" class="col-4 col-form-label">Posao</label>
+					  <div class="col-8">
+						<select class="custom-select" name="posaoID" id="posaoID">
+							<option value=""></option>
+							<%
+								if(zaposleni!=null){
+									for(Posao pos:lsp){
+							%>
+								<option value="<%=pos.getPosaoID()%>"<%if(pos.getPosaoID()==zaposleni.getPosaoID()){out.println("selected");}%>><%=pos.getNaziv_posla()%></option>
+							<%}} else {%>
+								
+								<c:forEach var="pos" items="${lsp}">
+									<option value="${pos.posaoID}">${pos.naziv_posla}</option>
+								</c:forEach>
+							<%} %>
+						</select>
+					  </div>
+					</div>
+					
+					<div class="form-group row">
+					  <label for="rukovodilacID" class="col-4 col-form-label">Rukovodilac</label>
+					  <div class="col-8">
+						<select class="custom-select" name="rukovodilacID" id="rukovodilacID">
+							<option value=""></option>
+							<%
+								if(zaposleni!=null){
+									for(Rukovodilac ruk:lsruk){
+							%>
+								<option value="<%=ruk.getRukovodilacID()%>"<%if(ruk.getRukovodilacID()==zaposleni.getRukovodilacID()){out.println("selected");}%>><%=ruk.getIme() +" "+ruk.getPrezime()%></option>
+							<%}} else {%>
+								
+							<c:forEach var="ruk" items="${lsruk}">
+								<option value="${ruk.rukovodilacID}">${ruk.ime} ${ruk.prezime}</option>
+							</c:forEach>
+							<%} %>
+						</select>
+					  </div>
+					</div>
+
+					<div class="form-group row">
+					  <div class="col-8 push-1">
+					   <%if(zaposleni==null){ %>
+							<input type="hidden" name="akcija" value="unosZaposlenog">
+							<input class="btn btn-submit" type="submit" value="Unesi">
+						<%} else{ %>
+							<input type="hidden" name="akcija" value="izmenaZaposlenog">
+							<input type="hidden" name="zaposleniID" value="<%=zaposleniEdit%>">
+							<input class="btn btn-submit" type="submit" value="Izmeni">
+						<%} %>
+					  </div>
+					</div>
+
+					
+
+				</form>	
+			</div>
+		</div><!-- #content -->
+
+		<div id="footer">
+			<footer class="footer-main container text-center">
+				<div class="row">
+					<div class="col-md-4">
+						<p class="footer-main__contact">Kontakt: 032/555-333</p>
+					</div>
+					<div class="col-md-4 push-md-4">
+						<p class="footer-main__developers">Saša - Danijela - Nikola</p>
+					</div>
+					<div class="col-md-4 pull-md-4">
+						<p class="footer-main__project">IP Projekat 2017.</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div><!-- #wrapper -->
+
+	<!-- Bootstrap core JavaScript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>
 <%}else { response.sendRedirect("prijava.jsp");}%>
