@@ -48,7 +48,7 @@
 						<div class="form-group row">
 						  <label for="broj_licne_karte" class="col-4 col-form-label">Lična karta</label>
 						  <div class="col-8">
-						    <input required="required" class="form-control" type="number" min="111111111" value="${param.broj_licne_karte}" id="broj_licne_karte" name="broj_licne_karte" placeholder="Npr. 001234567">
+						    <input required="required" class="form-control" type="number" max="999999999" value="${param.broj_licne_karte}" id="broj_licne_karte" name="broj_licne_karte" placeholder="Npr. 001234567">
 						  </div>
 						</div>
 						
