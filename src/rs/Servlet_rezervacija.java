@@ -46,6 +46,7 @@ public class Servlet_rezervacija extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		String akcija = request.getParameter("akcija");
 		HttpSession loginSesija = request.getSession();
 		String username = (String)loginSesija.getAttribute("username");

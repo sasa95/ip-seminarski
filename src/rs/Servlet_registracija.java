@@ -16,7 +16,7 @@ public class Servlet_registracija extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
 		String broj_licne_karte = request.getParameter("broj_licne_karte");
 		String ime = request.getParameter("ime");
 		String prezime = request.getParameter("prezime");

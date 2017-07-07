@@ -46,7 +46,7 @@ public class DAO {
       private static String KORISNIKAKTIVNOST_BOOL = "SELECT * FROM korisnici_aktivnosti WHERE broj_licne_karte = ? AND aktivnostiID=?";
       private static String GETKORISNIKAKTIVNOSTIBYLK = "SELECT * FROM korisnici_aktivnosti WHERE broj_licne_karte = ?"; 
       private static String GETDODATAAKTIVNOST = "SELECT a.naziv,ha.datum_odrzavanja,ha.mesto_odrzavanja,ha.vreme_odrzavanja FROM korisnici k join korisnici_aktivnosti ka ON k.broj_licne_karte=ka.broj_licne_karte JOIN aktivnosti a ON ka.aktivnostiID=a.aktivnostID JOIN hoteli_aktivnosti ha ON a.aktivnostID=ha.aktivnostID WHERE k.broj_licne_karte=?";
-      private static String GETREZERVACIJABYKORISNICKOIME = "SELECT h.naziv,r.sobaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,U.vrsta_usluge FROM rezervacije r JOIN korisnici k ON r.broj_licne_karte=k.broj_licne_karte JOIN hoteli h ON r.hotelID=h.hotelID LEFT JOIN usluge u ON r.uslugaID=u.uslugaID WHERE k.korisnicko_ime=?";  
+      private static String GETREZERVACIJABYKORISNICKOIME = "SELECT h.naziv,r.sobaID,r.datum_prijavljivanja,r.datum_odlaska,r.broj_licne_karte,u.vrsta_usluge FROM rezervacije r JOIN korisnici k ON r.broj_licne_karte=k.broj_licne_karte JOIN hoteli h ON r.hotelID=h.hotelID LEFT JOIN usluge u ON r.uslugaID=u.uslugaID WHERE k.korisnicko_ime=?";  
       private static String ADMINHOTELA_BOOL = "SELECT korisnicko_ime,broj_licne_karte FROM korisnici WHERE korisnicko_ime=? AND lozinka=? AND tip_korisnika='admin_hotela'";
       private static String UPDATEKORISNIKBYUSERNAME = "UPDATE korisnici SET broj_licne_karte=?,ime=?,prezime=?,adresa=?,lozinka=?,email=? WHERE korisnicko_ime=?";
       

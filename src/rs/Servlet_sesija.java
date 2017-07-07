@@ -27,6 +27,7 @@ public class Servlet_sesija extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		String akcija = request.getParameter("akcija");
 		
 		DAO dao = new DAO();
